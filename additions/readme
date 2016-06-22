@@ -1,0 +1,7 @@
+19/6/2016
+
+this dir was built to keep applets that are embedded in questions or other places
+and read data from the user to the applet
+for example:
+......./mod/questionnaire/preview.php?id=19213  4th question
+write a php file for each applet and put its place in the question editor
