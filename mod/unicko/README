@@ -1,0 +1,29 @@
+Unicko SDK Copyright 2016 (c) Unicko.
+Unless required by applicable law or agreed to in writing, software
+distributed in this library is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+Unicko activity module
+
+It is recommended to backup your database and moodle installation before installing or upgrading a module.
+
+Install
+------------
+1. Extract unicko-xxxxxxxxxx.tar.gz and copy the unicko folder to [moodle root]/mod/unicko
+2. Login as the moodle admin user.
+   You should see a page that asks you to install or update the unicko module. Click on Upgrade
+3. Configure the unicko module with the values provided to you.
+   You should be directed to the module settings page after the installation.
+   You can also find it at /admin/settings.php?section=modsettingunicko
+   or by going to Site administration -> Plugins -> Plugins overview and click on the settings link next to the unicko plugin.
+
+Upgrade
+------
+1. Extract unicko-xxxxxxxxxx.tar.gz and replace the old module folder at [moodle root]/mod/unicko
+2. Login as the moodle admin user.
+   You should see a page that asks you to install or update the unicko module. Click on Upgrade
+   You can also check for updates by going to Site administration -> Notifications and clicking on Check for available updates.
+
+Permissions
+------------
+Site administration > Users -> Permissions -> Define roles
