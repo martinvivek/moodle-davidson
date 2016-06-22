@@ -1,0 +1,29 @@
+Unicko SDK Copyright 2015 (c) Unicko.
+Unless required by applicable law or agreed to in writing, software
+distributed in this library is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+Unicko block
+
+It is recommended to backup your database and moodle installation before installing or upgrading a module.
+
+You should install the unicko block only after installing the unicko activity module.
+
+Install
+--------------
+1. Extract unicko_rooms-xxxxxxxxxx.tar.gz and copy the unicko_rooms folder to [moodle root]/blocks/unicko_rooms
+2. Login as the moodle admin user.
+   You should see a page that asks you to install or update the unicko_rooms block. Click on Upgrade
+3. Configuration is part of the unicko activity module.
+
+Upgrade
+------
+1. Extract unicko_rooms-xxxxxxxxxx.tar.gz and replace the old block folder at [moodle root]/blocks/unicko_rooms
+2. Login as the moodle admin user.
+   You should see a page that asks you to install or update the unicko block. Click on Upgrade
+   You can also check for updates by going to Site administration -> Notifications and clicking on Check for available updates.
+
+
+Customization
+-------------
+Use the block css class 'block_unicko_rooms' to change the block's style.
