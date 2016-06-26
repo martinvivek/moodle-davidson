@@ -44,6 +44,7 @@ if ($download !== '') {
 if ($action !== '') {
     $url->param('action', $action);
 }
+$PAGE->set_pagelayout('report');
 $PAGE->set_url($url);
 
 if (! $cm = get_coursemodule_from_id('choicegroup', $id)) {
