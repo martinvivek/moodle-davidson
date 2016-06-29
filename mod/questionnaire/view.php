@@ -122,7 +122,8 @@ if (!$questionnaire->is_active()) {
         $complete = get_string('resumesurvey', 'questionnaire');
     }
     if ($questionnaire->questions) { // Sanity check.
-        echo '<a href="'.$CFG->wwwroot.htmlspecialchars('/mod/questionnaire/complete.php?'.
+     //   echo '<a href="'.$CFG->wwwroot.htmlspecialchars('/mod/questionnaire/complete.php?'.
+        echo '<a class="btn" href="'.$CFG->wwwroot.htmlspecialchars('/mod/questionnaire/complete.php?'.
         'id='.$questionnaire->cm->id.'&resume='.$resume).'">'.$complete.'</a>';
     }
 }
