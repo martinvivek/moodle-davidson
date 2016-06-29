@@ -212,6 +212,14 @@ class questionnaire {
                 $this->rid = $this->response_insert($this->survey->id, $viewform->sec, $viewform->rid, $quser);
                 $this->response_commit($this->rid);
 
+                //  send email when questionnaire was sent hanna  1/7/15
+                /*                $qurl = $CFG->wwwroot . "/mod/questionnaire/complete.php?id=" . $this->cm->id;
+                                $qlink =  '<a href="'. $qurl . '">' . $this->name . '</a>' ;
+                                $qhead = get_string('hellotoyou','core_davidson') .  '<br/>' . fullname($USER) .  '<br/>' ;
+                                $qmessage = $qhead . get_string('thank_head','questionnaire') . '<br/>' . $qlink . '<br/>' . get_string('oursitename','core_davidson');
+                                email_to_user($USER , $CFG->noreply , $this->name , $qmessage , $qmessage);
+                */
+
                 // If it was a previous save, rid is in the form...
                 if (!empty($viewform->rid) && is_numeric($viewform->rid)) {
                     $rid = $viewform->rid;
@@ -822,7 +830,8 @@ class questionnaire {
                             } else {
                                 $groupname = ' ('.get_string('groups').': ';
                                 foreach ($groups as $group) {
-                                    $groupname .= $group->name.', ';
+                                 //   $groupname .= $group->name.', ';
+                                    $groupname .= $group->name.'+ ';  //  Concat group names with "+" instead of '," hanna 2/7/15
                                 }
                                 $groupname = substr($groupname, 0, strlen($groupname) - 2).')';
                             }
@@ -2317,7 +2326,8 @@ class questionnaire {
 
         // Load survey title (and other globals).
         if (empty($this->survey)) {
-            $errmsg = get_string('erroropening', 'questionnaire') ." [ ID:${sid} R:";
+//            $errmsg = get_string('erroropening', 'questionnaire') ." [ ID:${sid} R:"; // fix hanna 29/6/16
+            $errmsg = get_string('erroropening', 'questionnaire') ." [ ID:{$this->survey->id} R:";
             return($errmsg);
         }
 
@@ -2782,14 +2792,14 @@ class questionnaire {
                             $col = $choice->name.'->'.$modality;
                             $columns[][$qpos] = $col;
                             $questionidcols[][$qpos] = $qid.'_'.$choice->cid;
-                            array_push($types, '0');
+                            array_push($types, '1'); // was '0' but should be string.  hanna 2/7/15
                             // If "Other" add a column for the "other" checkbox. Then add a column for the actual "other" text entered.
                             if (preg_match('/^!other/', $content)) {
                                 $content = $stringother;
                                 $col = $choice->name.'->['.$content.']';
                                 $columns[][$qpos] = $col;
                                 $questionidcols[][$qpos] = null;
-                                array_push($types, '0');
+                                array_push($types, '1'); // was '0' but should be string.  hanna 2/7/15
                             }
                         }
                         break;
@@ -2957,6 +2967,7 @@ class questionnaire {
                         $responsetxt = $responserow->response;
                         $responsetxt = strip_tags($responsetxt);
                         $responsetxt = preg_replace("/[\r\n\t]/", ' ', $responsetxt);
+                        $responsetxt = preg_replace('/,/', ';', $responsetxt);  // added hanna 29/6/16
                     }
                 }
                 $row[$position] = $responsetxt;

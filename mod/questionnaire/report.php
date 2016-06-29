@@ -461,6 +461,7 @@ switch ($action) {
         echo "<br />\n";
         echo "<br />\n";
         echo "<input type=\"submit\" name=\"submit\" value=\"".get_string('download', 'questionnaire')."\" />\n";
+        echo "<input type=\"submit\" name=\"submit\" value=\"".get_string('download', 'questionnaire')." TEXT\" />\n";  // added hanna 2/7/15
         echo "</form>\n";
         echo $OUTPUT->box_end();
 
@@ -483,6 +484,7 @@ switch ($action) {
 
         // Use the questionnaire name as the file name. Clean it and change any non-filename characters to '_'.
         $name = clean_param($questionnaire->name, PARAM_FILE);
+        $convertutf8 = optional_param('submit', '', PARAM_RAW);  // added hanna 2/7/15
         $name = preg_replace("/[^A-Z0-9]+/i", "_", trim($name));
 
         $choicecodes = optional_param('choicecodes', '0', PARAM_INT);
@@ -493,11 +495,36 @@ switch ($action) {
         // SEP. 2007 JR changed file extension to *.txt for non-English Excel users' sake
         // and changed separator to tabulation
         // JAN. 2008 added \r carriage return for better Windows implementation.
-        header("Content-Disposition: attachment; filename=$name.txt");
+        header("Content-Disposition: attachment; filename=$name.csv");  // was .txt  hanna 1/7/15
         header("Content-Type: text/comma-separated-values");
         foreach ($output as $row) {
-            $text = implode("\t", $row);
-            echo $text."\r\n";
+         //   $text = implode("\t", $row);
+         //   echo $text."\r\n";
+            $text =  implode(",", $row); // implode("\t", $row); changed  hanna 1/7/15
+            if ($convertutf8 == get_string('download', 'questionnaire')) {
+                echo iconv("UTF-8","WINDOWS-1255", $text)."\r\n";  // fix encoding  hanna 2/7/15 // Warrning!!! can randomly remove some lines :-(
+            } else {
+                echo $text . "\r\n";
+            }
+        }
+        exit();
+        break;
+    
+    case 'dcsvutf8': // Download responses data as text (cvs) format.  // hanna 2/7/15
+        require_capability('mod/questionnaire:downloadresponses', $context);
+
+        // Use the questionnaire name as the file name. Clean it and change any non-filename characters to '_'.
+        $name = clean_param($questionnaire->name, PARAM_FILE);
+        $name = preg_replace("/[^A-Z0-9]+/i", "_", trim($name));
+
+        $choicecodes = optional_param('choicecodes', '0', PARAM_INT);
+        $choicetext  = optional_param('choicetext', '0', PARAM_INT);
+        $output = $questionnaire->generate_csv('', $user, $choicecodes, $choicetext, $currentgroupid);
+        header("Content-Disposition: attachment; filename=$name.csv");
+        header("Content-Type: text/comma-separated-values");
+        foreach ($output as $row) {
+            $text = implode(",", $row);
+            echo iconv("UTF-8","WINDOWS-1255", $text)."\r\n";
         }
         exit();
         break;

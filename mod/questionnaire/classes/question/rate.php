@@ -118,7 +118,8 @@ class rate extends base {
         } else {
             $width = '59%';
             $colwidth = (40 / $this->length).'%';
-            $textalign = 'left';
+         //   $textalign = 'left';
+            $textalign = (right_to_left()) ? 'right' : 'left'; // hanna 1/7/15
         }
 
         echo '<td style="width: '.$width.'"></td>';
@@ -285,7 +286,8 @@ class rate extends base {
         } else {
             echo '<td style="width: 49%"></td>';
             $colwidth = (50 / $this->length).'%';
-            $textalign = 'left';
+        //    $textalign = 'left';
+            $textalign = (right_to_left()) ? 'right' : 'left'; // hanna 1/7/15
         }
         for ($j = 0; $j < $this->length; $j++) {
             if (isset($n[$j])) {
