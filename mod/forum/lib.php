@@ -1167,12 +1167,13 @@ function forum_cron() {
                     }
                     $footerlinks = array();
                     if ($canunsubscribe) {
-                        $footerlinks[] = "<a href=\"$CFG->wwwroot/mod/forum/subscribe.php?id=$forum->id\">" . get_string("unsubscribe", "forum") . "</a>";
+                        $footerlinks[] = "<a href=\"$CFG->wwwroot/mod/forum/subscribe.php?id=$forum->id\">"  . '<br/>' . get_string("unsubscribe", "forum") . "</a>";
                     } else {
                         $footerlinks[] = get_string("everyoneissubscribed", "forum");
                     }
-                    $footerlinks[] = "<a href='{$CFG->wwwroot}/mod/forum/index.php?id={$forum->course}'>" . get_string("digestmailpost", "forum") . '</a>';
-                    $posthtml .= "\n<div class='mdl-right'><font size=\"1\">" . implode('&nbsp;', $footerlinks) . '</font></div>';
+                    $footerlinks[] = "<a href='{$CFG->wwwroot}/mod/forum/index.php?id={$forum->course}'>"  . '<br/>' . get_string("digestmailpost", "forum") . '</a>';
+//                    $posthtml .= "\n<div class='mdl-right'><font size=\"1\">" . implode('&nbsp;', $footerlinks) . '</font></div>';
+                    $posthtml .= "\n<div class='mdl-right'><font size=\"1\">" . implode('   |   ', $footerlinks) . '</font></div>';
                     $posthtml .= '<hr size="1" noshade="noshade" /></p>';
                 }
 
