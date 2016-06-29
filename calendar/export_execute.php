@@ -40,7 +40,8 @@ $time = optional_param('preset_time', 'weeknow', PARAM_ALPHA);
 $now = $calendartype->timestamp_to_date_array(time());
 
 // Let's see if we have sufficient and correct data
-$allowed_what = array('all', 'courses');
+//$allowed_what = array('all', 'courses');
+$allowed_what = array('all', 'courses', 'currentcourse'); // add , 'currentcourse' hanna 5/7/15
 $allowed_time = array('weeknow', 'weeknext', 'monthnow', 'monthnext', 'recentupcoming', 'custom');
 
 if (!empty($generateurl)) {
@@ -168,6 +169,12 @@ if(!empty($what) && !empty($time)) {
         die();
     }
 }
+
+$selectedcourse = optional_param('courseid', 0, PARAM_INT);
+if ( $what == 'currentcourse' && has_capability('moodle/calendar:manageentries', context_course::instance($selectedcourse))) {
+    $courses = array($selectedcourse=>$selectedcourse);
+} // nadavkav 15/4/2015 MDL-27467
+
 $events = calendar_get_events($timestart, $timeend, $users, $groups, array_keys($courses), false);
 
 $ical = new iCalendar;
