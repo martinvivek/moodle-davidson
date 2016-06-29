@@ -179,7 +179,7 @@ function calendar_get_starting_weekday() {
  */
 function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyear = false, $placement = false,
     $courseid = false, $time = 0) {
-    global $CFG, $OUTPUT, $PAGE;
+    global $CFG, $OUTPUT, $PAGE, $DB; // add DB hanna 16/6/16
 
     // Get the calendar type we are using.
     $calendartype = \core_calendar\type_factory::get_calendar_instance();
@@ -390,6 +390,10 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
 
                 $popupcontent .= html_writer::start_tag('div');
                 $popupcontent .= $OUTPUT->pix_icon($popupicon, $popupalt, $component);
+
+                // Add course shortname before each event so we know where it belongs too. MDL-22742  // hanna 5/7/15
+                $course = $DB->get_record('course', array('id' => $event->courseid));
+
                 // Show ical source if needed.
                 if (!empty($event->subscription) && $CFG->calendar_showicalsource) {
                     $a = new stdClass();
@@ -411,7 +415,8 @@ function calendar_get_mini($courses, $groups, $users, $calmonth = false, $calyea
                         $name = format_string($event->name, true);
                     }
                 }
-                $popupcontent .= html_writer::link($dayhref, $name);
+//                $popupcontent .= html_writer::link($dayhref, $name); // hanna 29/6/16
+                $popupcontent .= html_writer::link($dayhref, $course->shortname.': ' . $name);
                 $popupcontent .= html_writer::end_tag('div');
             }
 
