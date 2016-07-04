@@ -392,6 +392,10 @@ class admin_uploaduser_form2 extends moodleform {
             if (!in_array('email', $columns) and empty($data['email'])) {
                 $errors['email'] = get_string('requiredtemplate', 'tool_uploaduser');
             }
+            //  hanna added 19/7/15
+            if (!in_array('idnumber', $columns) and empty($data['idnumber'])) {
+                $errors['idnumber'] = get_string('requiredtemplate', 'tool_uploaduser');
+            }
         }
         return $errors;
     }

@@ -33,6 +33,8 @@ require_once($CFG->dirroot.'/cohort/lib.php');
 require_once('locallib.php');
 require_once('user_form.php');
 
+include (dirname(dirname(dirname(dirname(__FILE__)))) . '/course/idnumber_validation.php');  // hanna 19/7/15
+
 $iid         = optional_param('iid', '', PARAM_INT);
 $previewrows = optional_param('previewrows', 10, PARAM_INT);
 
@@ -169,6 +171,8 @@ if ($formdata = $mform2->is_cancelled()) {
     $allowdeletes      = (!empty($formdata->uuallowdeletes) and $optype != UU_USER_ADDNEW and $optype != UU_USER_ADDINC);
     $allowsuspends     = (!empty($formdata->uuallowsuspends));
     $bulk              = $formdata->uubulk;
+    $noidnumberduplicates = $formdata->uunoidnumberduplicates;  //  hanna added 19/7/15
+
     $noemailduplicates = empty($CFG->allowaccountssameemail) ? 1 : $formdata->uunoemailduplicates;
     $standardusernames = $formdata->uustandardusernames;
     $resetpasswords    = isset($formdata->uuforcepasswordchange) ? $formdata->uuforcepasswordchange : UU_PWRESET_NONE;
@@ -580,16 +584,35 @@ if ($formdata = $mform2->is_cancelled()) {
                                     $user->$column = core_text::strtolower($user->$column);
                                     continue;
                                 } else if ($noemailduplicates) {
-                                    $upt->track('email', $stremailduplicate, 'error');
+//                                    $upt->track('email', $stremailduplicate, 'error');
+                                    $upt->track('email', "<span style='background-color:red;'>$stremailduplicate</span>", 'error'); // color, hanna 19/7/15
                                     $upt->track('status', $strusernotupdated, 'error');
                                     $userserrors++;
                                     continue 2;
                                 } else {
-                                    $upt->track('email', $stremailduplicate, 'warning');
+                                //    $upt->track('email', $stremailduplicate, 'warning');
+                                    $upt->track('email', "<span style='background-color:red;'>$stremailduplicate</span>", 'warning'); // color, hanna 19/7/15
                                 }
                             }
                             if (!validate_email($user->email)) {
                                 $upt->track('email', get_string('invalidemail'), 'warning');
+                            }
+                        }
+
+                        //  same checkups for idnumber  hanna 19/7/15
+                        if (empty($user->idnumber)) {
+                            $upt->track('idnumber', get_string('invalididnumber'), 'error');
+                            $upt->track('status', $strusernotaddederror, 'error');
+                            $userserrors++;
+                            continue;
+                        } else if ($DB->record_exists('user', array('idnumber'=>$user->idnumber))) {
+                            if ($noidnumberduplicates) {
+                                $upt->track('idnumber', $stridnumberduplicate, 'error');
+                                $upt->track('status', $strusernotaddederror, 'error');
+                                $userserrors++;
+                                continue;
+                            } else {
+                                $upt->track('idnumber', $stridnumberduplicate, 'warning');
                             }
                         }
 
@@ -1197,6 +1220,7 @@ while ($linenum <= $previewrows and $fields = $cir->next()) {
 
     if (isset($rowcols['email'])) {
         if (!validate_email($rowcols['email'])) {
+            $rowcols['email'] = "<span style='background-color:red;'>".$rowcols['email']."</span>";  // hanna 19/7/15
             $rowcols['status'][] = get_string('invalidemail');
         }
 
@@ -1204,6 +1228,19 @@ while ($linenum <= $previewrows and $fields = $cir->next()) {
         $params = array('email' => $DB->sql_like_escape($rowcols['email'], '|'));
         if ($DB->record_exists_select('user', $select , $params)) {
             $rowcols['status'][] = $stremailduplicate;
+        }
+    }
+    // We need IDNumber for all users (Davidson policy)  hanna 19/7/15
+    if (!isset($rowcols['idnumber'])) {
+        $rowcols['status'][] = get_string('missingidnumber');
+    }
+    if (isset($rowcols['idnumber'])) {
+        if (ValidateID($rowcols['idnumber']) != R_VALID) {
+            $rowcols['idnumber'] = "<span style='background-color:red;'>".$rowcols['idnumber']."</span>";
+            $rowcols['status'][] = get_string('invalididnumber','core_davidson');
+        }
+        if ($DB->record_exists('user', array('idnumber'=>$rowcols['idnumber']))) {
+            $rowcols['status'][] = $stridnumberduplicate;
         }
     }
 
