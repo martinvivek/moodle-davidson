@@ -55,7 +55,8 @@ class admin_uploaduser_form1 extends moodleform {
 
         $choices = core_text::get_encodings();
         $mform->addElement('select', 'encoding', get_string('encoding', 'tool_uploaduser'), $choices);
-        $mform->setDefault('encoding', 'UTF-8');
+     //   $mform->setDefault('encoding', 'UTF-8');
+        $mform->setDefault('encoding', 'WINDOWS-1255');  //  hanna 19/7/15
 
         $choices = array('10'=>10, '20'=>20, '100'=>100, '1000'=>1000, '100000'=>100000);
         $mform->addElement('select', 'previewrows', get_string('rowpreviewnum', 'tool_uploaduser'), $choices);
