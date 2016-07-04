@@ -27,6 +27,8 @@ if ($data = $action_form->get_data()) {
         //case 6: redirect($CFG->wwwroot.'/'.$CFG->admin.'/user/user_bulk_enrol.php'); //TODO: MDL-24064
         case 7: redirect($CFG->wwwroot.'/'.$CFG->admin.'/user/user_bulk_forcepasswordchange.php');
         case 8: redirect($CFG->wwwroot.'/'.$CFG->admin.'/user/user_bulk_cohortadd.php');
+        case 9: redirect($CFG->wwwroot.'/'.$CFG->admin.'/user/user_bulk_disablemsg.php');   // hanna 19/7/15
+        case 10: redirect($CFG->wwwroot.'/'.$CFG->admin.'/user/user_bulk_enablemsg.php');   // hanna 19/7/15
     }
 }
 
