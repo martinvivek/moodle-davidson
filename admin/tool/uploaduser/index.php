@@ -98,6 +98,7 @@ $STD_FIELDS = array('id', 'username', 'email',
         'suspended',   // 1 means suspend user account, 0 means activate user account, nothing means keep as is for existing users
         'deleted',     // 1 means delete user
         'mnethostid',  // Can not be used for adding, updating or deleting of users - only for enrolments, groups, cohorts and suspending.
+        'emailstop', // hanna added 19/7/15
         'interests',
     );
 // Include all name fields.
