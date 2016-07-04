@@ -335,6 +335,9 @@
                 }
             }
 
+            // add link to user's roles  hanna 1/7/15
+            $roleslink = " (<a target=\"_new\" href=\"$CFG->wwwroot/admin/roles/usersroles.php?userid=$user->id&courseid=1\">".get_string('roles')."</a>) ";
+
             // the last column - confirm or mnet info
             if (is_mnet_remote_user($user)) {
                 // all mnet users are confirmed, let's print just the name of the host there
@@ -374,6 +377,7 @@
             }
             $row[] = implode(' ', $buttons);
             $row[] = $lastcolumn;
+            $row[] = $roleslink;  //  hanna 1/7/15 link to user roles
             $table->data[] = $row;
         }
     }
