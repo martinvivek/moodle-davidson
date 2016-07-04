@@ -41,7 +41,10 @@
             } else {
                 echo '<td>'.$user->email.'</td><td>';
             }
-            if (empty($user->email)) {
+            if ($user->emailstop) { // hanna 19/7/15
+            $error = get_string('emaildisable');
+            }
+            elseif (empty($user->email)) {
                 $error = get_string('emailempty');
             }
             if (!empty($error)) {

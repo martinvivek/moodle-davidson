@@ -407,7 +407,8 @@ list($esql, $params) = get_enrolled_sql($context, null, $currentgroup, true);
 $joins = array("FROM {user} u");
 $wheres = array();
 
-$userfields = array('username', 'email', 'city', 'country', 'lang', 'timezone', 'maildisplay');
+//  added all the emailstop below   hanna 19/7/15
+$userfields = array('username', 'email', 'city', 'country', 'emailstop', 'lang', 'timezone', 'maildisplay');
 $mainuserfields = user_picture::fields('u', $userfields);
 $extrasql = get_extra_user_fields_sql($context, 'u', '', $userfields);
 
