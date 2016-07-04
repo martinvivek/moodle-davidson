@@ -20,7 +20,8 @@
     $unsuspend    = optional_param('unsuspend', 0, PARAM_INT);
     $unlock       = optional_param('unlock', 0, PARAM_INT);
 
-    admin_externalpage_setup('editusers');
+    //admin_externalpage_setup('editusers');  // hanna 4/7/16
+    admin_externalpage_setup('editusers', '', null, '', array('pagelayout' => 'report'));
 
     $sitecontext = context_system::instance();
     $site = get_site();
