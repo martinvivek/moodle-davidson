@@ -755,8 +755,8 @@ function login_lock_account($user) {
         $data = new stdClass();
         $data->firstname = $user->firstname;
         $data->lastname  = $user->lastname;
-        $data->username  = $user->username;
-        $data->sitename  = format_string($site->fullname);
+        $data->username  = $user->username . '</br>';
+        $data->sitename  = format_string($site->fullname) . '</br>';
         $data->link      = $CFG->wwwroot.'/login/unlock_account.php?u='.$user->id.'&s='.$secret;
         $data->admin     = generate_email_signoff();
 
