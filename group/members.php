@@ -30,6 +30,7 @@ require_once($CFG->libdir . '/filelib.php');
 
 $groupid = required_param('group', PARAM_INT);
 $cancel  = optional_param('cancel', false, PARAM_BOOL);
+$movetogroupid    = optional_param('movetogroupid','', PARAM_INT);  // hanna 2/7/15
 
 $group = $DB->get_record('groups', array('id'=>$groupid), '*', MUST_EXIST);
 $course = $DB->get_record('course', array('id'=>$group->courseid), '*', MUST_EXIST);
@@ -41,6 +42,17 @@ require_login($course);
 $context = context_course::instance($course->id);
 require_capability('moodle/course:managegroups', $context);
 
+// Remove users from group and add them into another group "movetogroupid" hanna 2/7/15
+if (!empty($movetogroupid) AND !empty($_POST['removeselect']) AND empty($_POST['remove']) AND empty($_POST['add'])) {
+    foreach($_POST['removeselect'] as $userid) {
+        if ( !groups_remove_member($groupid,$userid) ){
+            error('unable to unenroll userid='.$userid);
+        }
+        if (!groups_add_member($movetogroupid, $userid)) {
+            error('unable to enroll userid='.$userid);
+        }
+    }
+}
 $returnurl = $CFG->wwwroot.'/group/index.php?id='.$course->id.'&group='.$group->id;
 
 if ($cancel) {
@@ -149,7 +161,22 @@ if (!empty($groupinforow)) {
             <label for="removeselect"><?php print_string('groupmembers', 'group'); ?></label>
           </p>
           <?php $groupmembersselector->display(); ?>
-          </td>
+
+          <?php
+          //  add move to group button   hanna 2/7/15
+          $potentialgroups = $DB->get_records('groups',array('courseid'=>$COURSE->id),' name ASC ');  //  order by group name  hanna 2/7/15
+
+          echo '<div class="selector">';
+          echo '<select name="movetogroupid">';
+          foreach($potentialgroups as $group) {
+              echo "<option value=\"$group->id\">$group->name</option>";
+          }
+          echo '</select>';
+          echo '<input name="movetogroup" id="movetogroup" type="submit" value="'.get_string('movetogroup','core_davidson').'">';
+          echo '</div>';
+          ?>
+
+      </td>
       <td id='buttonscell'>
         <p class="arrow_button">
             <input name="add" id="add" type="submit" value="<?php echo $OUTPUT->larrow().'&nbsp;'.get_string('add'); ?>" title="<?php print_string('add'); ?>" /><br />
