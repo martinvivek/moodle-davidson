@@ -31,21 +31,19 @@ $PAGE->navbar->ignore_active();
 $PAGE->navbar->add(get_string('settings', 'block_signinsheet'), new moodle_url('../../admin/settings.php?section=blocksettingsigninsheet'));
 $PAGE->navbar->add(get_string('uploadimage', 'block_signinsheet'));
 
-
 $PAGE->set_url('/blocks/cmanager/course_new.php');
-$PAGE->set_context(get_system_context());
+//$PAGE->set_context(get_system_context());
+$PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('pluginname', 'block_signinsheet'));
 
 
  class signinsheet_uploader_form extends moodleform {
- 
- 
+
     function definition() {
     	$mform = $this->_form;
 		$mform->addElement('filepicker', 'userfile', get_string('file'), null,
                    array('maxbytes' => $maxbytes, 'accepted_types' => '*'));
-		
-	
+
      $this->add_action_buttons();
   //$this->set_data($currententry);
 	}
@@ -62,24 +60,12 @@ $success = $mform->save_file('userfile', '/signinsheet', true);
 $storedfile = $mform->save_stored_file('userfile', 1, 'signinsheet', 'content', 0, '/', null, true);
 // ---------------------------------------------------------------------------
 
-
 // ----------------------------------------------------------------------------
 
 } else {
 
 
-
- 
 }
-
-
-
-
-
-
-
-
-
 
 echo $OUTPUT->header();
 echo $mform->display();

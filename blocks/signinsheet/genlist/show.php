@@ -40,7 +40,6 @@ require_once('rendersigninsheet.php');
 $cid = required_param('cid', PARAM_INT);
 $gid = optional_param('gid', '', PARAM_INT);    
 
-
 /** Navigation Bar **/
 $PAGE->navbar->ignore_active();
 $rendertype = '';
@@ -48,7 +47,6 @@ $rendertype = '';
 $selectgroupsec = optional_param('selectgroupsec', '', PARAM_TEXT);  
 $extra = optional_param('extra', '', PARAM_TEXT);;
 
- 
 if(isset($selectgroupsec)){
 	
 	if($selectgroupsec == 'all'){
@@ -79,23 +77,21 @@ else if($rendertype == 'group'){
 		$PAGE->navbar->add(get_string('showbygroup', 'block_signinsheet'));
 }
 
-
 $PAGE->set_url('/blocks/signinsheet/showsigninsheet/show.php');
-$PAGE->set_context(get_system_context());
+//$PAGE->set_context(get_system_context());
+$PAGE->set_context(context_system::instance());
+
 $PAGE->set_heading(get_string('pluginname', 'block_signinsheet'));
 $PAGE->set_title(get_string('pluginname', 'block_signinsheet'));
 
 echo $OUTPUT->header();
 echo buildMenu($cid);
 
-
-
 $logoenabled = get_config('block_signinsheet', 'customlogoenabled');
 
 if($logoenabled){
 	printHeaderLogo();
 }
-
 
 // Render the page
 $selectgroupsec = optional_param('selectgroupsec', '', PARAM_TEXT);   
@@ -125,12 +121,6 @@ class signinsheet_form extends moodleform {
 	}
 }
 
-
-
-
-
-
-
 /*
  * 
  * Create the HTML output for the list on the right
@@ -142,9 +132,8 @@ function buildMenu($cid){
 	global $DB, $CFG, $rendertype;
 	
 	$orderby = '';
-	$orderby = optional_param('orderby', 'firstname', PARAM_TEXT);
-	
-	
+	$orderby = optional_param('orderby', 'lastname', PARAM_TEXT);
+
 	$outputhtml = '<div style="float:right"><form action="'.$CFG->wwwroot. '/blocks/signinsheet/genlist/show.php?cid='.$cid.'" method="post">
 				 '.get_string('orderby', 'block_signinsheet').': <select name="orderby" id="orderby">
 								<option value="firstname">' .get_string('firstname', 'block_signinsheet').'</option>
@@ -178,15 +167,12 @@ function buildMenu($cid){
 				}
 				$outputhtml .= '
 				<input type="hidden" name="orderby" value="'.$orderby.'">
-					
 				
    				<input type="submit" value="'.get_string('printbutton', 'block_signinsheet').'">
 				</span>
 				</form>
-				
 
 			    </div>
-			    
 
 				</div>
 				';
@@ -239,7 +225,7 @@ echo $OUTPUT->footer();
 			  
 			  if($orderitem == ""){
 			  	echo '<script>
-				document.getElementById("orderby").value = "firstname";
+				document.getElementById("orderby").value = "lastname";
 			  </script>';
 				
 			  }

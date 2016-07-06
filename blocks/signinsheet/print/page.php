@@ -26,7 +26,9 @@ require_once("../../../config.php");
 
 global $CFG, $DB;
 require_login();
-$PAGE->set_context(get_system_context());
+//$PAGE->set_context(get_system_context());
+$PAGE->set_context(context_system::instance());
+
 require_once('../genlist/rendersigninsheet.php');
 $PAGE->set_pagelayout('base');
 $PAGE->set_url('/blocks/signinsheet/print/page.php');
@@ -59,7 +61,6 @@ if(isset($rendertype)){
 
 	renderGroup();
 }
-
 
 ?>
 

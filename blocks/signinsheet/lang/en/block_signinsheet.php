@@ -80,7 +80,13 @@ $string['signinsheet:viewblock'] = 'View Sign in sheet block';
 $string['idfield'] = 'Include ID Number';
 $string['idfielddesc'] = 'Include Moodle Student ID field';
 $string['idnumber'] = 'ID Number';
-
+$string['telfield'] = 'Include tel Number';
+$string['telfielddesc'] = 'Include Moodle Student tel field';
+$string['telephone'] = 'phone Number';
+$string['cityfield'] = 'Include city';
+$string['cityfielddesc'] = 'Include Moodle Student city field';
+$string['city'] = 'city';
+$string['gmul'] = 'gmul';
 
 $string['includedefaultfield'] = 'Include A Default Field From The Moodle User Record';
 $string['selectdefaultfield'] = 'Select Default Field To Use';

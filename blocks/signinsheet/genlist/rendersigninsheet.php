@@ -96,7 +96,7 @@ function renderGroup($extra){
 	
 	
 	$result = $DB->get_records_sql($query,array($selectedgroupid));
-	$date = date('d-m-y');
+	$date = date('d-m-Y');
 	
 	
 	$courseName = $DB->get_record('course', array('id'=>$cid), 'fullname', $strictness=IGNORE_MISSING); 
@@ -104,8 +104,10 @@ function renderGroup($extra){
 	$outputhtml .= '<span style="font-size:25px"> <b>'. get_string('signaturesheet', 'block_signinsheet').'</span><br>';
 
 	$outputhtml .= '<span style="font-size:20px"> <b>'. get_string('course', 'block_signinsheet').': </b>' .$courseSName->shortname.' - ' .$courseName->fullname.'</span><br><p></p>';
-	
-	$reportdate = date('l jS \of F Y');
+
+    $reportdate = $date;
+//	$reportdate = date(' jS \of F Y');
+//	$reportdate = date('l jS \of F Y');
 	$outputhtml .= '<span style="font-size:18px"> <b>'. get_string('date', 'block_signinsheet').':</b> '.$reportdate.'</span><p></p>';
 	
 	$outputhtml .= '<span style="font-size:18px"> <b>'. get_string('description', 'block_signinsheet').': __________________________________________________</b> </span><p></p>&nbsp;<p></p>&nbsp;';
@@ -126,20 +128,19 @@ if($addfieldenabled){
 		$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'.$fieldname.'</b></td>';
 }
 
-//Add custom field text if enabled
-$addtextfield = get_config('block_signinsheet', 'includecustomtextfield');
-if($addtextfield){
-		$fielddata = get_config('block_signinsheet', 'customtext');
-		$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'.$fielddata.'</b></td>';
-
-}	
-// Id number field enabled
-$addidfield = get_config('block_signinsheet', 'includeidfield');
-if($addidfield){
-		
-		$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('idnumber', 'block_signinsheet').' </b></td>';
-
-}	
+// Id, tel, city number field enabled
+    $addidfield = get_config('block_signinsheet', 'includeidfield');
+    if($addidfield){
+                $outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('idnumber', 'block_signinsheet').' </b></td>';
+    }
+    $addidfield2 = get_config('block_signinsheet', 'includetelfield');  //  hanna 1/12/15
+    if($addidfield2){
+                $outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('telephone', 'block_signinsheet').' </b></td>';
+    }
+    $addidfield3 = get_config('block_signinsheet', 'includecityfield');
+    if($addidfield3){
+                $outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('city', 'block_signinsheet').' </b></td>';
+    }
 
 // Add additional mdl_user field if enabled
 $addUserField = get_config('block_signinsheet', 'includedefaultfield');
@@ -147,9 +148,17 @@ if($addUserField){
 	$mdlUserFieldName = get_config('block_signinsheet', 'defaultfieldselection');
 	$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. $mdlUserFieldName.' </b></td>';
 }
-	
-	$outputhtml .= '<td style="border-right: thin solid; border-bottom: thin solid" border="1px"><b>'. get_string('signature', 'block_signinsheet').'</b></td></tr>';
-	
+
+//	$outputhtml .= '<td style="border-right: thin solid; border-bottom: thin solid" border="1px"><b>'. get_string('signature', 'block_signinsheet').'</b></td></tr>';
+	$outputhtml .= '<td style="border-right: thin solid; border-bottom: thin solid" border="1px"><b>'. get_string('signature', 'block_signinsheet').'</b></td>';
+
+//Add custom field text if enabled
+	$addtextfield = get_config('block_signinsheet', 'includecustomtextfield');
+	if($addtextfield){
+		$fielddata = get_config('block_signinsheet', 'customtext');
+		$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'.$fielddata.'</b></td>';
+
+	}
 	$colCounter = 0;
 	$totalrows = 0;
 	
@@ -186,10 +195,7 @@ function renderAll($extra){
 	$orderby = '';
 	$cid = required_param('cid', PARAM_INT);
 	$orderby = optional_param('orderby', '', PARAM_TEXT);
-	
-	
 
-		
 		if($orderby == 'byid'){
 			$appendorder = ' order by userid';
 		}
@@ -201,28 +207,37 @@ function renderAll($extra){
 		} 
 		
 		else {
-			$appendorder = ' order by  (select firstname from '.$CFG->prefix.'user usr where userid = usr.id)';
+			$appendorder = ' order by  (select lastname from '.$CFG->prefix.'user usr where userid = usr.id)';
 	
 		}
 	
-	$query = "select userid from ".$CFG->prefix."user_enrolments en where en.enrolid IN (select e.id from ".$CFG->prefix."enrol e where courseid= ?)" . $appendorder;
-	
+//	$query = "select userid from ".$CFG->prefix."user_enrolments en where en.enrolid IN (select e.id from ".$CFG->prefix."enrol e where courseid= ?)" . $appendorder;  // hanna 1/12/15
+    $query = "select userid from ".$CFG->prefix."role_assignments ras JOIN ".$CFG->prefix."context context ON ras.contextid = context.id AND context.contextlevel = 50
+            join ".$CFG->prefix."user u ON u.id = ras.userid join ".$CFG->prefix."course course ON context.instanceid = ? where ras.roleid = 5 AND course.id = ? " . $appendorder;
+
 		// Check if we need to include a custom field
 	$addfieldenabled = get_config('block_signinsheet', 'includecustomfield');
 	
 	// Get the list of users for this particular course
-	$result = $DB->get_records_sql($query, array($cid));
+	$result = $DB->get_records_sql($query, array($cid, $cid));
 
-	$date = date('d-m-y');
-	
+	$date = date('d-m-Y');
+
+    $gmulquery = "select cid.data gmul from ".$CFG->prefix."coursemetadata_info_data cid join ".$CFG->prefix."coursemetadata_info_field cif on cid.fieldid = cif.id where cif.shortname = 'gmul' and cid.course= ?";
+    $gmulim = $DB->get_record_sql($gmulquery, array($cid));  // hanna 1/12/15
+
 	$courseName = $DB->get_record('course', array('id'=>$cid), 'fullname', $strictness=IGNORE_MISSING); 
 	$courseSName = $DB->get_record('course', array('id'=>$cid), 'shortname', $strictness=IGNORE_MISSING); 
 	$outputhtml = '';
 	$outputhtml .= '<span style="font-size:25px"> <b>'. get_string('signaturesheet', 'block_signinsheet').'</span><br>';
 
-	$outputhtml .= '<span style="font-size:20px"> <b>'. get_string('course', 'block_signinsheet').': </b>' .$courseSName->shortname.' - ' .$courseName->fullname.'</span><br><p></p>';
-	
-	$reportdate = date('l jS \of F Y');
+//	$outputhtml .= '<span style="font-size:20px"> <b>'. get_string('course', 'block_signinsheet').': </b>' .$courseSName->shortname.' - ' .$courseName->fullname.'</span><br><p></p>';
+	$outputhtml .= '<span style="font-size:20px"> <b>'. get_string('course', 'block_signinsheet').': </b>' .$courseName->fullname.'</span><br><p></p>';
+    $outputhtml .= '<span style="font-size:20px"> <b>'. get_string('gmul', 'block_signinsheet').': </b>' . $gmulim->gmul .'</span><br><p></p>';  // hanna 1/12/15
+
+    $reportdate = $date;
+//	$reportdate = date(' jS \of F Y');
+//	$reportdate = date('l jS \of F Y');
 	$outputhtml .= '<span style="font-size:18px"> <b>'. get_string('date', 'block_signinsheet').':</b> '.$reportdate.'</span><p></p>';
 	
 	$outputhtml .= '<span style="font-size:18px"> <b>'. get_string('description', 'block_signinsheet').': __________________________________________________</b> </span><p></p>&nbsp;<p></p>&nbsp;';
@@ -240,7 +255,7 @@ function renderAll($extra){
 	} else {
 		//$outputhtml .= '<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"></td>';
 		}
-	
+/*
 //Add custom field text if enabled
 $addtextfield = get_config('block_signinsheet', 'includecustomtextfield');
 if($addtextfield){
@@ -248,42 +263,51 @@ if($addtextfield){
 		$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'.$fielddata.'</b></td>';
 
 }	
-
-
-// Id number field enabled
+*/
+// Id, tel, city number field enabled
 $addidfield = get_config('block_signinsheet', 'includeidfield');
 if($addidfield){
-		
 		$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('idnumber', 'block_signinsheet').' </b></td>';
-
-}	
+}
+$addidfield2 = get_config('block_signinsheet', 'includetelfield');  // hanna 1/12/15
+    if($addidfield2){
+        $outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('telephone', 'block_signinsheet').' </b></td>';
+    }
+$addidfield3 = get_config('block_signinsheet', 'includecityfield');
+    if($addidfield3){
+        $outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string('city', 'block_signinsheet').' </b></td>';
+    }
 
 // Add additional mdl_user field if enabled
 $addUserField = get_config('block_signinsheet', 'includedefaultfield');
 if($addUserField){
 	$mdlFieldName = get_config('block_signinsheet', 'defaultfieldselection');
-	$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. $mdlFieldName.' </b></td>';
+	$outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'. get_string( $mdlFieldName) .' </b></td>';
 }
 
-
-
 	$outputhtml .='	<td style="border-right: thin solid; border-bottom: thin solid" border="1px"><b>'.get_string('signature', 'block_signinsheet').'</b></td>
-	</tr>';
-	
-	$colCounter = 0;
+	';
+
+//Add custom field text if enabled
+    $addtextfield = get_config('block_signinsheet', 'includecustomtextfield');
+    if($addtextfield){
+        $fielddata = get_config('block_signinsheet', 'customtext');
+        $outputhtml.='<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"><b>'.$fielddata.'</b></td></tr>';
+
+    }
+
+    $colCounter = 0;
 	$totalrows = 0;
 
 	foreach($result as $face){
 		$outputhtml .=  printSingleFace($face->userid, $cid);
 	}
-	
-	
+
 	//do we need to print additional lines
 	for ($x = 1; $x <= $extra; $x++) {
     	$outputhtml .=  printblank();
 	} 
-	
-	
+
 	$outputhtml .= '</table>';
 	
 	return $outputhtml;
@@ -296,24 +320,18 @@ if($addUserField){
  */
 function printSingleFace($uid, $cid){
 	global $DB, $OUTPUT;
-	
-	
 
-	
-	
 	$singlerec = $DB->get_record('user', array('id'=> $uid), $fields='*', $strictness=IGNORE_MISSING); 
 	
 	$firstname = $singlerec->firstname;
 	$lastname = $singlerec->lastname;
 
 	//$user = $DB->get_record('user', array('id' => $uid));
-	
-	
+
 	$picoutput = '';
 	
 	global $PAGE; 
-	
-	
+
 	$outputhtml =  '
 				
 				
@@ -330,23 +348,29 @@ function printSingleFace($uid, $cid){
 	} else {
 	//	$outputhtml .=	'<td style="border-right: thin solid;  border-bottom: thin solid" border="1px" width="150">  </td>';
 	}
-	
+/*
 	//Add custom field text if enabled
 	$addtextfield = get_config('block_signinsheet', 'includecustomtextfield');
 	if($addtextfield){
 			$outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150">  </td>';
 
 	}
-
-
-// Id number field enabled
+*/
+// Id, tel, city number field enabled
 $addidfield = get_config('block_signinsheet', 'includeidfield');
 if($addidfield){
 			$outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> '.$singlerec->idnumber.' </td>';
-}	
+}
+$addidfield2 = get_config('block_signinsheet', 'includetelfield');  // hanna 1/12/15
+    if($addidfield2){
+        $outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> '. $singlerec->phone2 .' </td>';
+}
+$addidfield3 = get_config('block_signinsheet', 'includecityfield');
+    if($addidfield3){
+        $outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> '. $singlerec->city .' </td>';
+}
 
-
-$addUserField = get_config('block_signinsheet', 'includedefaultfield');
+    $addUserField = get_config('block_signinsheet', 'includedefaultfield');
 if($addUserField){
 	
 	$mdlUserFieldName = get_config('block_signinsheet', 'defaultfieldselection');
@@ -354,6 +378,12 @@ if($addUserField){
 
 }
 
+    //Add custom field text if enabled
+    $addtextfield = get_config('block_signinsheet', 'includecustomtextfield');
+    if($addtextfield){
+        $outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150">  </td>';
+
+    }
 
 	$outputhtml .='	<td style=" border-bottom: thin solid"> </td>
 				</tr>
@@ -383,18 +413,26 @@ function printblank(){
 			$outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150">&nbsp;  </td>';
 	}
 
-	// Id number field enabled
+	// Id, tel, city number field enabled
 	$addidfield = get_config('block_signinsheet', 'includeidfield');
 	if($addidfield){
 			$outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> &nbsp; </td>';
-	}	
-	$addUserField = get_config('block_signinsheet', 'includedefaultfield');
+	}
+    $addidfield2 = get_config('block_signinsheet', 'includetelfield');  // hanna 1/12/15
+    if($addidfield2){
+        $outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> &nbsp; </td>';
+    }
+    $addidfield3 = get_config('block_signinsheet', 'includecityfield');
+    if($addidfield3){
+        $outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> &nbsp; </td>';
+    }
+
+    $addUserField = get_config('block_signinsheet', 'includedefaultfield');
 	if($addUserField){
 	
 	$outputhtml .=	'<td style="border-right: thin solid; border-bottom: thin solid" border="1px" width="150"> &nbsp; </td>';
 
 	}
-
 
 	$outputhtml .='	<td style=" border-bottom: thin solid"> </td>
 				</tr>';

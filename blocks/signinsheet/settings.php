@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
  
 /**
  *
@@ -30,28 +30,17 @@
 defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir.'/adminlib.php');
 
-
-
-
-
-
-
 $uploaderlink = new moodle_url('/blocks/signinsheet/index.php');
  $settings->add(new admin_setting_configcheckbox('block_signinsheet/customlogoenabled',
      new lang_string('addcustomlogo', 'block_signinsheet'),
         new lang_string('addcustomlogodesc', 'block_signinsheet') . '<br><a href="'. $uploaderlink.'">Click here to Upload</a>', null,
          PARAM_INT));
-   
 
      $settings->add(new admin_setting_configcheckbox('block_signinsheet/hidefromstudents',
      new lang_string('hidefromstudents', 'block_signinsheet'),
         new lang_string('hidefromstudents_desc', 'block_signinsheet') , null,
          PARAM_INT));
-  
-    
-	 
 
-    
 	global $DB;
 	$result = $DB->get_records('user_info_field');
 
@@ -118,14 +107,17 @@ $settings->add(new admin_setting_configselect('block_signinsheet/defaultfieldsel
                get_string('selectedfield', 'block_signinsheet'),
                get_string('selectdefaultfield', 'block_signinsheet'), 'all', $options));
 
-
-
-
  $settings->add(new admin_setting_configcheckbox('block_signinsheet/includeidfield',
      new lang_string('idfield', 'block_signinsheet'),
         new lang_string('idfielddesc', 'block_signinsheet') , null,
          PARAM_INT));
 
+$settings->add(new admin_setting_configcheckbox('block_signinsheet/includetelfield',
+    new lang_string('telfield', 'block_signinsheet'),
+    new lang_string('telfielddesc', 'block_signinsheet') , null,
+    PARAM_INT));  //  hanna 6/7/16
 
-
-  
+$settings->add(new admin_setting_configcheckbox('block_signinsheet/includecityfield',
+    new lang_string('cityfield', 'block_signinsheet'),
+    new lang_string('cityfielddesc', 'block_signinsheet') , null,
+    PARAM_INT)); //  hanna 6/7/16
