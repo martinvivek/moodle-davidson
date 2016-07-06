@@ -199,7 +199,7 @@ class qtype_ddimageortext_edit_form extends qtype_ddtoimage_edit_form_base {
                                     get_string('draggableitem', 'qtype_ddimageortext'), $options);
         $grouparray[] = $mform->createElement('text', 'droplabel',
                                                 get_string('label', 'qtype_ddimageortext'),
-                                                array('size' => 10, 'class' => 'tweakcss'));
+                                                array('size' => 20, 'class' => 'tweakcss')); // was 10 hanna 6/7/16
         $mform->setType('droplabel', PARAM_NOTAGS);
         $dropzone = $mform->createElement('group', 'drops',
                 get_string('dropzone', 'qtype_ddimageortext', '{no}'), $grouparray);
