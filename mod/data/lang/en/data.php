@@ -368,3 +368,5 @@ $string['usestandard_help'] = 'To use a preset available to the whole site, sele
 $string['viewfromdate'] = 'Read only from';
 $string['viewtodate'] = 'Read only to';
 $string['wrongdataid'] = 'Wrong data id provided';
+$string['email'] = 'eMail';
+$string['nameemail'] = 'eMail field';
