@@ -1308,10 +1308,10 @@ function data_print_template($template, $records, $data, $search='', $page=0, $r
         $patterns[] = '##timemodified##';
         $replacement [] = userdate($record->timemodified);
 
-        $patterns[]='##approve##';
+        $patterns[]='##approve##';  // replace block and approve icons // hanna 6/7/16
         if (has_capability('mod/data:approve', $context) && ($data->approval) && (!$record->approved)) {
             $approveurl = new moodle_url($jumpurl, array('approve' => $record->id));
-            $approveicon = new pix_icon('t/approve', get_string('approve', 'data'), '', array('class' => 'iconsmall'));
+            $approveicon = new pix_icon('t/block', get_string('approve', 'data'), '', array('class' => 'iconsmall'));
             $replacement[] = html_writer::tag('span', $OUTPUT->action_icon($approveurl, $approveicon),
                     array('class' => 'approve'));
         } else {
@@ -1321,7 +1321,7 @@ function data_print_template($template, $records, $data, $search='', $page=0, $r
         $patterns[]='##disapprove##';
         if (has_capability('mod/data:approve', $context) && ($data->approval) && ($record->approved)) {
             $disapproveurl = new moodle_url($jumpurl, array('disapprove' => $record->id));
-            $disapproveicon = new pix_icon('t/block', get_string('disapprove', 'data'), '', array('class' => 'iconsmall'));
+            $disapproveicon = new pix_icon('t/approve', get_string('disapprove', 'data'), '', array('class' => 'iconsmall'));
             $replacement[] = html_writer::tag('span', $OUTPUT->action_icon($disapproveurl, $disapproveicon),
                     array('class' => 'disapprove'));
         } else {
