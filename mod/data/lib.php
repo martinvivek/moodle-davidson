@@ -1679,7 +1679,8 @@ function data_print_preference_form($data, $perpage, $search, $sort='', $order='
     $PAGE->requires->js('/mod/data/data.js');
     echo '&nbsp;<input type="hidden" name="advanced" value="0" />';
     echo '&nbsp;<input type="hidden" name="filter" value="1" />';
-    echo '&nbsp;<input type="checkbox" id="advancedcheckbox" name="advanced" value="1" '.$checked.' onchange="showHideAdvSearch(this.checked);" /><label for="advancedcheckbox">'.get_string('advancedsearch', 'data').'</label>';
+    // change default search value to 0  hanna 1/7/15
+    echo '&nbsp;<input type="checkbox" id="advancedcheckbox" name="advanced" value="0" '.$checked.' onchange="showHideAdvSearch(this.checked);" /><label for="advancedcheckbox">'.get_string('advancedsearch', 'data').'</label>';
     echo '&nbsp;<input type="submit" value="'.get_string('savesettings','data').'" />';
 
     echo '<br />';
