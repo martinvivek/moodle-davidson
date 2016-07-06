@@ -33,3 +33,8 @@ $string['commentinline_help'] = 'If enabled, the submission text will be copied 
 $string['commentinlinedefault'] = 'Comment inline by default';
 $string['commentinlinedefault_help'] = 'If set, this comment inline functionality will be enabled by default for all new assignments.';
 
+$string['message'] = 'Send message';
+$string['batchoperationconfirmmessage'] = 'Confirm?';
+$string['batchmessageforusers'] = 'Sending a message to selected users';
+$string['selectedusers'] = 'Selected users';
+$string['batchmessage'] = 'Message';

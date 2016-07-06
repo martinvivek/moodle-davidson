@@ -517,4 +517,173 @@ class assign_feedback_comments extends assign_feedback_plugin {
         return array('assignfeedbackcomments_editor' => $editorstructure);
     }
 
+    ////////////////   from here  hanna 15/7/15 
+    /**
+     * Return a list of the batch grading operations performed by this plugin.
+     * This plugin supports batch upload files and upload zip.
+     *
+     * @return array The list of batch grading operations
+     */
+    public function get_grading_batch_operations() {
+        return array('message' => get_string('message', 'assignfeedback_comments'));
+    }
+
+    /**
+     * Upload files and send them to multiple users.
+     *
+     * @param array $users - An array of user ids
+     * @return string - The response html
+     */
+    public function view_batch_message($users) {
+        global $CFG, $DB, $USER;
+
+        require_capability('mod/assign:grade', $this->assignment->get_context());
+        require_once($CFG->dirroot . '/mod/assign/feedback/comments/batchmessageform.php');
+        require_once($CFG->dirroot . '/mod/assign/renderable.php');
+
+        $formparams = array('cm' => $this->assignment->get_course_module()->id,
+            'users' => $users,
+            'context' => $this->assignment->get_context());
+
+        $usershtml = '';
+
+        $usercount = 0;
+        foreach ($users as $userid) {
+            if ($usercount >= ASSIGNFEEDBACK_FILE_MAXSUMMARYUSERS) {
+                $moreuserscount = count($users) - ASSIGNFEEDBACK_FILE_MAXSUMMARYUSERS;
+                $usershtml .= get_string('moreusers', 'assignfeedback_comments', $moreuserscount);
+                break;
+            }
+            $user = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+
+            $usersummary = new assign_user_summary($user,
+                $this->assignment->get_course()->id,
+                has_capability('moodle/site:viewfullnames',
+                    $this->assignment->get_course_context()),
+                $this->assignment->is_blind_marking(),
+                $this->assignment->get_uniqueid_for_user($user->id),
+                get_extra_user_fields($this->assignment->get_context()));
+            $usershtml .= $this->assignment->get_renderer()->render($usersummary);
+            $usercount += 1;
+        }
+
+        $formparams['usershtml'] = $usershtml;
+
+        $mform = new assignfeedback_comments_batch_message_form(null, $formparams);
+
+        if ($mform->is_cancelled()) {
+            redirect(new moodle_url('view.php',
+                array('id' => $this->assignment->get_course_module()->id,
+                    'action' => 'grading')));
+            return;
+        } else if ($data = $mform->get_data()) {
+            // Copy the files from the draft area to a temporary import area.
+//            $data = file_postupdate_standard_filemanager($data,
+//                'files',
+//                $this->get_file_options(),
+//                $this->assignment->get_context(),
+//                'assignfeedback_comments',
+//                ASSIGNFEEDBACK_FILE_BATCH_FILEAREA,
+//                $USER->id);
+//            $fs = get_file_storage();
+
+            // Now copy each of these files to the users feedback file area.
+            $good = 1;
+            foreach ($users as $userid) {
+                $user = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+                $good = $good && message_post_message($USER, $user, $data->message['text'], $data->message['format']);
+            }
+            if (!empty($good)) {
+                // Ok
+                //echo $OUTPUT->heading(get_string('messagedselectedusers'));
+            } else {
+                // Bad :-(
+                //echo $OUTPUT->heading(get_string('messagedselectedusersfailed'));
+            }
+
+            //$grade = $this->assignment->get_user_grade($userid, true);
+            //$this->assignment->notify_grade_modified($grade);
+
+//                $this->copy_area_files($fs,
+//                    $this->assignment->get_context()->id,
+//                    'assignfeedback_comments',
+//                    ASSIGNFEEDBACK_FILE_BATCH_FILEAREA,
+//                    $USER->id,
+//                    $this->assignment->get_context()->id,
+//                    'assignfeedback_comments',
+//                    ASSIGNFEEDBACK_FILE_FILEAREA,
+//                    $grade->id);
+//
+//                $filefeedback = $this->get_file_feedback($grade->id);
+//                if ($filefeedback) {
+//                    $filefeedback->numfiles = $this->count_files($grade->id,
+//                        ASSIGNFEEDBACK_FILE_FILEAREA);
+//                    $DB->update_record('assignfeedback_comments', $filefeedback);
+//                } else {
+//                    $filefeedback = new stdClass();
+//                    $filefeedback->numfiles = $this->count_files($grade->id,
+//                        ASSIGNFEEDBACK_FILE_FILEAREA);
+//                    $filefeedback->grade = $grade->id;
+//                    $filefeedback->assignment = $this->assignment->get_instance()->id;
+//                    $DB->insert_record('assignfeedback_comments', $filefeedback);
+//                }
+//            }
+
+            // Now delete the temporary import area.
+//            $fs->delete_area_files($this->assignment->get_context()->id,
+//                'assignfeedback_comments',
+//                ASSIGNFEEDBACK_FILE_BATCH_FILEAREA,
+//                $USER->id);
+
+            redirect(new moodle_url('view.php',
+                array('id'=>$this->assignment->get_course_module()->id,
+                    'action'=>'grading')));
+            return;
+        } else {
+
+            $header = new assign_header($this->assignment->get_instance(),
+                $this->assignment->get_context(),
+                false,
+                $this->assignment->get_course_module()->id,
+                get_string('batchmessage', 'assignfeedback_comments'));
+            $o = '';
+            $o .= $this->assignment->get_renderer()->render($header);
+            $o .= $this->assignment->get_renderer()->render(new assign_form('batchmessage', $mform));
+            $o .= $this->assignment->get_renderer()->render_footer();
+        }
+
+        return $o;
+    }
+
+    /**
+     * User has chosen a custom grading batch operation and selected some users.
+     *
+     * @param string $action - The chosen action
+     * @param array $users - An array of user ids
+     * @return string - The response html
+     */
+    public function grading_batch_operation($action, $users) {
+
+        if ($action == 'message') {
+            return $this->view_batch_message($users);
+        }
+        return '';
+    }
+
+    /**
+     * Called by the assignment module when someone chooses something from the
+     * grading navigation or batch operations list.
+     *
+     * @param string $action - The page to view
+     * @return string - The html response
+     */
+    public function view_page($action) {
+        if ($action == 'message') {
+            $users = required_param('selectedusers', PARAM_SEQUENCE);
+            return $this->view_batch_message(explode(',', $users));
+        }
+
+        return '';
+    }
+
 }
