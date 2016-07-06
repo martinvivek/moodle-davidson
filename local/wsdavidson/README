@@ -1,0 +1,16 @@
+Web service template plugin for Moodle 2.X
+------------------------------------------
+
+It is a template designed as a starting point for developing third party web services.
+It includes a simple Hello World example.
+
+To test:
+1- install the plugin in moodle/local/wstemplate/
+2- Read, setup and run moodle/local/wstemplate/client/client.php
+--------------------------------------------
+september 2014  hanna
+this ws was written in davidson to works with drupal davidson site for 2 purposes:
+1. unenroll user from a course (user that is registered to moodle to other courses
+    and wants to cancel a specific course)
+2. un-suspend a suspended user in a course ( user that registered thru a form and didnt pay,
+    or cant use the course for some reason - registration unit can un-suspend him, using their drupal)
