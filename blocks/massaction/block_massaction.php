@@ -100,10 +100,10 @@ class block_massaction extends block_base {
     {$str['withselected']}:
 EOB;
 
-            // Print the action links.
+            // Print the action links.  // fix arrow dir  hanna 6/7/16
             $action_icons = array(
-                'moveleft'     => 't/left',
-                'moveright'    => 't/right',
+                'moveleft'     => (right_to_left() == 'ltr') ? 't/right' : 't/left',
+                'moveright'    => (right_to_left() == 'ltr') ? 't/left' : 't/right',
                 'hide'         => 't/show',
                 'show'         => 't/hide',
                 'delete'       => 't/delete'
