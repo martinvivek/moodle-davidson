@@ -51,8 +51,12 @@ class grade_export_form extends moodleform {
         $gseq = new grade_seq($COURSE->id, $switch);
 
         if ($grade_items = $gseq->items) {
-            $needs_multiselect = false;
+            $needs_multiselect = true;
             $canviewhidden = has_capability('moodle/grade:viewhidden', context_course::instance($COURSE->id));
+
+            if ($needs_multiselect) {  // moved the all or none "button" here from down there hanna 7/3/16
+                $this->add_checkbox_controller(1, null, null, 1); // 1st argument is group name, 2nd is link text, 3rd is attributes and 4th is original value
+            }
 
             foreach ($grade_items as $grade_item) {
                 // Is the grade_item hidden? If so, can the user see hidden grade_items?
@@ -70,9 +74,9 @@ class grade_export_form extends moodleform {
                 }
             }
 
-            if ($needs_multiselect) {
-                $this->add_checkbox_controller(1, null, null, 1); // 1st argument is group name, 2nd is link text, 3rd is attributes and 4th is original value
-            }
+        //    if ($needs_multiselect) { // moved the all or none "button" from here to up there
+        //        $this->add_checkbox_controller(1, null, null, 1); // 1st argument is group name, 2nd is link text, 3rd is attributes and 4th is original value
+        //    }
         }
 
 
