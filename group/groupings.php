@@ -102,6 +102,8 @@ if ($groupings = $DB->get_records('groupings', array('courseid'=>$course->id), '
         $buttons .= html_writer::link($url, $OUTPUT->pix_icon('t/groups', $strmanagegrping, 'core',
                 array('class' => 'iconsmall')), array('title' => $strmanagegrping));
 
+        $buttons .= html_writer::checkbox('groupingid[]',$grouping->id,false,'');  // hanna 2/7/15
+
         $line[3] = $buttons;
         $data[] = $line;
     }
@@ -112,7 +114,15 @@ $table->size  = array('30%', '50%', '10%', '10%');
 $table->align = array('left', 'left', 'center', 'center');
 $table->width = '90%';
 $table->data  = $data;
+
+echo html_writer::start_tag('form',array('method'=>'get','action'=>'groupings_delete.php')); // hanna 2/7/15
+
 echo html_writer::table($table);
+
+// add action delete  hanna 2/7/15
+echo html_writer::tag('input','',array('type'=>'submit','name'=>'groupingsdelete','value'=>get_string('groupingsdelete','core_davidson')));
+echo html_writer::tag('input','',array('type'=>'hidden','name'=>'courseid','value'=>$courseid));
+echo html_writer::end_tag('form');
 
 echo $OUTPUT->container_start('buttons');
 echo $OUTPUT->single_button(new moodle_url('grouping.php', array('courseid'=>$courseid)), $srtnewgrouping);
