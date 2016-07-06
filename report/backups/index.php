@@ -45,6 +45,8 @@ $strunfinished = get_string('unfinished');
 $strskipped = get_string('skipped');
 $strwarning = get_string('warning');
 $strnotyetrun = get_string('backupnotyetrun');
+$strview = get_string("view");     //  hanna 1/7/15
+$strcourse = get_string("course");
 
 if ($courseid) {
     $course = $DB->get_record('course', array('id' => $courseid), 'id, fullname', MUST_EXIST);
@@ -163,7 +165,13 @@ foreach ($rs as $backuprow) {
     $backuprowname = format_string($backuprow->fullname, true, array('context' => context_course::instance($backuprow->courseid)));
     $backuplogsurl = new moodle_url('/report/backups/index.php', array('courseid' => $backuprow->courseid));
     $backuplogsicon = new pix_icon('t/viewdetails', get_string('viewlogs', 'report_backups'));
+
+    //  link to course  hanna 1/7/15
+    $courselink = "<td nowrap=\"nowrap\"><font-size=\"2\"> [<a href=\"/moodle2/course/view.php?id=$backuprow->courseid\">".$strview." ".$strcourse."</a>] </font></td>";
+    $coursename =  format_string($backuprow->fullname, true, array('context' => context_course::instance($backuprow->courseid)));
+
     $cells = array(
+        $courselink,
         $backuprowname . ' ' . $OUTPUT->action_icon($backuplogsurl, $backuplogsicon),
         userdate($backuprow->laststarttime, $strftimedatetime),
         '-',
