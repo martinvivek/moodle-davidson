@@ -51,7 +51,7 @@ class data_field_text extends data_field_base {
      * @return bool
      */
     function notemptyfield($value, $name) {
-        return strval($value) !== '';
+        return strval($value) !== ''; // return isset($value);
     }
 }
 

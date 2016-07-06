@@ -102,7 +102,7 @@ class data_field_number extends data_field_base {
      * @return bool
      */
     function notemptyfield($value, $name) {
-        return strval($value) !== '';
+        return strval($value) !== ''; //return isset($value); ? we did hanna 6/7/16
     }
 }
 
