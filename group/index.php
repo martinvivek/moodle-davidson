@@ -162,9 +162,9 @@ echo $OUTPUT->heading(format_string($course->shortname, true, array('context' =>
 echo '<form id="groupeditform" action="index.php" method="post">'."\n";
 echo '<div>'."\n";
 echo '<input type="hidden" name="id" value="' . $courseid . '" />'."\n";
-
-echo html_writer::start_tag('div', array('class' => 'groupmanagementtable boxaligncenter'));
-echo html_writer::start_tag('div', array('class' => 'groups'));
+//  add class  hanna 6/7/16
+echo html_writer::start_tag('div', array('class' => 'groupmanagementtable boxaligncenter row-fluid'));
+echo html_writer::start_tag('div', array('class' => 'groups span6'));
 
 echo '<p><label for="groups"><span id="groupslabel">'.get_string('groups').':</span><span id="thegrouping">&nbsp;</span></label></p>'."\n";
 
@@ -218,7 +218,7 @@ echo '<p><input type="submit" name="act_showimportgroups" id="showimportgroups" 
         . get_string('importgroups', 'core_group') . '" /></p>'."\n";
 
 echo html_writer::end_tag('div');
-echo html_writer::start_tag('div', array('class' => 'members'));
+echo html_writer::start_tag('div', array('class' => 'members span6')); // add class  hanna 6/7/16
 
 echo '<p><label for="members"><span id="memberslabel">'.
     get_string('membersofselectedgroup', 'group').
