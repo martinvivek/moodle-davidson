@@ -88,6 +88,7 @@ $PAGE->blocks->add_region('content');
 $PAGE->set_subpage($currentpage->id);
 $PAGE->set_title($pagetitle);
 $PAGE->set_heading($header);
+$PAGE->set_cacheable(false); // hanna 13/7/15 // does this realy help for registration..
 
 if (!isguestuser()) {   // Skip default home page for guests
     if (get_home_page() != HOMEPAGE_MY) {
