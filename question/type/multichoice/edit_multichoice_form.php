@@ -26,6 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/question/type/multichoice/question.php');  //  hanna 5/7/15
 
 /**
  * Multiple choice editing form definition.
@@ -47,6 +48,14 @@ class qtype_multichoice_edit_form extends question_edit_form {
         $mform->addElement('select', 'single',
                 get_string('answerhowmany', 'qtype_multichoice'), $menu);
         $mform->setDefault('single', 1);
+
+        $layoutmenu = array( // hanna 5/7/15
+            //get_string('chooselayout', 'qtype_multichoice'),
+            qtype_multichoice_base::LAYOUT_VERTICAL => get_string('layoutvertical', 'qtype_multichoice'),
+            qtype_multichoice_base::LAYOUT_HORIZONTAL => get_string('layouthorizontal', 'qtype_multichoice'),
+        );
+        $select = $mform->addElement('select', 'layout', get_string('layout', 'qtype_multichoice'), $layoutmenu);
+        $select->setSelected(qtype_multichoice_base::LAYOUT_VERTICAL);
 
         $mform->addElement('advcheckbox', 'shuffleanswers',
                 get_string('shuffleanswers', 'qtype_multichoice'), null, null, array(0, 1));
@@ -97,6 +106,7 @@ class qtype_multichoice_edit_form extends question_edit_form {
 
         if (!empty($question->options)) {
             $question->single = $question->options->single;
+            $question->layout = $question->options->layout; // hanna 5/7/15
             $question->shuffleanswers = $question->options->shuffleanswers;
             $question->answernumbering = $question->options->answernumbering;
         }

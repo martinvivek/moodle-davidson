@@ -131,8 +131,9 @@ abstract class qtype_multichoice_renderer_base extends qtype_with_combined_feedb
 
         $result .= html_writer::start_tag('div', array('class' => 'answer'));
         foreach ($radiobuttons as $key => $radio) {
-            $result .= html_writer::tag('div', $radio . ' ' . $feedbackimg[$key] . $feedback[$key],
-                    array('class' => $classes[$key])) . "\n";
+        //    $result .= html_writer::tag('div', $radio . ' ' . $feedbackimg[$key] . $feedback[$key],  // hanna 5/7/15
+            $result .= html_writer::tag(($question->layout == qtype_multichoice_base::LAYOUT_HORIZONTAL) ? 'span' : 'div' , $radio . ' ' . $feedbackimg[$key] . $feedback[$key],
+                        array('class' => $classes[$key])) . "\n";
         }
         $result .= html_writer::end_tag('div'); // Answer.
 
