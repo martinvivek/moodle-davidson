@@ -134,11 +134,12 @@ $overridestable->read_submitted_permissions();
 if (optional_param('savechanges', false, PARAM_BOOL) && confirm_sesskey()) {
     $overridestable->save_changes();
     $rolename = $overridableroles[$roleid];
-    // Trigger event.
+    // Trigger event.  // add other hanna 7/7/16
     $event = \core\event\role_capabilities_updated::create(
         array(
             'context' => $context,
             'objectid' => $roleid,
+            'other'    => array('capabilities' => $definitiontable->list_changes())
         )
     );
 

@@ -197,11 +197,12 @@ if (optional_param('cancel', false, PARAM_BOOL)) {
 if (optional_param('savechanges', false, PARAM_BOOL) && confirm_sesskey() && $definitiontable->is_submission_valid()) {
     $definitiontable->save_changes();
     $tableroleid = $definitiontable->get_role_id();
-    // Trigger event.
+    // Trigger event.  add other  hanna 12/7/15
     $event = \core\event\role_capabilities_updated::create(
         array(
             'context' => $systemcontext,
-            'objectid' => $tableroleid
+            'objectid' => $tableroleid,
+            'other'    => array('capabilities' => $definitiontable->list_changes())
         )
     );
     $event->set_legacy_logdata(array(SITEID, 'role', $action, 'admin/roles/define.php?action=view&roleid=' . $tableroleid,
