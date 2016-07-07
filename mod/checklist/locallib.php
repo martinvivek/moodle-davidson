@@ -782,7 +782,8 @@ class checklist_class {
 
         if ($requireditems > 0 && $totalitems > $requireditems) {
             $percentcomplete = ($completeitems * 100) / $requireditems;
-            echo '<div style="display:block; float:left; width:150px;" class="checklist_progress_heading">';
+//            echo '<div style="display:block; float:left; width:150px;" class="checklist_progress_heading">';
+            echo '<div style="display:block; width:150px;" class="checklist_progress_heading">'; //  hanna 7/7/16
             echo get_string('percentcomplete', 'checklist').':&nbsp;';
             echo '</div>';
             echo '<span id="checklistprogressrequired">';
@@ -797,7 +798,8 @@ class checklist_class {
             echo '<br style="clear:both"/>';
         }
 
-        echo '<div style="display:block; float:left; width:150px;" class="checklist_progress_heading">';
+//        echo '<div style="display:block; float:left; width:150px;" class="checklist_progress_heading">';
+        echo '<div style="display:block; width:150px;" class="checklist_progress_heading">'; //  hanna 7/7/16
         echo get_string('percentcompleteall', 'checklist').':&nbsp;';
         echo '</div>';
         echo '<span id="checklistprogressall">';
