@@ -2544,10 +2544,11 @@ class quiz_review_nav_panel extends quiz_nav_panel_base {
                         get_string('showeachpage', 'quiz'));
             } else {
                 $html .= html_writer::link($this->attemptobj->review_url(null, 0, true),
-                        get_string('showall', 'quiz'));
+                    get_string('showaquestiongrades', 'core_davidson'));
+                    //    get_string('showall', 'quiz')); change lable on link hanna 10/7/16
             }
         }
-        $html .= $output->finish_review_link($this->attemptobj);
+    //    $html .= $output->finish_review_link($this->attemptobj); // remove link  hanna 10/7/16
         $html .= $this->render_restart_preview_link($output);
         return $html;
     }
