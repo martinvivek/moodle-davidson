@@ -69,10 +69,14 @@ if (!$quizzes = get_all_instances_in_course("quiz", $course)) {
 
 // Check if we need the closing date header.
 $showclosingheader = false;
+$showopeningheader = false; // hanna 6/7/15
 $showfeedback = false;
 foreach ($quizzes as $quiz) {
     if ($quiz->timeclose!=0) {
         $showclosingheader=true;
+    }
+    if ($quiz->timeopen!=0) {  // hanna 5/7/15
+        $showopeningheader=true;
     }
     if (quiz_has_feedback($quiz)) {
         $showfeedback=true;
@@ -88,6 +92,10 @@ $align = array('left');
 
 if ($showclosingheader) {
     array_push($headings, get_string('quizcloses', 'quiz'));
+    array_push($align, 'left');
+}
+if ($showopeningheader) {  // hanna 5/7/15
+    array_push($headings, get_string('quizopen', 'quiz'));
     array_push($align, 'left');
 }
 
@@ -160,6 +168,11 @@ foreach ($quizzes as $quiz) {
     if ($quiz->timeclose) {
         $data[] = userdate($quiz->timeclose);
     } else if ($showclosingheader) {
+        $data[] = '';
+    }
+    if ($quiz->timeopen) {  // hanna 5/7/15
+        $data[] = userdate($quiz->timeopen);
+    } else if ($showopeningheader) {
         $data[] = '';
     }
 
