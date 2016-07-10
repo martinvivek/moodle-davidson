@@ -181,8 +181,9 @@ $viewobj->popupoptions = $accessmanager->get_popup_options();
 // Display information about this quiz.
 $viewobj->infomessages = $viewobj->accessmanager->describe_rules();
 if ($quiz->attempts != 1) {
-    $viewobj->infomessages[] = get_string('gradingmethod', 'quiz',
-            quiz_get_grading_option_name($quiz->grademethod));
+   // $viewobj->infomessages[] = get_string('gradingmethod', 'quiz',
+   //         quiz_get_grading_option_name($quiz->grademethod));
+    //  $viewobj->infomessages[] = get_string('goodluck', 'core_davidson'); // hanna 6/7/15  // took off 18/10/15
 }
 
 // Determine wheter a start attempt button should be displayed.
