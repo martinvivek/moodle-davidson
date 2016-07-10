@@ -256,6 +256,25 @@
         echo html_writer::end_tag('form');
     }
 
+// ask user to enter a unique, valid id number if he doesnt have one  hanna 5/7/15
+// first, let's read the $USER again, just to make sure it is up to date
+/*
+$updateduser = $DB->get_record('user', array('id' => $USER->id));     // ('user','id',$USER->id);
+if ((current_language() == 'he') OR (current_language() == 'ar')){ //only for hebrew or arabic courses we have idnumber
+    if (ValidateID($updateduser->idnumber) != 1 OR $DB->count_records('user',array('idnumber' => $updateduser->idnumber) ) >1 ) {
+        //echo "give us your real id";
+        echo "<div id='enteridnumber' style=' background-color: beige; border: 2px solid; margin: 10px auto;  padding: 15px;  text-align: center; width: 60%;'>".get_string('enteridnumber','core_davidson');  //  ('enteridnumber','course');
+        echo "<form id='idnumber' action='update_idnumber.php'>";
+        echo get_string('idnumber')." <input type=text name='idnumber' maxlength='12'>";
+        echo "<input type=hidden name='userid' value='{$updateduser->id}'>";
+        echo "<input type=hidden name='courseid' value='{$COURSE->id}'>";
+        echo "<input type=submit value='".get_string('update')."'>";
+        echo "</form></div>";
+        //die;   // add this to force entering idnumber
+    }
+}
+*/
+
     // Course wrapper start.
     echo html_writer::start_tag('div', array('class'=>'course-content'));
 
