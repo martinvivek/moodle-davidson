@@ -116,6 +116,14 @@ class notification_task extends \core\task\adhoc_task {
             $modulelink = $cm->url;
             $template = str_replace('{modulelink}', $modulelink, $template);
         }
+        global $DB;
+        $course = $DB->get_record('course', array('id'=>$eventobj->courseid));
+        $template = str_replace('{coursename}', $course->fullname, $template);
+
+        //$user = $DB->get_record('user', array('id'=>$eventobj->userid)); // hanna 10/7/16
+        $user = \core_user::get_user($eventobj->userid, '*', MUST_EXIST);
+        $template = str_replace('{username}', fullname($user), $template);
+
         $template = str_replace('{rulename}', $subscription->get_name($context), $template);
         $template = str_replace('{description}', $subscription->get_description($context), $template);
         $template = str_replace('{eventname}', $subscription->get_event_name(), $template);

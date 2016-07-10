@@ -112,6 +112,8 @@ class eventobservers {
             $eventobj->link = '';
         }
         $eventobj->courseid = $eventdata['courseid'];
+        $eventobj->userid = $eventdata['userid']; // added  hanna 10/7/16
+        $eventobj->relateduserid = $eventdata['relateduserid'];
         $eventobj->timecreated = $eventdata['timecreated'];
 
         $this->buffer[] = $eventobj;
