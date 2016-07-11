@@ -362,6 +362,7 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $bcc = $panel->get_button_container_class();
         $output .= html_writer::start_tag('div', array('class' => "qn_buttons clearfix $bcc"));
         foreach ($panel->get_question_buttons() as $button) {
+            $button->navmethod = $panel->get_attemptobj()->get_navigation_method(); // nadavkav 15/7/2014
             $output .= $this->render($button);
         }
         $output .= html_writer::end_tag('div');
@@ -767,7 +768,16 @@ class mod_quiz_renderer extends plugin_renderer_base {
                 get_string('submitallandfinish', 'quiz'));
         $button->id = 'responseform';
         if ($attemptobj->get_state() == quiz_attempt::IN_PROGRESS) {
-            $button->add_action(new confirm_action(get_string('confirmclose', 'quiz'), null,
+            // special quiz page layout settings (show/hide html elements). // nadavkav 26/8/2015
+            $davidsonlayoutsettings = explode(',', $attemptobj->get_quiz()->davidson);
+            foreach ($davidsonlayoutsettings as $setting) {
+                list($key, $value) = explode('=', $setting);
+                $layoutsetting[$key] = $value;
+            }
+
+            if ($layoutsetting['approvesubmit'] != '0')
+
+                    $button->add_action(new confirm_action(get_string('confirmclose', 'quiz'), null,
                     get_string('submitallandfinish', 'quiz')));
         }
 

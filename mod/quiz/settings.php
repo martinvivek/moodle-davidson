@@ -214,6 +214,11 @@ if ($ADMIN->fulltree) {
             '0'));
     }
 
+    // special quiz page layout settings (show/hide html elements). nadavkav 26/8/2015
+    $quizsettings->add(new admin_setting_configtextarea('quiz/davidson',
+        get_string('quizvisualsettings', 'core_davidson'), get_string('configquizvisualsettings', 'core_davidson'),
+        'info=1,info_flag=1,info_question_number=1,info_grade=1,approvesubmit=1,quizsummary=1'));
+
     // Autosave frequency.
     $quizsettings->add(new admin_setting_configduration('quiz/autosaveperiod',
             get_string('autosaveperiod', 'quiz'), get_string('autosaveperiod_desc', 'quiz'), 60, 1));

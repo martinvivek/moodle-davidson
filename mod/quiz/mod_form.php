@@ -386,6 +386,14 @@ class mod_quiz_mod_form extends moodleform_mod {
             $mform->disabledIf('feedbacktext[' . ($i + 1) . ']', 'grade', 'eq', 0);
         }
 
+        // special quiz page layout settings (show/hide html elements). // nadavkav 26/8/2015
+        $mform->addElement('header', 'davidsonhdr', get_string('davidsonhdr', 'core_davidson'));
+
+        $mform->addElement('textarea', 'davidson', get_string('quizvisualsettings', 'core_davidson'));
+        $mform->addElement('static', 'davidsonhelp', '', get_string('quizvisualsettingshelp', 'core_davidson'));
+        $mform->setType('davidson', PARAM_TEXT);
+        $mform->setDefault('davidson', $quizconfig->davidson);
+
         // -------------------------------------------------------------------------------
         $this->standard_coursemodule_elements();
 
