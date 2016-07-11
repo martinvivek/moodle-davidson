@@ -75,6 +75,11 @@ class quiz_overview_table extends quiz_attempts_report_table {
         if ($this->students) {
             $this->add_average_row(get_string('overallaverage', 'grades'), $this->students);
         }
+
+        if (!$this->is_downloading()) {
+            echo 'users on this page:  ' . count($this->rawdata); //  hanna 6/7/15
+        }
+
     }
 
     /**
