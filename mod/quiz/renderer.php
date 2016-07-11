@@ -52,6 +52,15 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output = '';
         $output .= $this->header();
         $output .= $this->review_summary_table($summarydata, $page);
+
+        // Print to PDF action // hanna 6/7/15
+        if ($attemptobj->has_capability('mod/quiz:manage') AND !isset($_GET['print'])) {
+            $printpdfurl = new moodle_url('/mod/quiz/review.php', array('attempt'=>$attempt = $attemptobj->get_attempt()->id, 'showall'=>'1', 'print'=>'pdf'));
+            $output .= "<a id=\"printtopdf\" href=\"$printpdfurl\"
+            style=\"background-color:#fffff1; border-radius: 7px; margin:8px; border: dotted 1px lightgrey; font-size: 1.2em;\"
+            >Print to PDF</a>";
+        }
+
         $output .= $this->review_form($page, $showall, $displayoptions,
                 $this->questions($attemptobj, true, $slots, $page, $showall, $displayoptions),
                 $attemptobj);

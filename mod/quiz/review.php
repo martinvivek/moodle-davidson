@@ -108,6 +108,11 @@ $headtags = $attemptobj->get_html_head_contributions($page, $showall);
 $PAGE->set_title($attemptobj->get_quiz_name());
 $PAGE->set_heading($attemptobj->get_course()->fullname);
 
+// Print mode (for PDF print) // hanna 5/7/15
+if (isset($_GET['print'])) {
+    $PAGE->set_pagelayout('embedded');
+}
+
 // Summary table start. ============================================================================
 
 // Work out some time-related things.
