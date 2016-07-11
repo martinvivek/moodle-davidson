@@ -53,6 +53,28 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output .= $this->header();
         $output .= $this->review_summary_table($summarydata, $page);
 
+        // Davidson special quiz page layout settings (show/hide html elements).  hanna 6/7/15
+        $davidsonlayoutsettings = explode(',', $attemptobj->get_quiz()->davidson);
+        foreach ($davidsonlayoutsettings as $setting) {
+            list($key, $value) = explode('=', $setting);
+            $layoutsetting[$key] = $value;
+        }
+
+        if ($layoutsetting['info'] == '0')
+            $output .= html_writer::tag('style', '.info {display:none;}.dir-rtl .que .content, .que .content{margin:0;}');
+        if ($layoutsetting['info_flag'] == '0')
+            $output .= html_writer::tag('style', '.questionflag {display:none;}');
+        if ($layoutsetting['info_question_number'] == '0')
+            $output .= html_writer::tag('style', '.info .no {display:none;}');
+        if ($layoutsetting['info_grade'] == '0')
+            $output .= html_writer::tag('style', '.grade {display:none;}');
+        if ($layoutsetting['quizsummary'] == '0')
+            $output .= html_writer::tag('style', '.quizreviewsummary {display:none;}');
+        // Davidson - end
+
+        $maintitle = '<div style="color:blue;font-style: bold; font-size: 1.8em;">'.get_string('showquestionsanswers','core_davidson').'</div>';
+        $output .= '<br/>' . $maintitle . '<br/>' ;
+
         // Print to PDF action // hanna 6/7/15
         if ($attemptobj->has_capability('mod/quiz:manage') AND !isset($_GET['print'])) {
             $printpdfurl = new moodle_url('/mod/quiz/review.php', array('attempt'=>$attempt = $attemptobj->get_attempt()->id, 'showall'=>'1', 'print'=>'pdf'));
