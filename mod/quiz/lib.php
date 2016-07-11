@@ -1699,6 +1699,14 @@ function quiz_extend_settings_navigation($settings, $quiznode) {
                     null, 'quiz_report_' . $report, new pix_icon('i/item', '')));
         }
     }
+    // fix for offline access  hanna 6/7/15
+    if (has_capability('mod/quiz:manage', $PAGE->cm->context)) {
+        $url = new moodle_url('/mod/quiz/accessrule/offlinemode/upload.php', array('id'=>$PAGE->cm->id));
+        $node = navigation_node::create(get_string('uploadresponses', 'quizaccess_offlinemode'), $url,
+            navigation_node::TYPE_SETTING, null, 'mod_quiz_upload',
+            new pix_icon('i/preview', ''));
+        $quiznode->add_node($node, $beforekey);
+    }
 
     question_extend_settings_navigation($quiznode, $PAGE->cm->context)->trim_if_empty();
 }
