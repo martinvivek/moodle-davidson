@@ -108,6 +108,21 @@ foreach ($attempts as $attempt) {
     $viewobj->attemptobjs[] = new quiz_attempt($attempt, $quiz, $cm, $course, false);
 }
 
+// Redirect into user's quiz attempt if only one is possible and only one was taken  hanna 6/7/16
+//if ($quiz->attempts == 1 AND $numattempts == 1
+if ( $numattempts == 1
+    and $attempts[0]->state != quiz_attempt::FINISHED
+    and !empty($attempts[0]->id)
+    and !has_capability('mod/quiz:manage', $context)) {  //  hanna 4/6/15
+    redirect($CFG->wwwroot.'/mod/quiz/attempt.php?attempt='.$attempts[0]->id);
+}
+// Redirect into user's quiz attempt if only one is possible and none was taken
+//if ($quiz->attempts == 1 AND $numattempts == 0 ) {
+if ( $numattempts == 0
+    and !has_capability('mod/quiz:manage', $context)) {  //  only student redirected
+    redirect($quizobj->start_attempt_url());
+}
+
 // Work out the final grade, checking whether it was overridden in the gradebook.
 if (!$canpreview) {
     $mygrade = quiz_get_best_grade($quiz, $USER->id);

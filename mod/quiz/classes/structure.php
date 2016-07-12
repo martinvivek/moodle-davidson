@@ -996,13 +996,18 @@ class structure {
      */
     public function add_section_heading($pagenumber, $heading = 'Section heading ...') {
         global $DB;
-        $section = new \stdClass();
-        $section->heading = $heading;
-        $section->quizid = $this->get_quizid();
-        $slotsonpage = $DB->get_records('quiz_slots', array('quizid' => $this->get_quizid(), 'page' => $pagenumber), 'slot DESC');
-        $section->firstslot = end($slotsonpage)->slot;
-        $section->shufflequestions = 0;
-        return $DB->insert_record('quiz_sections', $section);
+
+        if ($section = $DB->get_record('quiz_sections', array('quizid' => $this->get_quizid(), 'firstslot' => '1'))) {  //  nadavkav 4/11/15
+            return $DB->update_record('quiz_sections', $section);
+        } else {
+            $section = new \stdClass();
+            $section->heading = $heading;
+            $section->quizid = $this->get_quizid();
+            $slotsonpage = $DB->get_records('quiz_slots', array('quizid' => $this->get_quizid(), 'page' => $pagenumber), 'slot DESC');
+            $section->firstslot = end($slotsonpage)->slot;
+            $section->shufflequestions = 0;
+            return $DB->insert_record('quiz_sections', $section);
+        }
     }
 
     /**
