@@ -5055,6 +5055,16 @@ function role_change_permission($roleid, $context, $capname, $permission) {
         }
     }
 
+
+    // Trigger event.  hanna 8/7/15
+    \core\event\role_capabilities_updated::create(
+        array(
+            'context' => $context,
+            'objectid' => $roleid,
+            'other'    => array('capabilities' => array($capname => $permission))
+        )
+    )->trigger();
+
     // assign the needed capability
     assign_capability($capname, $permission, $roleid, $context->id, true);
 
