@@ -687,7 +687,8 @@ class quiz_attempt {
                     $this->questionnumbers[$slot] = $number;
                     $number += $length;
                 } else {
-                    $this->questionnumbers[$slot] = get_string('infoshort', 'quiz');
+                 //   $this->questionnumbers[$slot] = get_string('infoshort', 'quiz');
+                    $this->questionnumbers[$slot] = '<i class="fa fa-file-text-o"></i>';  // hanna 6/7/15
                 }
                 $this->questionpages[$slot] = $page;
             }
@@ -2397,15 +2398,35 @@ abstract class quiz_nav_panel_base {
         $this->showall = $showall;
     }
 
+    public function get_attemptobj() {  // new function for buttons in q numbers panel hanna 6/7/15
+        return $this->attemptobj;
+    }
+
     /**
      * Get the buttons and section headings to go in the quiz navigation block.
      * @return renderable[] the buttons, possibly interleaved with section headings.
      */
     public function get_question_buttons() {
         $buttons = array();
+        $currentpage = 1;  // hanna 6/7/15
+        global $USER, $CFG;
+
         foreach ($this->attemptobj->get_slots() as $slot) {
             if ($heading = $this->attemptobj->get_heading_before_slot($slot)) {
                 $buttons[] = new quiz_nav_section_heading(format_string($heading));
+            } else {
+               //  Add page numbers to navigation panel  // hanna 6/7/15
+                if ($this->attemptobj->get_question_page($slot) != $currentpage) {
+                    $button = new quiz_nav_question_button();
+                    $currentpage         = $this->attemptobj->get_question_page($slot);
+                    $button->id          = 'quiznavpage' . $currentpage;
+                    $button->number      = get_string('page') . " " . ($currentpage+1 ) . '<br/>';
+                    $button->url      = $CFG->wwwroot.'/mod/quiz/attempt.php?attempt='.$this->attemptobj->get_attempt()->id.'&page='.$currentpage;
+                    $thispage = ($this->attemptobj->get_question_page($slot) == $this->page) ? 'thispage' : '';
+                    $button->stateclass  = $thispage.' qpage';
+                    //$button->type = 'page';
+                    $buttons[] = $button;
+                }
             }
 
             $qa = $this->attemptobj->get_question_attempt($slot);
@@ -2415,7 +2436,7 @@ abstract class quiz_nav_panel_base {
             $button->id          = 'quiznavbutton' . $slot;
             $button->number      = $this->attemptobj->get_question_number($slot);
             $button->stateclass  = $qa->get_state_class($showcorrectness);
-            $button->navmethod   = $this->attemptobj->get_navigation_method();
+            $button->navmethod   = QUIZ_NAVMETHOD_FREE; //  = $this->attemptobj->get_navigation_method()  ; //hanna 6/7/15 page nums
             if (!$showcorrectness && $button->stateclass == 'notanswered') {
                 $button->stateclass = 'complete';
             }

@@ -370,7 +370,12 @@ class mod_quiz_renderer extends plugin_renderer_base {
         $output .= html_writer::tag('div', $panel->render_end_bits($this),
                 array('class' => 'othernav'));
 
-        $this->page->requires->js_init_call('M.mod_quiz.nav.init', null, false,
+        if (empty($_GET['page'])) {
+            $quiznavpage = 1;
+        } else {
+            $quiznavpage = $_GET['page'];
+        }
+        $this->page->requires->js_init_call('M.mod_quiz.nav.init', array($quiznavpage), false,
                 quiz_get_js_module());
 
         return $output;

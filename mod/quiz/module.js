@@ -147,7 +147,7 @@ M.mod_quiz.nav.update_flag_state = function(attemptid, questionid, newstate) {
     }
 };
 
-M.mod_quiz.nav.init = function(Y) {
+M.mod_quiz.nav.init = function(Y, scrolltopage) {  // add scrolltopage  hanna 12/7/16
     M.mod_quiz.nav.Y = Y;
 
     Y.all('#quiznojswarning').remove();
@@ -211,6 +211,16 @@ M.mod_quiz.nav.init = function(Y) {
     if (M.core_question_flags) {
         M.core_question_flags.add_listener(M.mod_quiz.nav.update_flag_state);
     }
+
+    // Scroll quiz selected page inside quiz navigation menu (fake) block. hanna 12/7/16
+    if (scrolltopage) {
+        scrolltopage = parseInt(scrolltopage);// + 2;
+        quiznavpage = Y.one('#quiznavpage' + scrolltopage);
+        if (quiznavpage) quiznavpage.scrollIntoView();
+        pagenavbar = Y.one('#page-navbar');
+        if (pagenavbar) pagenavbar.scrollIntoView();
+    }
+
 };
 
 M.mod_quiz.secure_window = {
