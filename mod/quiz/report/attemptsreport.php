@@ -180,6 +180,9 @@ abstract class quiz_attempts_report extends quiz_default_report {
             $columns[] = 'department';
             $headers[] = get_string('department');
 
+            $columns[] = 'idnumber';  //  idnumber added hanna 6/7/15
+            $headers[] = get_string('idnumber');
+
             $columns[] = 'email';
             $headers[] = get_string('email');
         }
