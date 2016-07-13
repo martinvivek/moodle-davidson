@@ -2832,7 +2832,8 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
         } else {
             $url = new moodle_url('/');
         }
-        redirect($url, get_string('activityiscurrentlyhidden'));
+ //       redirect($url, get_string('activityiscurrentlyhidden'));
+        redirect($url, get_string('activityiscurrentlyunavailable','core_davidson'), 8); // fix err msg when activity is hidden hanna 7/7/15
     }
 
     // Set the global $COURSE.
