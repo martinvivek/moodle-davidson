@@ -6816,7 +6816,7 @@ function get_string_manager($forcereload=false) {
  * @return string The localized string.
  * @throws coding_exception
  */
-function get_string($identifier, $component = '', $a = null, $lazyload = false) {
+function get_string($identifier, $component = '', $a = null, $lazyload = false, $lang = NULL) {  // add lang  hanna 7/7/15
     global $CFG;
 
     // If the lazy load argument has been supplied return a lang_string object
@@ -6862,7 +6862,7 @@ function get_string($identifier, $component = '', $a = null, $lazyload = false) 
         }
     }
 
-    $result = get_string_manager()->get_string($identifier, $component, $a);
+    $result = get_string_manager()->get_string($identifier, $component, $a, $lang); // add lang  hanna 7/7/15
 
     // Debugging feature lets you display string identifier and component.
     if (isset($CFG->debugstringids) && $CFG->debugstringids && optional_param('strings', 0, PARAM_INT)) {
