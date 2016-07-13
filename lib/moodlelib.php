@@ -5664,6 +5664,8 @@ function email_to_user($user, $from, $subject, $messagetext, $messagehtml = '', 
         $tempreplyto[] = array($replyto, $replytoname);
     }
 
+    $mail->Subject = substr($subject, 0, 900);
+
     $temprecipients[] = array($user->email, fullname($user));
 
     // Set word wrap.
@@ -5763,6 +5765,10 @@ function email_to_user($user, $from, $subject, $messagetext, $messagehtml = '', 
         $mail->IsHTML(false);
         $mail->Body =  "\n$messagetext\n";
     }
+
+    // Force HTML body text // hanna 8/7/15
+    $mail->IsHTML(true);
+    $mail->Body    =  (empty($messagehtml)) ? $messagetext : $messagehtml;
 
     if ($attachment && $attachname) {
         if (preg_match( "~\\.\\.~" , $attachment )) {
@@ -6030,7 +6036,12 @@ function send_password_change_confirmation_email($user, $resetrecord) {
     $data->resetminutes = $pwresetmins;
 
     $message = get_string('emailresetconfirmation', '', $data);
-    $subject = get_string('emailresetconfirmationsubject', '', format_string($site->fullname));
+    if ($user->lang == 'he' || $user->lang == 'ar') {  // aligned according to lang  hanna 8/7/15
+        $message = '<div style="direction: rtl;text-align: right;">' . $message . '</div>';
+    }
+
+//    $subject = get_string('emailresetconfirmationsubject', '', format_string($site->fullname));
+    $subject = get_string('emailresetconfirmationsubject', '', $site);  // hanna 7/7/15
 
     // Directly email rather than using the messaging system to ensure its not routed to a popup or jabber.
     return email_to_user($user, $supportuser, $subject, $message);
@@ -6063,7 +6074,13 @@ function send_password_change_info($user) {
 
     if (!is_enabled_auth($user->auth) or $user->auth == 'nologin') {
         $message = get_string('emailpasswordchangeinfodisabled', '', $data);
-        $subject = get_string('emailpasswordchangeinfosubject', '', format_string($site->fullname));
+
+        if ($user->lang == 'he' || $user->lang == 'ar') {  // aligned according to lang  hanna 8/7/15
+            $message = '<div style="direction: rtl;text-align: right;">' . $message . '</div>';
+        }
+
+//        $subject = get_string('emailpasswordchangeinfosubject', '', format_string($site->fullname));
+        $subject = get_string('emailpasswordchangeinfosubject', '', $site);  // hanna 7/7/15
         // Directly email rather than using the messaging system to ensure its not routed to a popup or jabber.
         return email_to_user($user, $supportuser, $subject, $message);
     }
@@ -6079,10 +6096,12 @@ function send_password_change_info($user) {
 
     if (!empty($data->link) and has_capability('moodle/user:changeownpassword', $systemcontext, $user->id)) {
         $message = get_string('emailpasswordchangeinfo', '', $data);
-        $subject = get_string('emailpasswordchangeinfosubject', '', format_string($site->fullname));
+//        $subject = get_string('emailpasswordchangeinfosubject', '', format_string($site->fullname));
+        $subject = get_string('emailpasswordchangeinfosubject', '', $site);  // hanna 7/7/15
     } else {
         $message = get_string('emailpasswordchangeinfofail', '', $data);
-        $subject = get_string('emailpasswordchangeinfosubject', '', format_string($site->fullname));
+//        $subject = get_string('emailpasswordchangeinfosubject', '', format_string($site->fullname));
+        $subject = get_string('emailpasswordchangeinfosubject', '', $site);  // hanna 7/7/15
     }
 
     // Directly email rather than using the messaging system to ensure its not routed to a popup or jabber.
