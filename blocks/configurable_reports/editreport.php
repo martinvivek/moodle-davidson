@@ -59,7 +59,7 @@ if (!$hasmanagereportcap && !has_capability('block/configurable_reports:manageow
 }
 
 $PAGE->set_context($context);
-$PAGE->set_pagelayout('incourse');
+$PAGE->set_pagelayout('incourse_reports');  // hanna 13/7/16 was incourse
 
 
 if ($id) {
@@ -249,7 +249,7 @@ if ($editform->is_cancelled()) {
 $PAGE->set_context($context);
 
 
-$PAGE->set_pagelayout('incourse');
+$PAGE->set_pagelayout('incourse_reports');  // hanna 13/7/16 was incourse
 
 
 $PAGE->set_title($title);

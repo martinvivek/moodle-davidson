@@ -49,7 +49,7 @@ if (!has_capability('block/configurable_reports:managereports', $context) &&
 
 $PAGE->set_url('/blocks/configurable_reports/managereport.php', array('courseid' => $course->id));
 $PAGE->set_context($context);
-$PAGE->set_pagelayout('incourse');
+$PAGE->set_pagelayout('incourse_reports');  // hanna 13/7/16 was incourse
 
 if ($importurl) {
     $c = new \curl();
