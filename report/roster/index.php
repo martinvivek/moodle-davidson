@@ -25,9 +25,9 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once(dirname(__FILE__) . '/locallib.php');
 
-$id     = required_param('id', PARAM_INT);
-$mode   = optional_param('mode', ROSTER_MODE_DISPLAY, PARAM_TEXT);
-$group  = optional_param('group', 0, PARAM_INT);
+$id = required_param('id', PARAM_INT);
+$mode = optional_param('mode', ROSTER_MODE_DISPLAY, PARAM_TEXT);
+$group = optional_param('group', 0, PARAM_INT);
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 require_login($course);
@@ -51,23 +51,27 @@ $userlist = get_enrolled_users($coursecontext, '', $group, user_picture::fields(
 // Get suspended users.
 $suspended = get_suspended_userids($coursecontext);
 
+
 $data = array();
 foreach ($userlist as $user) {
     if (!in_array($user->id, $suspended)) {
+        $resetpasswordurl = new moodle_url('resetpassword.php', array('userid' => $user->id, 'sesskey' => sesskey()));
+
         $item = $OUTPUT->user_picture($user, array('size' => 100, 'courseid' => $course->id));
         $item .= html_writer::tag('span', fullname($user));
+        $item .= html_writer::tag('a', get_string('resetpassword', 'report_roster'), array('href' => $resetpasswordurl));
         $data[] = $item;
     }
 }
 
 // Finish setting up page.
-$PAGE->set_title($course->shortname .': '. get_string('roster' , 'report_roster'));
+$PAGE->set_title($course->shortname . ': ' . get_string('roster', 'report_roster'));
 $PAGE->set_heading($course->fullname);
 $PAGE->requires->yui_module('moodle-report_roster-roster', 'M.report_roster.init');
 $PAGE->requires->strings_for_js(array(
-        'learningmodeon',
-        'learningmodeoff',
-    ), 'report_roster');
+    'learningmodeon',
+    'learningmodeoff',
+), 'report_roster');
 
 // Display the roster to the user.
 echo $OUTPUT->header();

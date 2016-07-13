@@ -33,8 +33,8 @@ $string['printmode'] = 'Printable';
 $string['roster'] = 'Roster';
 $string['roster:view'] = 'View roster course report';
 $string['webmode'] = 'Web report';
-$string['resetpassword'] = 'Reset password';
-$string['passwordwasreset'] = 'You have just reset user {$a->username}\'s password to: {$a->password}';
-$string['confirmmessage'] = 'You are about to reset user {$a}\'s password. Are you sure?';
-$string['resetstudentpassword'] = 'Student password reset';
+$string['resetpassword'] = 'אתחול סיסמה';
+$string['passwordwasreset'] = 'סיסמת המשתמש {$a->username} אותחלה ל: {$a->password}';
+$string['confirmmessage'] = 'אתם עומדים לאתחל את הסיסמה של משתמש {$a}. האם להמשיך?';
+$string['resetstudentpassword'] = 'אתחול סיסמת תלמיד';
 
