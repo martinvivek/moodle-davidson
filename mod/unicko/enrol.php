@@ -120,4 +120,18 @@ echo $OUTPUT->header();
 </div></form>
 <?php
 
+// add event  hanna 17/2/16
+$params = array(
+    'objectid' => $unicko->id,
+    'context' => $context,
+
+    'other' => array(
+        'room-name' => $unicko->name,
+    )
+
+);
+$event = \mod_unicko\event\course_module_viewed::create($params);
+//$event->add_record_snapshot('unicko', $unicko);
+$event->trigger();
+
 echo $OUTPUT->footer();

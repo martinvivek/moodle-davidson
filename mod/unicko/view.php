@@ -13,6 +13,7 @@ require_once(dirname(__FILE__).'/locallib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $u  = optional_param('u', 0, PARAM_INT);  // unicko_activity instance ID
+$group = optional_param('group', 0, PARAM_INT);
 
 if ($id) {
     $cm         = get_coursemodule_from_id('unicko', $id, 0, false, MUST_EXIST);
@@ -33,6 +34,15 @@ $context = context_module::instance($cm->id);
 require_capability('mod/unicko:join', $context);
 
 //add_to_log($course->id, 'unicko', 'view', "view.php?id={$cm->id}", $unicko->name, $cm->id);
+// add event  hanna 17/2/16
+$params = array(
+    'objectid' => $unicko->id,
+    'context' => $context
+);
+
+$event = \mod_unicko\event\course_module_viewed::create($params);
+//$event->add_record_snapshot('unicko', $unicko);
+$event->trigger();
 
 /// Print the page header
 
@@ -53,7 +63,53 @@ echo $OUTPUT->heading('Redirecting to the room');
 
 $roomid = (string) $unicko->id;
 $jsurl = new moodle_url('/mod/unicko/module.js');
-$PAGE->requires->js($jsurl);
+//  add groups  nadavkav 21/2/16
+if($group) {
+    // Check access.
+    if (groups_get_activity_groupmode($cm)) {
+        $groups = groups_get_activity_allowed_groups($cm);
+    } else {
+        $groups = array();
+    }
+    if (in_array($group, array_keys($groups))) {
+        $roomid = "{$unicko->id}-{$group}";
+        $PAGE->requires->js($jsurl);
+    } else {
+        print_error('groupnotamember', 'group');
+    }
+} else {
+    if (groups_get_activity_groupmode($cm) == 0) { // No groups mode
+        $PAGE->requires->js($jsurl);
+    } else {
+        if($cm->groupingid) {
+            $groups = groups_get_activity_allowed_groups($cm);
+            $groupingGroups = groups_get_all_groups($course->id, 0, $cm->groupingid);
+            if(count(array_intersect_key($groups, $groupingGroups))) {
+                $roomid = "{$unicko->id}_{$cm->groupingid}";
+                $PAGE->requires->js($jsurl);
+            } else {
+                print_error('groupnotamember', 'group');
+            }
+        } else {
+            $groups = groups_get_activity_allowed_groups($cm);
+            switch(count($groups)) {
+                case 0:
+                    print_error('groupnotamember', 'group');
+                    break;
+                case 1:
+                    $group = key($groups);
+                    $roomid = "{$unicko->id}-{$group}";
+                    $PAGE->requires->js($jsurl);
+                    break;
+                default:
+                    $PAGE->requires->js($jsurl);
+                    groups_print_activity_menu($cm, $CFG->wwwroot . "/mod/unicko/view.php?id=$cm->id", false, true);
+                    $joinStr = get_string('join', 'unicko');
+                    print '<button id="unicko-join" class="btn">'.$joinStr.'</button>';
+            }
+        }
+    }
+}
 
 $host = has_capability('mod/unicko:host', $context);
 $affiliation = $host ? 'host' : 'member';

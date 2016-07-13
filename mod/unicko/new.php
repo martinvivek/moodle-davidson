@@ -59,6 +59,17 @@ if ($mform->is_cancelled()) {
         $record->userid = $USER->id;
         $record->affiliation = 0;
         $DB->insert_record('unicko_room_users', $record, false);
+
+        // add event  hanna 17/2/16
+        $params = array(
+            'objectid' => $unicko->id,
+            'context' => $context,
+            'other' => array(
+                'roomtype' => $record->type
+            )
+        );
+        \mod_unicko\event\course_module_created::create($params)->trigger();
+
         redirect(new moodle_url('/mod/unicko/enrol.php', array('id'=>$roomid)));
     }
 } else {
