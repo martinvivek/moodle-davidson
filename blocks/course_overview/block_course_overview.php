@@ -59,7 +59,7 @@ class block_course_overview extends block_base {
 
         $this->content = new stdClass();
         $this->content->text = '';
-        $this->content->footer = '';
+        $this->content->footer = '.';
 
         $content = array();
 
@@ -87,7 +87,9 @@ class block_course_overview extends block_base {
         }
 
         if (empty($sortedcourses)) {
-            $this->content->text .= get_string('nocourses','my');
+        //    $this->content->text .= get_string('nocourses','my');
+            $this->content->text .= '</br>' . '<div style="font-size:20px;" >' .   get_string('notregisteredyet','core_davidson') . '</div>'. '</br>';
+            $this->content->text .= '</br>' . ' <a style="color:green;font-weight: bold; font-size:24px;"title="davidson" href="http://davidson.weizmann.ac.il">' . get_string('forregistration','core_davidson') . ' </a>' ;
         } else {
             // For each course, build category cache.
             $this->content->text .= $renderer->course_overview($sortedcourses, $overviews);
