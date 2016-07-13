@@ -2756,7 +2756,7 @@ class global_navigation extends navigation_node {
      * They've expanded the 'my courses' branch.
      */
     protected function load_courses_enrolled() {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
         $sortorder = 'visible DESC';
         // Prevent undefined $CFG->navsortmycoursessort errors.
         if (empty($CFG->navsortmycoursessort)) {
@@ -2792,7 +2792,8 @@ class global_navigation extends navigation_node {
             $categories->close();
         } else {
             foreach ($courses as $course) {
-                $this->add_course($course, false, self::COURSE_MY);
+                if (mb_substr($course->fullname,0,1) != '*' OR is_siteadmin($USER))
+                        $this->add_course($course, false, self::COURSE_MY); // only admin can see courses with * in navigation block  hanna 8/7/15
             }
         }
     }
