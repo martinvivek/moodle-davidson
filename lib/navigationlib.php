@@ -1370,7 +1370,7 @@ class global_navigation extends navigation_node {
      * @return bool
      */
     protected function show_categories($ismycourse = false) {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
         if ($ismycourse) {
             return $this->show_my_categories();
         }
@@ -3171,7 +3171,7 @@ class navbar extends navigation_node {
      * @return array
      */
     public function get_items() {
-        global $CFG;
+        global $CFG, $USER;
         $items = array();
         // Make sure that navigation is initialised
         if (!$this->has_items()) {
@@ -3210,9 +3210,9 @@ class navbar extends navigation_node {
                     if (!$navigationactivenode->mainnavonly) {
                         $items[] = new breadcrumb_navigation_node($navigationactivenode);
                     }
-                    if (!empty($CFG->navshowcategories) &&
+                    if (!empty($CFG->navshowcategories) && is_siteadmin($USER) &&
                             $navigationactivenode->type === self::TYPE_COURSE &&
-                            $navigationactivenode->parent->key === 'currentcourse') {
+                            $navigationactivenode->parent->key === 'currentcourse') { // added siteadmin hanna 7/7/15
                         foreach ($this->get_course_categories() as $item) {
                             $items[] = new breadcrumb_navigation_node($item);
                         }
@@ -3225,9 +3225,9 @@ class navbar extends navigation_node {
                     if (!$navigationactivenode->mainnavonly) {
                         $items[] = new breadcrumb_navigation_node($navigationactivenode);
                     }
-                    if (!empty($CFG->navshowcategories) &&
+                    if (!empty($CFG->navshowcategories) && is_siteadmin($USER) &&
                             $navigationactivenode->type === self::TYPE_COURSE &&
-                            $navigationactivenode->parent->key === 'currentcourse') {
+                            $navigationactivenode->parent->key === 'currentcourse') { // added siteadmin hanna 7/7/15
                         foreach ($this->get_course_categories() as $item) {
                             $items[] = new breadcrumb_navigation_node($item);
                         }
