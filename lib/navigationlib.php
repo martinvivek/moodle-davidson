@@ -4520,11 +4520,12 @@ class settings_navigation extends navigation_node {
             $enablemanagetokens = true;
         }
         // Security keys.
-        if ($currentuser && $enablemanagetokens) {
-            $url = new moodle_url('/user/managetoken.php', array('sesskey'=>sesskey()));
-            $useraccount->add(get_string('securitykeys', 'webservice'), $url, self::TYPE_SETTING);
+        if (is_siteadmin($USER->id)) { // only admin can deal with security  hanna 1/7/15
+            if ($currentuser && $enablemanagetokens) {
+                $url = new moodle_url('/user/managetoken.php', array('sesskey' => sesskey()));
+                $useraccount->add(get_string('securitykeys', 'webservice'), $url, self::TYPE_SETTING);
+            }
         }
-
         // Messaging.
         if (($currentuser && has_capability('moodle/user:editownmessageprofile', $systemcontext)) || (!isguestuser($user) &&
                 has_capability('moodle/user:editmessageprofile', $usercontext) && !is_primary_admin($user->id))) {
