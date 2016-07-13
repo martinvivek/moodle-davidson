@@ -3204,6 +3204,46 @@ function get_user_roles_in_course($userid, $courseid) {
     return $rolestring;
 }
 
+function get_arrayuser_roles_in_course($userid, $courseid) {  // added for blocks/course_list on myview  nadavka 28/5/13
+    global $CFG, $DB;
+
+    if (empty($CFG->profileroles)) {
+        return '';
+    }
+
+    if ($courseid == SITEID) {
+        $context = context_system::instance();
+    } else {
+        $context = context_course::instance($courseid);
+    }
+
+    if (empty($CFG->profileroles)) {
+        return array();
+    }
+
+    list($rallowed, $params) = $DB->get_in_or_equal(explode(',', $CFG->profileroles), SQL_PARAMS_NAMED, 'a');
+    list($contextlist, $cparams) = $DB->get_in_or_equal($context->get_parent_context_ids(true), SQL_PARAMS_NAMED, 'p');
+    $params = array_merge($params, $cparams);
+
+    $sql = "SELECT DISTINCT r.id, r.name, r.shortname, r.sortorder
+              FROM {role_assignments} ra, {role} r
+             WHERE r.id = ra.roleid
+                   AND ra.contextid $contextlist
+                   AND r.id $rallowed
+                   AND ra.userid = :userid
+          ORDER BY r.sortorder ASC";
+    $params['userid'] = $userid;
+
+    $rolenames = array();
+    if ($roles = $DB->get_records_sql($sql, $params)) {
+        foreach ($roles as $userrole) {
+            $rolenames[$userrole->id] = $userrole->name;
+        }
+    }
+
+    return $rolenames;
+}
+
 /**
  * Checks if a user can assign users to a particular role in this context
  *
