@@ -5891,7 +5891,9 @@ function setnew_password_and_mail($user, $fasthash = false) {
     // so multilang will not work properly for site->fullname.
     $lang = empty($user->lang) ? $CFG->lang : $user->lang;
 
-    $site  = get_site();
+//    $site  = get_site();
+    // Change sender credentials to SITENAME in current language // hanna 7/7/15
+    $site  = get_string('oursitename','core_davidson');
 
     $supportuser = core_user::get_support_user();
 
@@ -5901,7 +5903,8 @@ function setnew_password_and_mail($user, $fasthash = false) {
 
     $a = new stdClass();
     $a->firstname   = fullname($user, true);
-    $a->sitename    = format_string($site->fullname);
+//    $a->sitename    = format_string($site->fullname);
+    $a->sitename    = get_string('oursitename','core_davidson');  // hanna 7/7/15
     $a->username    = $user->username;
     $a->newpassword = $newpassword;
     $a->link        = $CFG->wwwroot .'/login/';
@@ -5909,7 +5912,8 @@ function setnew_password_and_mail($user, $fasthash = false) {
 
     $message = (string)new lang_string('newusernewpasswordtext', '', $a, $lang);
 
-    $subject = format_string($site->fullname) .': '. (string)new lang_string('newusernewpasswordsubj', '', $a, $lang);
+//    $subject = format_string($site->fullname) .': '. (string)new lang_string('newusernewpasswordsubj', '', $a, $lang);
+    $subject = $site . ': ' . (string)new lang_string('newusernewpasswordsubj', '', $a, $lang);
 
     // Directly email rather than using the messaging system to ensure its not routed to a popup or jabber.
     return email_to_user($user, $supportuser, $subject, $message);
@@ -5925,7 +5929,9 @@ function setnew_password_and_mail($user, $fasthash = false) {
 function reset_password_and_mail($user) {
     global $CFG;
 
-    $site  = get_site();
+// Change sender credentials to SITENAME in current language // hanna 7/7/15
+    //   $site  = get_site();
+    $site  =  get_string('oursitename','core_davidson');
     $supportuser = core_user::get_support_user();
 
     $userauth = get_auth_plugin($user->auth);
@@ -5943,7 +5949,8 @@ function reset_password_and_mail($user) {
     $a = new stdClass();
     $a->firstname   = $user->firstname;
     $a->lastname    = $user->lastname;
-    $a->sitename    = format_string($site->fullname);
+//    $a->sitename    = format_string($site->fullname);
+    $a->sitename    = get_string('oursitename','core_davidson');  // hanna 7/7/15
     $a->username    = $user->username;
     $a->newpassword = $newpassword;
     $a->link        = $CFG->httpswwwroot .'/login/change_password.php';
@@ -5951,7 +5958,8 @@ function reset_password_and_mail($user) {
 
     $message = get_string('newpasswordtext', '', $a);
 
-    $subject  = format_string($site->fullname) .': '. get_string('changedpassword');
+//    $subject  = format_string($site->fullname) .': '. get_string('changedpassword');
+    $subject  = $site . ': ' . get_string('changedpassword');
 
     unset_user_preference('create_password', $user); // Prevent cron from generating the password.
 
@@ -5968,15 +5976,19 @@ function reset_password_and_mail($user) {
 function send_confirmation_email($user) {
     global $CFG;
 
-    $site = get_site();
+// Change sender credentials to SITENAME in current language // hanna 7/7/15
+//    $site = get_site();
+    $site  =  get_string('oursitename','core_davidson');
     $supportuser = core_user::get_support_user();
 
     $data = new stdClass();
     $data->firstname = fullname($user);
-    $data->sitename  = format_string($site->fullname);
+//    $data->sitename  = format_string($site->fullname);
+    $data->sitename  = get_string('oursitename','core_davidson');  // hanna 7/7/15
     $data->admin     = generate_email_signoff();
 
-    $subject = get_string('emailconfirmationsubject', '', format_string($site->fullname));
+//    $subject = get_string('emailconfirmationsubject', '', format_string($site->fullname));
+    $subject = get_string('emailconfirmationsubject', '', $site); // hanna 7/7/15
 
     $username = urlencode($user->username);
     $username = str_replace('.', '%2E', $username); // Prevent problems with trailing dots.
@@ -6000,7 +6012,9 @@ function send_confirmation_email($user) {
 function send_password_change_confirmation_email($user, $resetrecord) {
     global $CFG;
 
-    $site = get_site();
+// Change sender credentials to SITENAME in current language // hanna 7/7/15
+//    $site = get_site();
+    $site  =  get_string('oursitename','core_davidson');
     $supportuser = core_user::get_support_user();
     $pwresetmins = isset($CFG->pwresettime) ? floor($CFG->pwresettime / MINSECS) : 30;
 
@@ -6008,7 +6022,8 @@ function send_password_change_confirmation_email($user, $resetrecord) {
     $data->firstname = $user->firstname;
     $data->lastname  = $user->lastname;
     $data->username  = $user->username;
-    $data->sitename  = format_string($site->fullname);
+//    $data->sitename  = format_string($site->fullname);
+    $data->sitename  = get_string('oursitename','core_davidson'); // hanna 7/7/15
     $data->link      = $CFG->httpswwwroot .'/login/forgot_password.php?token='. $resetrecord->token;
     $data->admin     = generate_email_signoff();
     $data->resetminutes = $pwresetmins;
@@ -6030,14 +6045,17 @@ function send_password_change_confirmation_email($user, $resetrecord) {
 function send_password_change_info($user) {
     global $CFG;
 
-    $site = get_site();
+// Change sender credentials to SITENAME in current language // hanna 7/7/15
+    //   $site = get_site();
+    $site  =  get_string('oursitename','core_davidson');
     $supportuser = core_user::get_support_user();
     $systemcontext = context_system::instance();
 
     $data = new stdClass();
     $data->firstname = $user->firstname;
     $data->lastname  = $user->lastname;
-    $data->sitename  = format_string($site->fullname);
+//    $data->sitename  = format_string($site->fullname);
+    $data->sitename  = get_string('oursitename','core_davidson');  // hanna 7/7/15
     $data->admin     = generate_email_signoff();
 
     $userauth = get_auth_plugin($user->auth);
