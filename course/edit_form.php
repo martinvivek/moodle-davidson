@@ -267,7 +267,7 @@ class course_edit_form extends moodleform {
             $mform->setDefault('enablecompletion', 0);
         }
 
-        enrol_course_edit_form($mform, $course, $context);
+     //   enrol_course_edit_form($mform, $course, $context);  // hide guest enrollment section.  hanna 21/7/15
 
         $mform->addElement('header','groups', get_string('groupsettingsheader', 'group'));
 
