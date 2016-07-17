@@ -167,7 +167,9 @@
     $extracolumns = get_extra_user_fields($context);
     // Get all user name fields as an array.
     $allusernamefields = get_all_user_name_fields(false, null, null, null, true);
-    $columns = array_merge($allusernamefields, $extracolumns, array('city', 'country', 'lastaccess'));
+  //  $columns = array_merge($allusernamefields, $extracolumns, array('city', 'country', 'lastaccess'));
+// added idnumber, institution  hanna 30/6/15
+    $columns = array_merge($allusernamefields, $extracolumns, array('idnumber', 'institution','city', 'country', 'lastaccess'));
 
     foreach ($columns as $column) {
         $string[$column] = get_user_field_name($column);
@@ -278,6 +280,11 @@
         foreach ($extracolumns as $field) {
             $table->head[] = ${$field};
         }
+        $table->head[] = $idnumber;  //  hanna added 30/6/15
+        $table->colclasses[] = 'leftalign';
+        $table->head[] = $institution;
+        $table->colclasses[] = 'leftalign';
+
         $table->head[] = $city;
         $table->head[] = $country;
         $table->head[] = $lastaccess;
@@ -368,6 +375,8 @@
             foreach ($extracolumns as $field) {
                 $row[] = $user->{$field};
             }
+            $row[] = $user->idnumber;   //  hanna added 30/6/15
+            $row[] = $user->institution;
             $row[] = $user->city;
             $row[] = $user->country;
             $row[] = $strlastaccess;
