@@ -189,7 +189,8 @@ if ($hassiteconfig
                     'phone2'      => new lang_string('phone2'),
                     'department'  => new lang_string('department'),
                     'institution' => new lang_string('institution'),
-                )));
+                'city'        => new lang_string('city'),
+            )));   //  hanna added city 20/7/15
         $temp->add(new admin_setting_configtext('fullnamedisplay', new lang_string('fullnamedisplay', 'admin'), new lang_string('configfullnamedisplay', 'admin'), 'language', PARAM_TEXT, 50));
         $temp->add(new admin_setting_configtext('alternativefullnameformat', new lang_string('alternativefullnameformat', 'admin'),
                 new lang_string('alternativefullnameformat_desc', 'admin'),
