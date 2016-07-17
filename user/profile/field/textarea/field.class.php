@@ -35,8 +35,8 @@ class profile_field_textarea extends profile_field_base {
      * @param moodleform $mform
      */
     public function edit_field_add($mform) {
-        // Create the form field.
-        $mform->addElement('editor', $this->inputname, format_string($this->field->name), null, null);
+        // Create the form field.         // change string to text hanna 20/7/15
+        $mform->addElement('editor', $this->inputname, format_text($this->field->name), null, null);
         $mform->setType($this->inputname, PARAM_RAW); // We MUST clean this before display!
     }
 

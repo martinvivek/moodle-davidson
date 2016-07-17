@@ -58,9 +58,9 @@ class profile_field_datetime extends profile_field_base {
 
         // Check if they wanted to include time as well.
         if (!empty($this->field->param3)) {
-            $mform->addElement('date_time_selector', $this->inputname, format_string($this->field->name), $attributes);
-        } else {
-            $mform->addElement('date_selector', $this->inputname, format_string($this->field->name), $attributes);
+            $mform->addElement('date_time_selector', $this->inputname, format_text($this->field->name), $attributes);
+        } else {                                                        // change string to text hanna 20/7/15
+            $mform->addElement('date_selector', $this->inputname, format_text($this->field->name), $attributes);
         }
 
         $mform->setType($this->inputname, PARAM_INT);

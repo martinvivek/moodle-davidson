@@ -431,8 +431,8 @@ function profile_definition($mform, $userid = 0) {
                 }
 
                 // Display the header and the fields.
-                if ($display or $update) {
-                    $mform->addElement('header', 'category_'.$category->id, format_string($category->name));
+                if ($display or $update) {                         // change string to text hanna 20/7/15
+                    $mform->addElement('header', 'category_'.$category->id, format_text($category->name));
                     foreach ($fields as $field) {
                         require_once($CFG->dirroot.'/user/profile/field/'.$field->datatype.'/field.class.php');
                         $newfield = 'profile_field_'.$field->datatype;
@@ -518,7 +518,8 @@ function profile_display_fields($userid) {
                     $newfield = 'profile_field_'.$field->datatype;
                     $formfield = new $newfield($field->id, $userid);
                     if ($formfield->is_visible() and !$formfield->is_empty()) {
-                        echo html_writer::tag('dt', format_string($formfield->field->name));
+                        // change string to text hanna 20/7/15
+                        echo html_writer::tag('dt', format_text($formfield->field->name));
                         echo html_writer::tag('dd', $formfield->display_data());
                     }
                 }
@@ -547,8 +548,8 @@ function profile_signup_fields($mform) {
         foreach ($fields as $field) {
             // Check if we change the categories.
             if (!isset($currentcat) || $currentcat != $field->categoryid) {
-                 $currentcat = $field->categoryid;
-                 $mform->addElement('header', 'category_'.$field->categoryid, format_string($field->categoryname));
+                 $currentcat = $field->categoryid;        // change string to text hanna 20/7/15
+                 $mform->addElement('header', 'category_'.$field->categoryid, format_text($field->categoryname));
             }
             require_once($CFG->dirroot.'/user/profile/field/'.$field->datatype.'/field.class.php');
             $newfield = 'profile_field_'.$field->datatype;

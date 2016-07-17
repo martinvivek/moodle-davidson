@@ -63,8 +63,8 @@ class profile_field_text extends profile_field_base {
         $maxlength = $this->field->param2;
         $fieldtype = ($this->field->param3 == 1 ? 'password' : 'text');
 
-        // Create the form field.
-        $mform->addElement($fieldtype, $this->inputname, format_string($this->field->name), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
+        // Create the form field.        // change string to text hanna 20/7/15
+        $mform->addElement($fieldtype, $this->inputname, format_text($this->field->name), 'maxlength="'.$maxlength.'" size="'.$size.'" ');
         $mform->setType($this->inputname, PARAM_TEXT);
     }
 

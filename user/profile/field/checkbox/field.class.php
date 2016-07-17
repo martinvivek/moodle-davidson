@@ -69,7 +69,7 @@ class profile_field_checkbox extends profile_field_base {
      */
     public function edit_field_add($mform) {
         // Create the form field.
-        $checkbox = $mform->addElement('advcheckbox', $this->inputname, format_string($this->field->name));
+        $checkbox = $mform->addElement('advcheckbox', $this->inputname, format_text($this->field->name)); // change string to text hanna 20/7/15
         if ($this->data == '1') {
             $checkbox->setChecked(true);
         }

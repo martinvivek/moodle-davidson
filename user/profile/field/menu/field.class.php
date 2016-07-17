@@ -87,8 +87,8 @@ class profile_field_menu extends profile_field_base {
      * Overwrites the base class method
      * @param moodleform $mform Moodle form instance
      */
-    public function edit_field_add($mform) {
-        $mform->addElement('select', $this->inputname, format_string($this->field->name), $this->options);
+    public function edit_field_add($mform) {   // change string to text hanna 20/7/15
+        $mform->addElement('select', $this->inputname, format_text($this->field->name), $this->options);
     }
 
     /**
