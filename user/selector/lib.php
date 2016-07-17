@@ -547,8 +547,9 @@ abstract class user_selector_base {
                 } else if ($select || isset($this->selected[$user->id])) {
                     $attributes .= ' selected="selected"';
                 }
-                unset($this->selected[$user->id]);
-                $output .= '    <option' . $attributes . ' value="' . $user->id . '">' .
+                unset($this->selected[$user->id]);  // hanna added title 20/7/15
+            //    $output .= '    <option' . $attributes . ' value="' . $user->id . '">' .
+                $output .= '    <option title="' . $this->output_user($user) . '" ' . $attributes . ' value="' . $user->id . '">' .
                         $this->output_user($user) . "</option>\n";
                 if (!empty($user->infobelow)) {
                     // Poor man's indent  here is because CSS styles do not work in select options, except in Firefox.
