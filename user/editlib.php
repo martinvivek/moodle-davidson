@@ -286,6 +286,13 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
     $strrequired = get_string('required');
     $stringman = get_string_manager();
 
+    // Only admin can change first and last name,  idnumber  hanna 30/6/15
+    if ( has_capability("moodle/user:editprofile", context_system::instance() ) ) {
+        $fieldtype = 'text';
+    } else {
+        $fieldtype = 'hidden' ; // 'disabled';  //  'static' doesnt let user change and save profile  hanna 28/8/14
+    }
+
     // Add the necessary names.
     foreach (useredit_get_required_name_fields() as $fullname) {
         $mform->addElement('text', $fullname,  get_string($fullname),  'maxlength="100" size="30"');
@@ -301,7 +308,7 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
     $enabledusernamefields = useredit_get_enabled_name_fields();
     // Add the enabled additional name fields.
     foreach ($enabledusernamefields as $addname) {
-        $mform->addElement('text', $addname,  get_string($addname), 'maxlength="100" size="30"');
+        $mform->addElement($fieldtype, $addname,  get_string($addname), 'maxlength="100" size="30"');
         $mform->setType($addname, PARAM_NOTAGS);
     }
 
@@ -316,6 +323,8 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
         $mform->addRule('email', $strrequired, 'required', null, 'client');
         $mform->setType('email', PARAM_RAW_TRIMMED);
     }
+    // Add emailstop which can be also updated on the bottom of the Messaging page // hanna 30/6/15
+    $mform->addElement('advcheckbox', 'emailstop', get_string('emailstop','core_davidson'));
 
     $choices = array();
     $choices['0'] = get_string('emaildisplayno');
@@ -392,8 +401,8 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
 
     }
 
-    // Display user name fields that are not currenlty enabled here if there are any.
-    $disabledusernamefields = useredit_get_disabled_name_fields($enabledusernamefields);
+    // Display user name fields that are not currenlty enabled here if there are any. // no additional names hanna 30/6/15
+/*    $disabledusernamefields = useredit_get_disabled_name_fields($enabledusernamefields);
     if (count($disabledusernamefields) > 0) {
         $mform->addElement('header', 'moodle_additional_names', get_string('additionalnames'));
         foreach ($disabledusernamefields as $allname) {
@@ -401,18 +410,30 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
             $mform->setType($allname, PARAM_NOTAGS);
         }
     }
-
+*/
     if (core_tag_tag::is_enabled('core', 'user') and empty($USER->newadminuser)) {
         $mform->addElement('header', 'moodle_interests', get_string('interests'));
         $mform->addElement('tags', 'interests', get_string('interestslist'),
             array('itemtype' => 'user', 'component' => 'core'));
         $mform->addHelpButton('interests', 'interestslist');
     }
+    //  added gender    hanna 30/6/15
+    $genders = array(); // Support for Gender
+    $genders[0] = '.';
+    $genders[1] = get_string('male','core_davidson');
+    $genders[2] = get_string('female','core_davidson');
+    $mform->addElement('select', 'gender', get_string('gender','core_davidson'), $genders );
 
     // Moodle optional fields.
     $mform->addElement('header', 'moodle_optional', get_string('optional', 'form'));
 
-    $mform->addElement('text', 'url', get_string('webpage'), 'maxlength="255" size="50"');
+    if ( has_capability("moodle/user:editprofile", context_system::instance() ) ) {  // hanna 30/6/15
+        $fieldtype = 'text';
+    } else {
+        $fieldtype = 'static';
+    }
+
+    $mform->addElement($fieldtype, 'url', get_string('webpage'), 'maxlength="255" size="50"');
     $mform->setType('url', core_user::get_property_type('url'));
 
     $mform->addElement('text', 'icq', get_string('icqnumber'), 'maxlength="15" size="25"');
@@ -430,7 +451,7 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
     $mform->addElement('text', 'msn', get_string('msnid'), 'maxlength="50" size="25"');
     $mform->setType('msn', core_user::get_property_type('msn'));
 
-    $mform->addElement('text', 'idnumber', get_string('idnumber'), 'maxlength="255" size="25"');
+    $mform->addElement($fieldtype, 'idnumber', get_string('idnumber'), 'maxlength="255" size="25"');
     $mform->setType('idnumber', core_user::get_property_type('idnumber'));
 
     $mform->addElement('text', 'institution', get_string('institution'), 'maxlength="255" size="25"');
