@@ -45,14 +45,14 @@ if ($hassiteconfig
         $choices['1'] = new lang_string('emaildigestcomplete');
         $choices['2'] = new lang_string('emaildigestsubjects');
         $temp->add(new admin_setting_configselect('defaultpreference_maildigest', new lang_string('emaildigest'),
-            new lang_string('emaildigest_help'), 0, $choices));
+            new lang_string('emaildigest_help'), 2, $choices));  //was 0  hanna 13/10/15
 
 
         $choices = array();
         $choices['1'] = new lang_string('autosubscribeyes');
         $choices['0'] = new lang_string('autosubscribeno');
         $temp->add(new admin_setting_configselect('defaultpreference_autosubscribe', new lang_string('autosubscribe'),
-            '', 1, $choices));
+            '', 0, $choices));  //was 1  hanna 13/10/15
 
         $choices = array();
         $choices['0'] = new lang_string('trackforumsno');
