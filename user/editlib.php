@@ -433,10 +433,11 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
         $fieldtype = 'static';
     }
 
-    $mform->addElement($fieldtype, 'url', get_string('webpage'), 'maxlength="255" size="50"');
-    $mform->setType('url', core_user::get_property_type('url'));
-
-    $mform->addElement('text', 'icq', get_string('icqnumber'), 'maxlength="15" size="25"');
+    if (has_capability("moodle/user:editprofile", context_system::instance())) {  // hanna 20/7/15
+        $mform->addElement($fieldtype, 'url', get_string('webpage'), 'maxlength="255" size="50"');
+        $mform->setType('url', core_user::get_property_type('url'));
+    }
+    $mform->addElement('text', 'icq', get_string('icqnumber'), 'maxlength="25" size="25"'); // was maxlength="15"  hanna 1/7/15
     $mform->setType('icq', core_user::get_property_type('icq'));
 
     $mform->addElement('text', 'skype', get_string('skypeid'), 'maxlength="50" size="25"');

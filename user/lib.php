@@ -421,7 +421,7 @@ function user_get_user_details($user, $course = null, array $userfields = array(
     if (in_array('url', $userfields) && $user->url && (!isset($hiddenfields['webpage']) or $isadmin)) {
         $url = $user->url;
         if (strpos($user->url, '://') === false) {
-            $url = 'http://'. $url;
+         //   $url = 'http://'. $url;  // url field is used for teacher subject  // hanna 20/7/15
         }
         $user->url = clean_param($user->url, PARAM_URL);
         $userdetails['url'] = $user->url;
