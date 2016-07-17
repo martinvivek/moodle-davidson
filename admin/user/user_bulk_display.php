@@ -25,8 +25,8 @@ echo $OUTPUT->header();
 $countries = get_string_manager()->get_list_of_countries(true);
 
 $namefields = get_all_user_name_fields(true);
-foreach ($users as $key => $id) {
-    $user = $DB->get_record('user', array('id'=>$id), 'id, ' . $namefields . ', username, email, country, lastaccess, city');
+foreach ($users as $key => $id) { // added idnumber, institution  hanna 30/6/15
+    $user = $DB->get_record('user', array('id'=>$id), 'id, ' . $namefields . ', username, email, country, lastaccess, idnumber, institution, city');
     $user->fullname = fullname($user, true);
     $user->country = @$countries[$user->country];
     unset($user->firstname);
@@ -48,8 +48,8 @@ function sort_compare($a, $b) {
 usort($users, 'sort_compare');
 
 $table = new html_table();
-$table->width = "95%";
-$columns = array('fullname', /*'username', */'email', 'city', 'country', 'lastaccess');
+$table->width = "95%";   // added idnumber, institution  hanna 30/6/15
+$columns = array('fullname', /*'username', */'email', 'idnumber', 'institution', 'city', 'country', 'lastaccess');
 foreach ($columns as $column) {
     $strtitle = get_string($column);
     if ($sort != $column) {
@@ -63,11 +63,13 @@ foreach ($columns as $column) {
     $table->align[] = 'left';
 }
 
-foreach($users as $user) {
+foreach($users as $user) { // added idnumber, institution  hanna 30/6/15
     $table->data[] = array (
         '<a href="'.$CFG->wwwroot.'/user/view.php?id='.$user->id.'&amp;course='.SITEID.'">'.$user->fullname.'</a>',
 //        $user->username,
         $user->email,
+        $user->idnumber,
+        $user->institution,
         $user->city,
         $user->country,
         $user->lastaccess ? format_time(time() - $user->lastaccess) : $strnever

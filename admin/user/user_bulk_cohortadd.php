@@ -67,7 +67,7 @@ $countries = get_string_manager()->get_list_of_countries(true);
 $namefields = get_all_user_name_fields(true);
 foreach ($users as $key => $id) {
     $user = $DB->get_record('user', array('id'=>$id, 'deleted'=>0), 'id, ' . $namefields . ', username,
-            email, country, lastaccess, city');
+            email, country, lastaccess, city, idnumber, institution');  //  hanna added 30/6/15
     $user->fullname = fullname($user, true);
     $user->country = @$countries[$user->country];
     unset($user->firstname);
@@ -105,7 +105,7 @@ usort($users, 'sort_compare');
 
 $table = new html_table();
 $table->width = "95%";
-$columns = array('fullname', 'email', 'city', 'country', 'lastaccess');
+$columns = array('fullname', 'email', 'idnumber' , 'institution' , 'city', 'country', 'lastaccess');  // hanna added 30/6/15
 foreach ($columns as $column) {
     $strtitle = get_string($column);
     if ($sort != $column) {
@@ -119,10 +119,12 @@ foreach ($columns as $column) {
     $table->align[] = 'left';
 }
 
-foreach ($users as $user) {
+foreach ($users as $user) { //  hanna added 30/6/15
     $table->data[] = array (
         '<a href="'.$CFG->wwwroot.'/user/view.php?id='.$user->id.'&amp;course='.SITEID.'">'.$user->fullname.'</a>',
         $user->email,
+        $user->idnumber,
+        $user->institution,
         $user->city,
         $user->country,
         $user->lastaccess ? format_time(time() - $user->lastaccess) : $strnever

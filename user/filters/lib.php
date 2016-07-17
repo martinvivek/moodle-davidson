@@ -62,11 +62,11 @@ class user_filtering {
             $SESSION->user_filtering = array();
         }
 
-        if (empty($fieldnames)) {
-            $fieldnames = array('realname' => 0, 'lastname' => 1, 'firstname' => 1, 'username' => 1, 'email' => 1, 'city' => 1, 'country' => 1,
+        if (empty($fieldnames)) {  // Hanna added institution and email & username to default shown fields  30/6/15  & lang
+            $fieldnames = array('realname' => 0, 'lastname' => 1, 'firstname' => 1, 'username' => 1, 'email' => 0, 'institution' => 1, 'city' => 1, 'country' => 1, 'lang' => 1,
                                 'confirmed' => 1, 'suspended' => 1, 'profile' => 1, 'courserole' => 1, 'systemrole' => 1,
                                 'cohort' => 1, 'firstaccess' => 1, 'lastaccess' => 1, 'neveraccessed' => 1, 'timemodified' => 1,
-                                'nevermodified' => 1, 'auth' => 1, 'mnethostid' => 1, 'idnumber' => 1);
+                                'nevermodified' => 1, 'username' => 0, 'auth' => 1, 'mnethostid' => 1, 'idnumber' => 1);
         }
 
         $this->_fields  = array();
@@ -129,13 +129,15 @@ class user_filtering {
      */
     public function get_field($fieldname, $advanced) {
         global $USER, $CFG, $DB, $SITE;
-
+        // Hanna added institution and email & username to default shown fields  30/6/15  & lang
         switch ($fieldname) {
             case 'username':    return new user_filter_text('username', get_string('username'), $advanced, 'username');
             case 'realname':    return new user_filter_text('realname', get_string('fullnameuser'), $advanced, $DB->sql_fullname());
             case 'lastname':    return new user_filter_text('lastname', get_string('lastname'), $advanced, 'lastname');
             case 'firstname':    return new user_filter_text('firstname', get_string('firstname'), $advanced, 'firstname');
             case 'email':       return new user_filter_text('email', get_string('email'), $advanced, 'email');
+            case 'institution':        return new user_filter_text('institution', get_string('institution'), $advanced, 'institution');
+            case 'lang':        return new user_filter_text('lang', get_string('preferredlanguage'), $advanced, 'lang');
             case 'city':        return new user_filter_text('city', get_string('city'), $advanced, 'city');
             case 'country':     return new user_filter_select('country', get_string('country'), $advanced, 'country', get_string_manager()->get_list_of_countries(), $USER->country);
             case 'confirmed':   return new user_filter_yesno('confirmed', get_string('confirmed', 'admin'), $advanced, 'confirmed');
