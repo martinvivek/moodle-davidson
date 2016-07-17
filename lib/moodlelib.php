@@ -8856,8 +8856,9 @@ function message_popup_window() {
                         html_writer::end_tag('div');
                     html_writer::end_tag('div');
 
-        $PAGE->requires->js_init_call('M.core_message.init_notification', array('', $content, $url));
-
+        if (get_user_preferences('messagesdisabled',1,$USER->id) == 1) { // hanna 19/7/15
+            $PAGE->requires->js_init_call('M.core_message.init_notification', array('', $content, $url));
+        }
         $USER->message_lastpopup = time();
     }
 }

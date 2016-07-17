@@ -229,6 +229,9 @@ if ($usernew = $userform->get_data()) {
 
     $usercontext = context_user::instance($usernew->id);
 
+    // if user can send and get messages     hanna 20/7/15
+    $ok = set_user_preference( 'messagesdisabled', $usernew->messagesdisabled , $usernew->id);
+
     // Update preferences.
     useredit_update_user_preference($usernew);
 

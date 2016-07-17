@@ -31,6 +31,11 @@ require_login(0, false);
 if (isguestuser()) {
     redirect($CFG->wwwroot);
 }
+//  check if user is allowed to use messaging  hanna 19/7/15
+//reload_user_preferences(); // Refresh user preferences cache
+if (get_user_preferences('messagesdisabled',1,$USER->id) == 0){ // if Messages is disabled for this user hanna 19/7/15
+    notice(get_string('messagesdisabled','core_davidson'),'/my/');
+}
 
 if (empty($CFG->messaging)) {
     print_error('disabled', 'message');

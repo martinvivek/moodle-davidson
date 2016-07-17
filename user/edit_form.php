@@ -75,6 +75,20 @@ class user_edit_form extends moodleform {
         // Shared fields.
         useredit_shared_definition($mform, $editoroptions, $filemanageroptions, $user);
 
+        //   enable message yes/no  only admin can change  hanna 20/7/15
+        //$userid = $this->_customdata['userid']; //nadavkav
+        $usermessagesdisabled = get_user_preferences('messagesdisabled',1,$userid);
+        if ($usermessagesdisabled == 1) {$messagestatus = get_string('enablemessageyes', 'core_davidson');}
+        else {$messagestatus = get_string('enablemessageno', 'core_davidson');}
+        if (has_capability("moodle/user:editprofile",context_system::instance()) ) {
+            $choices = array();
+            $choices['0'] = get_string('enablemessageno', 'core_davidson');
+            $choices['1'] = get_string('enablemessageyes', 'core_davidson');
+            $mform->addElement('select', 'messagesdisabled', get_string('enablemessage', 'core_davidson'), $choices);
+        } else {
+            $mform->addElement('static', 'messagesdisabled', get_string('enablemessage', 'core_davidson'),$messagestatus);
+        }
+
         // Extra settigs.
         if (!empty($CFG->disableuserimages)) {
             $mform->removeElement('deletepicture');

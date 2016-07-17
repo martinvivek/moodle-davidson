@@ -403,6 +403,10 @@ function message_get_providers_for_user($userid) {
     if (!$CFG->messaging) {
         foreach ($providers as $providerid => $provider) {
             if ($provider->name == 'instantmessage') {
+                if (get_user_preferences('messagesdisabled',1,$userid) == 0) {  //  hanna 19/7/15
+                    unset($providers[$providerid]);
+                    continue;
+                }
                 unset($providers[$providerid]);
                 break;
             }

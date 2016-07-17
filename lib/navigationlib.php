@@ -2229,7 +2229,8 @@ class global_navigation extends navigation_node {
 
             // Add the messages link.
             // It is context based so can appear in the user's profile and in course participants information.
-            if (!empty($CFG->messaging)) {
+            if (!get_user_preferences('messagesdisabled',1,$USER->id) == 0) { // if messages are disabled for this user dont show the link   hanna 19/7/15
+                if (!empty($CFG->messaging)) {
                 $messageargs = array('user1' => $USER->id);
                 if ($USER->id != $user->id) {
                     $messageargs['user2'] = $user->id;
@@ -2239,7 +2240,8 @@ class global_navigation extends navigation_node {
                 }
                 $url = new moodle_url('/message/index.php', $messageargs);
                 $usernode->add(get_string('messages', 'message'), $url, self::TYPE_SETTING, null, 'messages');
-            }
+               }
+            }   // end if preferences
 
             // Add the "My private files" link.
             // This link doesn't have a unique display for course context so only display it under the user's profile.

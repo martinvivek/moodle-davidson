@@ -1751,13 +1751,14 @@ function message_search_users($courseids, $searchtext, $sort='', $exceptions='')
     $exceptions[] = $CFG->siteguest;
 
     // Exclude exceptions from the search result.
-    list($except, $params_except) = $DB->get_in_or_equal($exceptions, SQL_PARAMS_NAMED, 'param', false);
+//    list($except, $params_except) = $DB->get_in_or_equal($exceptions, SQL_PARAMS_NAMED, 'param', false);
+    list($except, $params_except) = $DB->get_in_or_equal($exceptions, SQL_PARAMS_QM, 'param', false);  // fixed param name  nadavkav 28/1/15
     $except = ' AND u.id ' . $except;
     $params = array_merge($params_except, $params);
 
     if (in_array(SITEID, $courseids)) {
         // Search on site level.
-        return $DB->get_records_sql("SELECT $ufields, mc.id as contactlistid, mc.blocked
+/*        return $DB->get_records_sql("SELECT $ufields, mc.id as contactlistid, mc.blocked
                                        FROM {user} u
                                        LEFT JOIN {message_contacts} mc
                                             ON mc.contactid = u.id AND mc.userid = :userid
@@ -1765,6 +1766,19 @@ function message_search_users($courseids, $searchtext, $sort='', $exceptions='')
                                             AND (".$DB->sql_like($fullname, ':query', false).")
                                             $except
                                      $order", $params);
+*/
+        //  added a checkup whether message is enabled for receiver   hanna 19/7/15
+        $temp_user = $DB->get_records_sql("SELECT $ufields, mc.id as contactlistid, mc.blocked, up.name, up.value
+                                       FROM {user} u
+                                       LEFT JOIN {message_contacts} mc
+                                            ON mc.contactid = u.id AND mc.userid = ?
+		                        	   LEFT JOIN {user_preferences} up
+		                        			ON u.id = up.userid AND up.name = 'messagesdisabled'
+                                      WHERE u.deleted = '0' AND u.confirmed = '1'
+                                            AND (".$DB->sql_like($fullname, '?', false).")
+                                            AND up.value = '1'
+                                            $except $order", $params);
+        return $temp_user;
     } else {
         // Search in courses.
 
