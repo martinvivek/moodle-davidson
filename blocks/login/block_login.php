@@ -80,10 +80,18 @@ class block_login extends block_base {
 
             $this->content->text .= '<div class="c1 fld username"><label for="login_username">'.$strusername.'</label>';
             $this->content->text .= '<input type="text" name="username" id="login_username" value="'.s($username).'" /></div>';
-
+        // add hints, notes when typing hebrew,  hanna 18/11/15
             $this->content->text .= '<div class="c1 fld password"><label for="login_password">'.get_string('password').'</label>';
 
-            $this->content->text .= '<input type="password" name="password" id="login_password" value="" '.$autocomplete.' /></div>';
+            $this->content->text .= '<input type="password" name="password" id="login_password"  oninput="isRTL(this.value)" value="" '.$autocomplete.' /></div>';
+            $this->content->text .= '<div id="passwordinhebrew" style="color:blue;font-weight: bold">'.get_string('logincheckpassword','core_davidson').'</div>';
+            //  after 2 login attempts failed, get an error message  hanna 13/7/15
+                if (!empty($SESSION->logincount) && $SESSION->logincount  >1){
+                   $this->content->text .= '<div class="logincheck" style="color:red;font-weight: bold">'.get_string('logincheck','core_davidson').'</div>';
+                } else {
+                    $SESSION->logincount = 1;
+                }
+                $SESSION->logincount++;
 
             if (isset($CFG->rememberusername) and $CFG->rememberusername == 2) {
                 $checked = $username ? 'checked="checked"' : '';
@@ -94,6 +102,26 @@ class block_login extends block_base {
             $this->content->text .= '<div class="c1 btn"><input type="submit" value="'.get_string('login').'" /></div>';
 
             $this->content->text .= "</form>\n";
+            $this->content->text .= "<script>
+function isRTL(s){
+    var rtlChars        = '\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC',
+        rtlDirCheck     = new RegExp('^[^'+rtlChars+']*?['+rtlChars+']');
+
+    if (rtlDirCheck.test(s)) {
+        var d = document.getElementById('passwordinhebrew');
+        d.className = d.className + ' show';
+    } else {
+        var d = document.getElementById('passwordinhebrew');
+        d.className = '';
+
+    }
+    return rtlDirCheck.test(s);
+}
+</script>
+<style>
+#passwordinhebrew {display: none;}
+#passwordinhebrew.show{display: block;}
+</style>";
 
             if (!empty($signup)) {
                 $this->content->footer .= '<div><a href="'.$signup.'">'.get_string('startsignup').'</a></div>';
