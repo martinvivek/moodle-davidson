@@ -468,7 +468,7 @@ class core_badges_renderer extends plugin_renderer_base {
         // Set backpack connection string.
         $backpackconnect = '';
         if (!empty($CFG->badges_allowexternalbackpack) && is_null($backpack)) {
-            $backpackconnect = $this->output->box(get_string('localconnectto', 'badges', $mybackpack->out()), 'noticebox');
+         //   $backpackconnect = $this->output->box(get_string('localconnectto', 'badges', $mybackpack->out()), 'noticebox'); // hanna 13/7/15
         }
         // Search box.
         $searchform = $this->output->box($this->helper_search_form($badges->search), 'boxwidthwide boxaligncenter');

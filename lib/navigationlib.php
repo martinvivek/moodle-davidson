@@ -4560,17 +4560,17 @@ class settings_navigation extends navigation_node {
         }
 
         // Badges.
-        if ($currentuser && !empty($CFG->enablebadges)) {
-            $badges = $usersetting->add(get_string('badges'), null, navigation_node::TYPE_CONTAINER, null, 'badges');
+        if ($currentuser && !empty($CFG->enablebadges)) { // remove links hanna 18/7/16
+        //    $badges = $usersetting->add(get_string('badges'), null, navigation_node::TYPE_CONTAINER, null, 'badges');
             if (has_capability('moodle/badges:manageownbadges', $usercontext)) {
-                $url = new moodle_url('/badges/mybadges.php');
-                $badges->add(get_string('managebadges', 'badges'), $url, self::TYPE_SETTING);
+            //    $url = new moodle_url('/badges/mybadges.php');
+            //    $badges->add(get_string('managebadges', 'badges'), $url, self::TYPE_SETTING);
             }
-            $badges->add(get_string('preferences', 'badges'), new moodle_url('/badges/preferences.php'),
-                    navigation_node::TYPE_SETTING);
+        //    $badges->add(get_string('preferences', 'badges'), new moodle_url('/badges/preferences.php'),
+        //            navigation_node::TYPE_SETTING);
             if (!empty($CFG->badges_allowexternalbackpack)) {
-                $badges->add(get_string('backpackdetails', 'badges'), new moodle_url('/badges/mybackpack.php'),
-                        navigation_node::TYPE_SETTING);
+            //    $badges->add(get_string('backpackdetails', 'badges'), new moodle_url('/badges/mybackpack.php'),
+            //            navigation_node::TYPE_SETTING);
             }
         }
 
