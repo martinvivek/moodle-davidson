@@ -165,6 +165,9 @@ function core_login_process_password_reset_request() {
     echo $OUTPUT->header();
     echo $OUTPUT->box(get_string('passwordforgotteninstructions2'), 'generalbox boxwidthnormal boxaligncenter');
     $mform->display();
+    // added hanna 8/7/15 email for support
+    echo $OUTPUT->box((' <a  title="email davidson" href="mailto:davidson@weizmann.ac.il">' . get_string('forgotpassuppot1','core_davidson') . ' </a>'), 'generalbox boxwidthnormal boxaligncenter');   //  add support  hanna 8/7/15
+    echo $OUTPUT->box(get_string('forgotpassuppot','core_davidson'), 'generalbox boxwidthnormal boxaligncenter');  // hanna 8/7/15
 
     echo $OUTPUT->footer();
 }
