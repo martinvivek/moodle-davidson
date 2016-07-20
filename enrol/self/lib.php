@@ -765,6 +765,7 @@ class enrol_self_plugin extends enrol_plugin {
 
         $passattribs = array('size' => '20', 'maxlength' => '50');
         $mform->addElement('passwordunmask', 'password', get_string('password', 'enrol_self'), $passattribs);
+     //   $mform->addElement('text', 'password', get_string('password', 'enrol_self'), $passattribs);  // ?? hanna 16/7/15
         $mform->addHelpButton('password', 'password', 'enrol_self');
         if (empty($instance->id) and $this->get_config('requirepassword')) {
             $mform->addRule('password', get_string('required'), 'required', null, 'client');
