@@ -124,7 +124,7 @@ class format_grid extends format_base {
      * @return string Default border colour.
      */
     public static function get_default_border_colour() {
-        return '#dddddd';
+        return '#7e7e7f';  // hanna 11/10/15 was'#dddddd';
     }
 
     /**
@@ -140,7 +140,7 @@ class format_grid extends format_base {
      * @return int Default border width.
      */
     public static function get_default_border_width() {
-        return 3; // Pixels.
+        return 1;  //3;  Pixels. // hanna 11/10/15
     }
 
     /**
