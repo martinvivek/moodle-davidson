@@ -45,19 +45,22 @@ class login_forgot_password_form extends moodleform {
 
         $mform->addElement('header', 'searchbyusername', get_string('searchbyusername'), '');
 
-        $mform->addElement('text', 'username', get_string('username'));
+        $mform->addElement('text', 'username', get_string('username'));  // hint?  hanna 20/7/16
+     //   $mform->addElement('text', 'username',  get_string('username'), array('title'=>get_string('usernamehint' ,'core_davidson')));
         $mform->setType('username', PARAM_RAW);
 
-        $submitlabel = get_string('search');
+    //    $submitlabel = get_string('search');
+        $submitlabel = get_string('searchpass','core_davidson');  //hanna 8/7/15
         $mform->addElement('submit', 'submitbuttonusername', $submitlabel);
 
-        $mform->addElement('header', 'searchbyemail', get_string('searchbyemail'), '');
+        // we search usernames only  hanna 20/7/16
+     //   $mform->addElement('header', 'searchbyemail', get_string('searchbyemail'), '');
 
-        $mform->addElement('text', 'email', get_string('email'));
-        $mform->setType('email', PARAM_RAW_TRIMMED);
+    //    $mform->addElement('text', 'email', get_string('email'));
+    //    $mform->setType('email', PARAM_RAW_TRIMMED);
 
-        $submitlabel = get_string('search');
-        $mform->addElement('submit', 'submitbuttonemail', $submitlabel);
+    //    $submitlabel = get_string('search');
+    //    $mform->addElement('submit', 'submitbuttonemail', $submitlabel);
     }
 
     /**
