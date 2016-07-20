@@ -287,7 +287,8 @@ class user_editadvanced_form extends moodleform {
                 $err['email'] = get_string('invalidemail');
             } else if (empty($CFG->allowaccountssameemail)
                     and $DB->record_exists('user', array('email' => $usernew->email, 'mnethostid' => $CFG->mnet_localhost_id))) {
-                $err['email'] = get_string('emailexists');
+                // enable many users use same email   hanna 20/7/15
+                //   $err['email'] = get_string('emailexists');
             }
         }
 
