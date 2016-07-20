@@ -353,11 +353,15 @@ if (!empty($SESSION->loginerrormsg)) {
     if ($errormsg) {
         $SESSION->loginerrormsg = $errormsg;
     }
-    redirect(new moodle_url($CFG->httpswwwroot . '/login/index.php'));
+  //  redirect(new moodle_url($CFG->httpswwwroot . '/login/index.php'));  // cancel login page  hanna 14/7/16
+    redirect(new moodle_url($CFG->httpswwwroot . '/index.php'));
 }
 
 $PAGE->set_title("$site->fullname: $loginsite");
 $PAGE->set_heading("$site->fullname");
+
+//  canceled the login page  hanna 13/7/15
+redirect($CFG->httpswwwroot);
 
 echo $OUTPUT->header();
 
