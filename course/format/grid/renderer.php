@@ -534,7 +534,7 @@ class format_grid_renderer extends format_section_renderer_base {
         if ($editing) {
             echo $this->courserenderer->course_section_add_cm_control($course, $thissection->section, 0, 0);
 
-            if ($this->topic0attop) {
+        /*    if ($this->topic0attop) { // canceled option to hide the summary  hanna 22/2/16
                 $strhidesummary = get_string('hide_summary', 'format_grid');
                 $strhidesummaryalt = get_string('hide_summary_alt', 'format_grid');
 
@@ -545,7 +545,7 @@ class format_grid_renderer extends format_section_renderer_base {
                             'showsummary' => 0)), html_writer::empty_tag('img', array(
                             'src' => $this->output->pix_url('into_grid', 'format_grid'),
                             'alt' => $strhidesummaryalt)) . '&nbsp;' . $strhidesummary, array('title' => $strhidesummaryalt));
-            }
+            } */
         }
         echo html_writer::end_tag('div');
         echo html_writer::end_tag('li');
