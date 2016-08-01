@@ -238,10 +238,14 @@ class controller
 		$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 		$section = $DB->get_record('course_sections',
 			array('course' => $course->id, 'section' => $sectionnumber), '*', MUST_EXIST);
-		\require_capability('moodle/restore:restorecourse',
-			\context_course::instance($course->id)
-			);
-		self::validate_sesskey();
+//		\require_capability('moodle/restore:restorecourse',
+//			\context_course::instance($course->id)
+//			);  // we dont allow teacher to restore courses  hanna 27/7/16
+        \require_capability('moodle/course:update',
+            \context_course::instance($course->id)
+        );
+
+        self::validate_sesskey();
 		
 		// prepare the temporary directory and generate a temporary name
 		$tempdir = self::get_tempdir();
