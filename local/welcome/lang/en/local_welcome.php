@@ -46,7 +46,9 @@ $string['auth_plugins'] = 'Auth plugins';
 $string['auth_plugins_desc'] = 'Choose the auth plugins for which a welcome message should be send';
 $string['message_user_enabled'] = 'Enable user messages';
 $string['message_user_enabled_desc'] = 'This tickbox enables the sending of welcome messages to new users<br><br>Visit <a href="{$a}">this page to see the list of available fields</a>';
-$string['message_user_subject'] = 'User subject';
+//$string['message_user_subject'] = 'User subject';
+$string['message_user_subject'] = 'Hello [[fullname]] Welcome to Davidson Institute';
+
 $string['message_user_subject_desc'] = 'This will be the subject of the email send to the user. Use [[fullname]] as a tag, this will be replaced with the users Firstname Lastname.';
 $string['message_user'] = 'User message';
 $string['message_user_desc'] = 'Message send to new users';
@@ -54,11 +56,14 @@ $string['message_user_desc'] = 'Message send to new users';
 $string['message_moderator_enabled'] = 'Enable moderator messages';
 $string['message_moderator_enabled_desc'] = 'This tickbox enables the sending of notification messages to moderators';
 $string['message_moderator'] = 'Moderator message';
-$string['message_moderator_subject'] = 'Moderator subject';
+//$string['message_moderator_subject'] = 'Moderator subject';
+$string['message_moderator_subject'] = 'Hello [[fullname]] Welcome to Davidson Institute';
+
 $string['message_moderator_subject_desc'] = 'This will be the subject of the email send to the moderator. Use [[fullname]] as a tag, this wil be replaced with the users Firstname Lastname.';
 $string['message_moderator_desc'] = 'Message send to moderators';
 $string['moderator_email'] = 'Moderator email';
 $string['moderator_email_desc'] = 'New user notifications are send to this email address';
+$string['siteaddrss'] = 'Our website address is: ';
 
 $string['sender_email'] = 'Sender email address';
 $string['sender_email_desc'] = 'When new users log in this email address is used to send a notification message, users will be able to see this email address';
@@ -69,7 +74,10 @@ $string['sender_firstname_desc'] = 'First name used when sending mail to users.'
 $string['sender_lastname'] = 'Moderator lastname';
 $string['sender_lastname_desc'] = 'Last name used when sending mail to users.';
 
-$string['default_user_email_subject'] = 'Hello [[fullname]] Welcome to [[sitename]]';
+//$string['default_user_email_subject'] = 'Hello [[fullname]] Welcome to [[sitename]]';
+$string['default_user_email_subject'] = 'Hello [[fullname]] Welcome to {$a}';
+
+/*
 $string['default_user_email'] = '
 
 <html>
@@ -85,8 +93,19 @@ $string['default_user_email'] = '
 </table>
 </body>
 </html>
-';
-$string['default_moderator_email_subject'] = 'A new user signed up on [[sitename]] : [[fullname]]';
+';  */
+$string['default_user_email'] = 'Hello [[fullname]]
+
+    Thanks for creating an account on {$a}
+
+    Your username is [[username]]
+    Your initial password is [[url]]
+
+    ';
+
+//$string['default_moderator_email_subject'] = 'A new user signed up on [[sitename]] : [[fullname]]';
+$string['default_moderator_email_subject'] = 'A new user signed up on {$a} : [[fullname]]';
+
 $string['default_moderator_email'] = '
 <html>
 <body>
@@ -102,3 +121,8 @@ $string['default_moderator_email'] = '
 
 $string['resetpass'] = 'Reset your password here';
 
+$string['oursitename']='Davidson Institute';
+
+$string['usebrowser'] = 'please use chrome or mozilla firefox';
+$string['regards'] = 'regards';
+$string['registrationunit'] = 'registration unit, Davidson institute for science education';

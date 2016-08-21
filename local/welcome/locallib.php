@@ -76,7 +76,7 @@ class local_welcome {
                 $values[$field] = fullname($user);
             }
             if (!empty($user->$field) && $field == 'country') {
-                $values[$field]  = get_string($user->country, 'countries');
+                $values[$field]  = '' ; // get_string($user->country, 'countries');
             } 
         }
         return $values;

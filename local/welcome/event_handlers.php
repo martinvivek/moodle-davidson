@@ -48,6 +48,20 @@ function send_welcome($user) {
             return '';
         }
 
+        $peg = 'http://pegasus1.weizmann.ac.il/moodle2/ ';  // site in user's lang  hanna 29/2/16
+        if ($user->lang == 'en' or $user->lang == 2){
+            $peg = 'http://pegasus1.weizmann.ac.il/moodle2/?lang=en';
+        }
+        elseif ( $user->lang == 'ar' ) {
+            $peg = 'http://pegasus1.weizmann.ac.il/moodle2/?lang=ar';
+        }
+
+        if (!empty($user->country)) {
+            $user->country = get_string($user->country, 'countries');
+        } else {
+            $user->country = 'IL';
+        }
+
         $moderator->email = $config->moderator_email;
 
         $sender->email = $config->sender_email;
@@ -55,8 +69,10 @@ function send_welcome($user) {
         $sender->lastname = $config->sender_lastname;
 
         $message_user_enabled = $config->message_user_enabled;
-        $message_user = $config->message_user;
-        $message_user_subject = $config->message_user_subject;
+//        $message_user = $config->message_user;     // hanna 29/6/15
+        $message_user = get_string('default_user_email','local_welcome',get_string('oursitename','local_welcome',null,false,$user->lang),false,$user->lang); // hanna 8/6/14
+//        $message_user_subject = $config->message_user_subject;
+        $message_user_subject = get_string('message_user_subject','local_welcome', null, false, $user->lang);
 
         $message_moderator_enabled = $config->message_moderator_enabled;
         $message_moderator = $config->message_moderator;
@@ -69,9 +85,21 @@ function send_welcome($user) {
         $message_moderator = $welcome->replace_values($user, $message_moderator);
         $message_moderator_subject = $welcome->replace_values($user, $message_moderator_subject);
 
+        $addr = "<br/>" . get_string('siteaddrss', 'local_welcome', null, false, $user->lang) . "<br/>" . $peg . "<br/>";
+        $browseinfo = "<br/>" . get_string('usebrowser', 'local_welcome', null, false, $user->lang) . "<br/>" ;
+        $signing = "<br/>" . get_string('regards','local_welcome', null, false, $user->lang) . "<br/>" . get_string('registrationunit','local_welcome', null, false, $user->lang);
+        $message_user .= $addr . $browseinfo . $signing;
+
+        if ($user->lang == 'he' || $user->lang == 'ar') {
+            $message_user = '<div style="direction: rtl;text-align: right;">' . $message_user . ' </div>';
+        }
+
+
         if (!empty($message_user) && !empty($sender->email) && $message_user_enabled) {
             email_to_user($user, $sender, $message_user_subject, html_to_text($message_user), $message_user);
         }
+
+        $message_moderator .= ' ' . '<br/>' . ' ' . $message_user ;  //  hanna 19/8/14
 
         if (!empty($message_moderator) && !empty($sender->email) && $message_moderator_enabled) {
             email_to_user($moderator, $sender, $message_moderator_subject, html_to_text($message_moderator), $message_moderator);
