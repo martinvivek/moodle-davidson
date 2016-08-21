@@ -182,7 +182,8 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
         $tree->add_node($node);
     }
 
-    if (isset($identityfields['phone2']) && $user->phone2) {
+//    if (isset($identityfields['phone2']) && $user->phone2) {
+    if (is_siteadmin() && $user->phone2 ){  // hanna 3/8/16  // add fields to moodle2/user/profile
         $node = new core_user\output\myprofile\node('contact', 'phone2', get_string('phone2'), null, null, $user->phone2);
         $tree->add_node($node);
     }
@@ -199,20 +200,28 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
         $tree->add_node($node);
     }
 
-    if (isset($identityfields['idnumber']) && $user->idnumber) {
+//    if (isset($identityfields['idnumber']) && $user->idnumber) {
+    if (is_siteadmin()){   // hanna 3/8/16
         $node = new core_user\output\myprofile\node('contact', 'idnumber', get_string('idnumber'), null, null,
             $user->idnumber);
         $tree->add_node($node);
     }
 
-    if ($user->url && !isset($hiddenfields['webpage'])) {
-        $url = $user->url;
-        if (strpos($user->url, '://') === false) {
-            $url = 'http://'. $url;
-        }
-        $webpageurl = new moodle_url($url);
+    if (is_siteadmin()){ // hanna 3/8/16
+        $node = new core_user\output\myprofile\node('contact', 'username', get_string('username'), null, null,
+            $user->username);
+        $tree->add_node($node);
+    }
+
+    if ($user->url && !isset($hiddenfields['webpage'])) {  // hanna 3/8/16 // show on
+    //    $url = $user->url;
+    //    if (strpos($user->url, '://') === false) {
+    //        $url = 'http://'. $url;
+    //    }
+    //    $webpageurl = new moodle_url($url);
         $node = new core_user\output\myprofile\node('contact', 'webpage', get_string('webpage'), null, null,
-            html_writer::link($url, $webpageurl));
+            $user->url);
+         //   html_writer::link($url, $webpageurl));
         $tree->add_node($node);
     }
 
@@ -320,13 +329,14 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
         }
     }
 
-    if ($user->icq && !isset($hiddenfields['icqnumber'])) {
-        $imurl = new moodle_url('http://web.icq.com/wwp', array('uin' => $user->icq) );
-        $iconurl = new moodle_url('http://web.icq.com/whitepages/online', array('icq' => $user->icq, 'img' => '5'));
-        $statusicon = html_writer::tag('img', '',
-                array('src' => $iconurl, 'class' => 'icon icon-post', 'alt' => get_string('status')));
+    if ($user->icq && !isset($hiddenfields['icqnumber'])) {  // hanna 3/8/16
+    //    $imurl = new moodle_url('http://web.icq.com/wwp', array('uin' => $user->icq) );
+    //    $iconurl = new moodle_url('http://web.icq.com/whitepages/online', array('icq' => $user->icq, 'img' => '5'));
+    //    $statusicon = html_writer::tag('img', '',
+    //            array('src' => $iconurl, 'class' => 'icon icon-post', 'alt' => get_string('status')));
         $node = new core_user\output\myprofile\node('contact', 'icqnumber', get_string('icqnumber'), null, null,
-            html_writer::link($imurl, s($user->icq) . $statusicon));
+            $user->icq);
+     //        html_writer::link($imurl, s($user->icq) . $statusicon));
         $tree->add_node($node);
     }
 
@@ -355,8 +365,9 @@ function core_myprofile_navigation(core_user\output\myprofile\tree $tree, $user,
             html_writer::link($imurl, s($user->yahoo) . $statusicon));
         $tree->add_node($node);
     }
-    if ($user->aim && !isset($hiddenfields['aimid'])) {
-        $imurl = 'aim:goim?screenname='.urlencode($user->aim);
+    if ($user->aim && !isset($hiddenfields['aimid'])) { // hanna 21/8/16  add additional email
+    //    $imurl = 'aim:goim?screenname='.urlencode($user->aim);
+        $imurl = 'mailto:' . $user->aim;
         $node = new core_user\output\myprofile\node('contact', 'aimid', get_string('aimid'), null, null,
             html_writer::link($imurl, s($user->aim)));
         $tree->add_node($node);
