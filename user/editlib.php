@@ -295,7 +295,7 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
 
     // Add the necessary names.
     foreach (useredit_get_required_name_fields() as $fullname) {
-        $mform->addElement('text', $fullname,  get_string($fullname),  'maxlength="100" size="30"');
+        $mform->addElement($fieldtype, $fullname,  get_string($fullname),  'maxlength="100" size="30"');
         if ($stringman->string_exists('missing'.$fullname, 'core')) {
             $strmissingfield = get_string('missing'.$fullname, 'core');
         } else {
