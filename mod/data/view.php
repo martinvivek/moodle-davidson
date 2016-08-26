@@ -82,6 +82,22 @@
         $record = NULL;
     }
 
+    $urlparams = array('d' => $data->id);
+    if ($record) {
+        $urlparams['rid'] = $record->id;
+    }
+    if ($page) {
+        $urlparams['page'] = $page;
+    }
+    if ($mode) {
+        $urlparams['mode'] = $mode;
+    }
+    if ($filter) {
+        $urlparams['filter'] = $filter;
+    }
+    // Initialize $PAGE, compute blocks
+    $PAGE->set_url('/mod/data/view.php', $urlparams);
+
     require_course_login($course, true, $cm);
 
     require_once($CFG->dirroot . '/comment/lib.php');
@@ -264,22 +280,6 @@
     $event->add_record_snapshot('course', $course);
     $event->add_record_snapshot('data', $data);
     $event->trigger();
-
-    $urlparams = array('d' => $data->id);
-    if ($record) {
-        $urlparams['rid'] = $record->id;
-    }
-    if ($page) {
-        $urlparams['page'] = $page;
-    }
-    if ($mode) {
-        $urlparams['mode'] = $mode;
-    }
-    if ($filter) {
-        $urlparams['filter'] = $filter;
-    }
-// Initialize $PAGE, compute blocks
-    $PAGE->set_url('/mod/data/view.php', $urlparams);
 
     if (($edit != -1) and $PAGE->user_allowed_editing()) {
         $USER->editing = $edit;
