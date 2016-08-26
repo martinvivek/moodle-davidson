@@ -7,12 +7,15 @@ Moodle availability plugin which lets users restrict resources, activities and s
 Requirements
 ------------
 
-This plugin requires Moodle 3.0+
+This plugin requires Moodle 3.1+
 
 
 Changes
 -------
 
+* 2016-08-15 - Bugfix: Courses with a role availability condition added to an activity were not restored cleanly - Credits to Nadav Kavalerchik and Davo Smith
+* 2016-07-19 - Check compatibility for Moodle 3.1, no functionality change
+* 2016-02-10 - Change plugin version and release scheme to the scheme promoted by moodle.org, no functionality change
 * 2016-01-01 - Initial version
 
 
@@ -76,7 +79,7 @@ Report a bug or suggest an improvement: https://github.com/moodleuulm/moodle-ava
 Moodle release support
 ----------------------
 
-Due to limited ressources, availability_role is only maintained for the most recent major release of Moodle. However, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
+Due to limited resources, availability_role is only maintained for the most recent major release of Moodle. However, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
 
 There may be several weeks after a new major release of Moodle has been published until we can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that availability_role still works with a new major relase - please let us know on https://github.com/moodleuulm/moodle-availability_role/issues
 
