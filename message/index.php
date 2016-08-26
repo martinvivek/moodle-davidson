@@ -31,11 +31,6 @@ require_login(0, false);
 if (isguestuser()) {
     redirect($CFG->wwwroot);
 }
-//  check if user is allowed to use messaging  hanna 19/7/15
-//reload_user_preferences(); // Refresh user preferences cache
-if (get_user_preferences('messagesdisabled',1,$USER->id) == 0){ // if Messages is disabled for this user hanna 19/7/15
-    notice(get_string('messagesdisabled','core_davidson'),'/my/');
-}
 
 if (empty($CFG->messaging)) {
     print_error('disabled', 'message');
@@ -138,6 +133,14 @@ if (substr($viewing, 0, 7) == MESSAGE_VIEW_COURSE) {
 }
 // Page context should always be set to user.
 $PAGE->set_context(context_user::instance($user1->id));
+
+//  check if user is allowed to use messaging  hanna 19/7/15
+//reload_user_preferences(); // Refresh user preferences cache
+if (get_user_preferences('messagesdisabled',1,$USER->id) == 0){ // if Messages is disabled for this user hanna 19/7/15
+    notice(get_string('messagesdisabled','core_davidson'),'/my/');
+}
+
+
 if (!empty($user1->id) && $user1->id != $USER->id) {
     $PAGE->navigation->extend_for_user($user1);
 }
