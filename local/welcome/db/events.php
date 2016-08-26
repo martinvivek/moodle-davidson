@@ -26,10 +26,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$handlers = array(
+$observers = array(
+    /* // Old M29 API v1
     'user_created' => array (
         'handlerfile'     => '/local/welcome/event_handlers.php',
         'handlerfunction' => 'send_welcome',
         'schedule'        => 'instant',
+    ),
+    */
+    // New M31 API v2
+    array(
+        'eventname' => '\core\event\user_created',
+        // Lets use a class
+        'callback' => '\local_welcome\observer::send_welcome',
+
+        // Lets use a function (library)
+        //'includefile'     => '/local/welcome/event_handlers.php',
+        //'callback' => 'send_welcome',
+        'schedule'        => 'instant',
+        //'internal' => false
     ),
 );
