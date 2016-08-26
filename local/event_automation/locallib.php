@@ -23,7 +23,7 @@ function local_event_automation_database_observer ($event) {
                 WHERE d.id = ? AND dc.recordid = ? and df.id = " . $data_field_id;
         $workflow_status = $DB->get_record_sql($sql, array($event->other['dataid'], $event->objectid));
 
-        $subject = 'טופס בקשת פתיחת השתלמות - סטטוס השתנה = ' . $workflow_status->content;
+        $subject = 'טופס בקשת פתיחת השתלמות - סטטוס השתנה = ' . (isset($workflow_status->content))?$workflow_status->content:'';
         $message = '';
         //$message = ' Current workflow status = '.(string)$this->objectid;
         //print_object($event);die;
@@ -41,7 +41,7 @@ function local_event_automation_database_observer ($event) {
                 $event->other['dataid'] . "&rid=" . $event->objectid . "&mode=single'>טופס הרישום</a><br>";
             $message .= "</div>";
         } */
-
+      //  $to_user = $to_user_hanna;  /*  for tests */
         //    case '': was taken out  // hanna 9/5/16
         switch ($workflow_status->content) {
 
