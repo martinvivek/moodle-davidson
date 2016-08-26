@@ -67,7 +67,10 @@ function(ajax, BootstrapTour, $, templates, str) {
         addResetLink: function() {
             str.get_string('resettouronpage', 'local_usertours')
                 .done(function(s) {
-                    $('.logininfo').append(
+                    // Grab the last item in the page of these.
+                    $('#page-footer .helplink')
+                    .last()
+                    .append(
                         '<div class="usertour">' +
                             '<a href="#" data-action="local_usertours/resetpagetour">' +
                                 s +
@@ -89,6 +92,10 @@ function(ajax, BootstrapTour, $, templates, str) {
                 usertours.currentTour.end();
             }
             tourConfig.onEnd = usertours.markTourComplete;
+
+            // Add the templtae to the configuration.
+            // This enables translations of the buttons.
+            tourConfig.template = template;
 
             usertours.currentTour = new BootstrapTour(tourConfig);
 
