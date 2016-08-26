@@ -33,7 +33,7 @@ class block_search extends block_base
 		$q = isset($_GET['q']) ? $_GET['q'] : '';
 
 		$courseID = (is_object($this->page->course) && $this->page->course->id > 1) ? $this->page->course->id : false;
-		$courseName = $courseID ? $this->page->course->fullname : $SITE->shortname;
+		$courseName = $courseID ? $this->page->course->fullname : 'המערכת';//$SITE->shortname;
 
 		$this->content = new stdClass;
 		$this->content->text = $searchBlock->display->showSearchBox(
