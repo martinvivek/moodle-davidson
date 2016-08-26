@@ -42,14 +42,22 @@ class auth_plugin_drupal extends auth_plugin_base {
     /**
      * The name of the component. Used by the configuration.
      */
-    const COMPONENT_NAME = 'auth_drupal';
+    const COMPONENT_NAME = 'auth/drupal';
+
+    /**
+     * Constructor.
+     */
+    public function __construct() {
+        $this->authtype = 'drupal';
+        $this->config = get_config(self::COMPONENT_NAME);
+    }
 
     /**
      * Constructor.
      */
     function auth_plugin_drupal() {
-        $this->authtype = 'drupal';
-        $this->config = get_config(self::COMPONENT_NAME);
+        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
+        self::__construct();
     }
 
     /**
