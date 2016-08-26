@@ -2243,6 +2243,8 @@ var skipClientValidation = false;
                 $elementName);
             $valFunc = 'validate_' . $this->_formName . '_' . $escapedElementName . '(ev.target, \''.$escapedElementName.'\')';
 
+            $tempid = (isset($element->_attributes['id']))?$element->_attributes['id']:'';
+
             $js .= '
     function validate_' . $this->_formName . '_' . $escapedElementName . '(element, escapedName) {
       if (undefined == element) {
@@ -2266,10 +2268,10 @@ var skipClientValidation = false;
       }
     }
 
-    document.getElementById(\'' . $element->_attributes['id'] . '\').addEventListener(\'blur\', function(ev) {
+    document.getElementById(\'' . $tempid . '\').addEventListener(\'blur\', function(ev) {
         ' . $valFunc . '
     });
-    document.getElementById(\'' . $element->_attributes['id'] . '\').addEventListener(\'change\', function(ev) {
+    document.getElementById(\'' . $tempid . '\').addEventListener(\'change\', function(ev) {
         ' . $valFunc . '
     });
 ';
