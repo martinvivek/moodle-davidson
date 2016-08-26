@@ -357,6 +357,7 @@ $cache = '.var_export($cache, true).';
             'completion'  => $CFG->dirroot.'/completion',
             'countries'   => null,
             'course'      => $CFG->dirroot.'/course',
+            'coursemetadatafield' => $CFG->dirroot.'/course/coursemetadata/field',  //Course metadata fields - MDL-18319
             'currencies'  => null,
             'dbtransfer'  => null,
             'debug'       => null,

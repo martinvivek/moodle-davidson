@@ -5,6 +5,9 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->libdir.'/completionlib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
+//Save course metadata fields - MDL-18319  // hanna 15/7/15
+require_once($CFG->dirroot.'/course/coursemetadata/lib.php');
+//Save course metadata fields - MDL-18319 - Ends here
 
 /**
  * The form for handling editing a course.
@@ -269,6 +272,10 @@ class course_edit_form extends moodleform {
 
      //   enrol_course_edit_form($mform, $course, $context);  // hide guest enrollment section.  hanna 21/7/15
 
+        //Save course metadata fields - MDL-18319
+        coursemetadata_definition($mform);
+        //Save course metadata fields - MDL-18319 - Ends here
+        
         $mform->addElement('header','groups', get_string('groupsettingsheader', 'group'));
 
         $choices = array();

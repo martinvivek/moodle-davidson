@@ -92,6 +92,9 @@ if ($id) {
     $category = $DB->get_record('course_categories', array('id'=>$course->category), '*', MUST_EXIST);
     $coursecontext = context_course::instance($course->id);
     require_capability('moodle/course:update', $coursecontext);
+    //Save course metadata fields - MDL-18319
+    coursemetadata_load_data($course);
+    //Save course metadata fields - MDL-18319 - Ends here
 
 } else if ($categoryid) {
     // Creating new course in this category.
@@ -184,6 +187,9 @@ if ($editform->is_cancelled()) {
     } else {
         // Save any changes to the files used in the editor.
         update_course($data, $editoroptions);
+        //Save course metadata fields - MDL-18319
+        coursemetadata_save_data($data);
+        //Save course metadata fields - MDL-18319 - Ends here
         // Set the URL to take them too if they choose save and display.
         $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
     }

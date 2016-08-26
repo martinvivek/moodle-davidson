@@ -157,6 +157,11 @@ if ($hassiteconfig or has_any_capability($capabilities, $systemcontext)) {
         $ADMIN->add('courses', new admin_externalpage('coursespending', new lang_string('pendingrequests'),
                 $CFG->wwwroot . '/course/pending.php', array('moodle/site:approvecourse')));
     }
+/// Custom Metadata fields
+///
+    $ADMIN->add('courses', new admin_externalpage('coursemetadata', 'Custom metadata', $CFG->wwwroot . '/course/coursemetadata/index.php?categoryedit=on','moodle/site:config'));
+
+//Custom Metadata entry ends here
 
     // Add a category for backups.
     $ADMIN->add('courses', new admin_category('backups', new lang_string('backups','admin')));

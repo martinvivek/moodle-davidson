@@ -232,3 +232,7 @@ $string['validationmsglevel_warning'] = 'Warning';
 $string['version'] = 'Version';
 $string['versiondb'] = 'Current version';
 $string['versiondisk'] = 'New version';
+//Save course metadata fields - MDL-18319
+$string['type_coursemetadatafield'] = 'Course metadata type';
+$string['type_coursemetadatafield_plural'] = 'Course metadata types';
+//Save course metadata fields - MDL-18319 - Ends here
