@@ -37,3 +37,4 @@ $string['width'] = 'Width (px)';
 $string['height'] = 'Height (px)';
 $string['instructions'] = 'Build your structure and then click "Insert Image"';
 $string['defaultflavor'] = 'Default Ice Cream Flavor';
+$string['structure:visible'] = 'structure visible';
