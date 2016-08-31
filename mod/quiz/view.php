@@ -57,6 +57,18 @@ require_login($course, false, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/quiz:view', $context);
 
+// Special naigation block hack // nadavkav 7-10-2015  ////****
+if (isset($_GET['navsection'])) {
+    $navsection = optional_param('navsection',  0, PARAM_INT);
+    setcookie("navsection", $navsection);
+}
+
+if (isset($_GET['navfmodid'])) {
+    $navfmodid = optional_param('navfmodid',  0, PARAM_INT);
+    setcookie("navfmodid", $navfmodid);
+}
+//  ****
+
 // Cache some other capabilities we use several times.
 $canattempt = has_capability('mod/quiz:attempt', $context);
 $canreviewmine = has_capability('mod/quiz:reviewmyattempts', $context);
@@ -111,6 +123,7 @@ foreach ($attempts as $attempt) {
 // Redirect into user's quiz attempt if only one is possible and only one was taken  hanna 6/7/16
 //if ($quiz->attempts == 1 AND $numattempts == 1
 if ( $numattempts == 1
+    and isset($attempts[0]->state)
     and $attempts[0]->state != quiz_attempt::FINISHED
     and !empty($attempts[0]->id)
     and !has_capability('mod/quiz:manage', $context)) {  //  hanna 4/6/15
@@ -161,7 +174,7 @@ $output = $PAGE->get_renderer('mod_quiz');
 // Print table with existing attempts.
 if ($attempts) {
     // Work out which columns we need, taking account what data is available in each attempt.
-    list($someoptions, $alloptions) = quiz_get_combined_reviewoptions($quiz, $attempts);
+    list($someoptions, $alloptions) = quiz_get_combined_reviewoptions($quiz, $attempts, $context); // added context hanna 10/8/16
 
     $viewobj->attemptcolumn  = $quiz->attempts != 1;
 
