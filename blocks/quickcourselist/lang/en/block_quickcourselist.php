@@ -38,3 +38,4 @@ $string['splitterms'] = 'Split search terms';
 $string['splittermsdescription'] = 'When enabled, terms seperated by spaces will be searched seperately, rather than as a complete phrase (e.g. "Course 101" will find "Course Maths 101" and "Course Science 101").  Enabling this may slow down searches on sites with lots of courses.';
 $string['restrictcontext'] = 'Restrict results by category';
 $string['restrictcontextdescription'] = 'When enabled, only courses under the current category will be returned from searches on category pages.';
+$string['quickcourselist:addinstance'] = 'Add quick_course_list block instance';

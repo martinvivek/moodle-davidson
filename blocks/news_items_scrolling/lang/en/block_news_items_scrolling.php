@@ -24,4 +24,4 @@
  */
 
 $string['pluginname'] = 'Latest news (scrolling)';
-
+$string['news_items_scrolling:addinstance'] = 'Add news_items_scrolling block instance';

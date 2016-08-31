@@ -42,3 +42,5 @@ $string['forum_selection_help'] = 'If you want to show posts from this specific 
 
 $string['unread_post_color'] = 'Unread color';
 $string['unread_post_color_description'] = 'Define the color background of unread posts.';
+$string['forum_aggregator:addinstance'] = 'Add forum_aggregator block instance';
+$string['forum_aggregator:myaddinstance'] = 'Add forum_aggregator block instance to My page';

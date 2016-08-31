@@ -85,6 +85,8 @@ $string['advanced_search_wildcard_desc'] = '* is a <strong>wildcard</strong>. Th
 
 //Capabilities
 $string['search:search'] = 'Perform a search';
+$string['search:addinstance'] = 'Add a Search block instance';
+$string['search:myaddinstance'] = 'Add a Search block instance to My page';
 
 // MUC
 $string['cachedef_main'] = 'Main block searches';

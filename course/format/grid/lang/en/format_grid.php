@@ -116,6 +116,9 @@ $string['defaultcoursedisplay_desc'] = "Either show all the sections on a single
 $string['defaultfitsectioncontainertowindow'] = 'Fit section container to window by default';
 $string['defaultfitsectioncontainertowindow_desc'] = 'The default setting for \'Fit section container to window\'.';
 
+$string['defaultdavidsonlayout'] = 'Use Davidson special layout by default?';
+$string['defaultdavidsonlayout_desc'] = 'The default setting for \'Davidson special layout\'.';
+
 $string['defaultnewactivity'] = 'Show new activity notification image default';
 $string['defaultnewactivity_desc'] = "Show the new activity notification image when a new activity or resource are added to a section default.";
 
@@ -143,6 +146,9 @@ $string['setnewactivity_help'] = "Show the new activity notification image when 
 
 $string['setfitsectioncontainertowindow'] = 'Fit the section popup to the window';
 $string['setfitsectioncontainertowindow_help'] = 'If enabled, the popup box with the contents of the section will fit to the size of the window and will scroll inside if necessary.  If disabled, the entire page will scroll instead.';
+
+$string['setdavidsonlayout'] = 'Set Davidson layout';
+$string['setdavidsonlayout_help'] = 'If enabled, Davidson layout display maximum of 4 fixed section/activity thumbnails at the top of the course front page and no block.';
 
 $string['colourrule'] = "Please enter a valid RGB colour, six hexadecimal digits.";
 
