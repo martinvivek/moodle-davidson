@@ -452,7 +452,8 @@ function useredit_shared_definition(&$mform, $editoroptions, $filemanageroptions
     $mform->addElement('text', 'msn', get_string('msnid'), 'maxlength="50" size="25"');
     $mform->setType('msn', core_user::get_property_type('msn'));
 
-    $mform->addElement($fieldtype, 'idnumber', get_string('idnumber'), 'maxlength="255" size="25"');
+    $user_idnumber = $DB->get_field('user','idnumber',array('id'=> $user->id));
+    $mform->addElement($fieldtype, 'idnumber', get_string('idnumber')."   ".$user_idnumber , 'maxlength="255" size="25"');
     $mform->setType('idnumber', core_user::get_property_type('idnumber'));
 
     $mform->addElement('text', 'institution', get_string('institution'), 'maxlength="255" size="25"');
