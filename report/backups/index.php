@@ -167,7 +167,7 @@ foreach ($rs as $backuprow) {
     $backuplogsicon = new pix_icon('t/viewdetails', get_string('viewlogs', 'report_backups'));
 
     //  link to course  hanna 1/7/15
-    $courselink = "<td nowrap=\"nowrap\"><font-size=\"2\"> [<a href=\"/moodle2/course/view.php?id=$backuprow->courseid\">".$strview." ".$strcourse."</a>] </font></td>";
+    $courselink = "<td nowrap=\"nowrap\"><font-size=\"2\"> [<a href=\"/course/view.php?id=$backuprow->courseid\">".$strview." ".$strcourse."</a>] </font></td>";
     $coursename =  format_string($backuprow->fullname, true, array('context' => context_course::instance($backuprow->courseid)));
 
     $cells = array(
