@@ -93,7 +93,7 @@ class block_slideshow extends block_base {
 		if (!empty($this->config->background)) {
 	    	$this->content->background = $this->config->background;
 		} else {
-			$this->content->background = '#000000';
+			$this->content->background = '#fefefe'; // was '#000000';  hanna 4/9/16
 		}
 		
 		if (!empty($this->config->transparent)) {
