@@ -1,6 +1,3 @@
-@import url("../blocks/configurable_reports/js/datatables/media/css/jquery.dataTables.css");
-@import url("../blocks/configurable_reports/js/codemirror/lib/codemirror.css");
-@import url("../blocks/configurable_reports/js/codemirror/addon/display/fullscreen.css");
 
 .dir-rtl .CodeMirror {
     direction: ltr;
@@ -118,7 +115,7 @@
      position:relative;
      top:1px;
  }
-/*  additions davidson */
+
 #page-blocks-configurable_reports-viewreport .fullreportbutton {
     text-align: center;
 }
