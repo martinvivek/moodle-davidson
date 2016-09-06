@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$plugin->version = 2015092903;  // YYYYMMDDHH (year, month, day, 24-hr time).
-$plugin->requires = 2011120500; // YYYYMMDDHH (This is the release version for Moodle 2.0).
+
+
+$plugin->version = 2016090101;  // YYYYMMDDHH (year, month, day, 24-hr time).
+$plugin->requires = 2015051100; // YYYYMMDDHH (This is the release version for Moodle 2.9).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v2.0';
+$plugin->release = 'v3.0';
 $plugin->component = 'block_analytics_graphs';

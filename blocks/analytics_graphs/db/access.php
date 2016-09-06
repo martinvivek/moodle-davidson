@@ -35,6 +35,7 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
+
     'block/analytics_graphs:addinstance' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
@@ -44,14 +45,5 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         ),
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
-    ),
-    'block/analytics_graphs:myaddinstance' => array(
-        'riskbitmask'  => RISK_PERSONAL,
-        'captype'      => 'read',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes'   => array(
-            'user' => CAP_ALLOW,
-        ),
-        'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
 );

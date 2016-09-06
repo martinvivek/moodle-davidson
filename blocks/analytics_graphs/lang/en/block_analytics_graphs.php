@@ -17,6 +17,7 @@
 
 
 $string['analytics_graphs:addinstance'] = 'Add a new AG block';
+$string['analytics_graphs:bemonitored'] = 'User is monitored in the course';
 $string['analytics_graphs:myaddinstance'] = 'Add a new AG block to the My Moodle page';
 $string['analytics_graphs:viewpages'] = 'View graphs';
 $string['pluginname'] = 'Analytics Graphs';
@@ -100,5 +101,3 @@ $string['remove_task'] = "Remove assessment from chart";
 $string['no_student_task'] = "This assessment does not have students in the selected group";
 $string['add_all'] = "Add all";
 $string['remove_all'] = "Remove all";
-
-$string['analytics_graphs:bemonitored'] = 'Be monitored';
