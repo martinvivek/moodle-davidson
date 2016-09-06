@@ -199,7 +199,100 @@ class format_grid_renderer extends format_section_renderer_base {
      */
     public function print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection) {
         if ($this->topic0attop) {
-            return parent::print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection);
+            //return parent::print_single_section_page($course, $sections, $mods, $modnames, $modnamesused, $displaysection);
+
+            // Following code was copied from parent::print_single_section_page (nadavkav)
+
+            $modinfo = get_fast_modinfo($course);
+            $course = course_get_format($course)->get_course();
+
+            // Can we view the section in question?
+            if (!($sectioninfo = $modinfo->get_section_info($displaysection))) {
+                // This section doesn't exist
+                print_error('unknowncoursesection', 'error', null, $course->fullname);
+                return;
+            }
+
+            if (!$sectioninfo->uservisible) {
+                if (!$course->hiddensections) {
+                    echo $this->start_section_list();
+                    echo $this->section_hidden($displaysection, $course->id);
+                    echo $this->end_section_list();
+                }
+                // Can't view this section.
+                return;
+            }
+
+            // Copy activity clipboard..
+            echo $this->course_activity_clipboard($course, $displaysection);
+            $thissection = $modinfo->get_section_info(0);
+            if ($thissection->summary or !empty($modinfo->sections[0]) or $PAGE->user_is_editing()) {
+                echo $this->start_section_list();
+                echo $this->section_header($thissection, $course, true, $displaysection);
+                echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+                echo $this->courserenderer->course_section_add_cm_control($course, 0, $displaysection);
+                echo $this->section_footer();
+                echo $this->end_section_list();
+            }
+
+            // Start single-section div
+            echo html_writer::start_tag('div', array('class' => 'single-section'));
+
+            // The requested section page.
+            $thissection = $modinfo->get_section_info($displaysection);
+
+            // Title with section navigation links.
+            $sectionnavlinks = $this->get_nav_links($course, $modinfo->get_section_info_all(), $displaysection);
+            $sectiontitle = '';
+            $sectiontitle .= html_writer::start_tag('div', array('class' => 'section-navigation navigationtitle'));
+//        $sectiontitle .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
+//        $sectiontitle .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'mdl-right'));
+            // Title attributes
+            $classes = 'sectionname';
+            if (!$thissection->visible) {
+                $classes .= ' dimmed_text';
+            }
+            $sectionname = html_writer::tag('span', $this->section_title_without_link($thissection, $course));
+            $sectiontitle .= $this->output->heading($sectionname, 3, $classes);
+
+            //  change appearance of navigation buttons  hanna 5/7/15
+            if ($sectionnavlinks['next']) $sectiontitle .= html_writer::tag('div', $sectionnavlinks['next'], array('class' => 'mdl-right'));
+            if ($sectionnavlinks['previous']) $sectiontitle .= html_writer::tag('div', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
+
+            $sectiontitle .= html_writer::end_tag('div');
+            echo $sectiontitle;
+
+            // Now the list of sections..
+            echo $this->start_section_list();
+
+            echo $this->section_header($thissection, $course, true, $displaysection);
+            // Show completion help icon.
+            $completioninfo = new completion_info($course);
+            echo $completioninfo->display_help_icon();
+
+            echo $this->courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+            echo $this->courserenderer->course_section_add_cm_control($course, $displaysection, $displaysection);
+            echo $this->section_footer();
+            echo $this->end_section_list();
+
+            // Display section bottom navigation.
+            $sectionbottomnav = '';
+            $sectionbottomnav .= html_writer::start_tag('div', array('class' => 'section-navigation mdl-bottom'));
+//        $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
+//        $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'mdl-right'));
+            $sectionbottomnav .= html_writer::tag('div', $this->section_nav_selection($course, $sections, $displaysection),
+                array('class' => 'mdl-align'));
+
+            //  change appearance of navigation buttons  hanna 5/7/15
+            if ($sectionnavlinks['next']) $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'mdl-right'));
+            if ($sectionnavlinks['previous']) $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
+
+            $sectionbottomnav .= html_writer::end_tag('div');
+            echo $sectionbottomnav;
+
+            // Close single-section div.
+            echo html_writer::end_tag('div');
+
         } else {
             $modinfo = get_fast_modinfo($course);
             $course = course_get_format($course)->get_course();
@@ -316,6 +409,16 @@ class format_grid_renderer extends format_section_renderer_base {
             // For the purpose of the grid shade box shown array topic 0 is not shown.
             $this->shadeboxshownarray[0] = 1;
         }
+        if ($this->settings['davidsonlayout'] == 1) { // 1= Use special Davidson layout.
+            //echo html_writer::end_tag('div');
+
+            echo html_writer::start_tag('div', array('id' => 'fixedicons'));
+            echo html_writer::start_tag('ul', array('class' => 'gridicons fixed'));
+            // Print all of the image containers.
+            $this->make_block_icon_topics_fixed($coursecontext->id, $modinfo, $course, $editing, $hascapvishidsect, $urlpicedit);
+            echo html_writer::end_tag('ul');
+            echo html_writer::end_tag('div');
+        }
         echo html_writer::start_tag('div', array('id' => 'gridiconcontainer', 'role' => 'navigation',
             'aria-label' => get_string('gridimagecontainer', 'format_grid')));
         echo html_writer::start_tag('ul', array('class' => 'gridicons'));
@@ -326,7 +429,11 @@ class format_grid_renderer extends format_section_renderer_base {
         echo html_writer::start_tag('div', array('id' => 'gridshadebox'));
         echo html_writer::tag('div', '', array('id' => 'gridshadebox_overlay', 'style' => 'display: none;'));
 
-        $gridshadeboxcontentclasses = array('hide_content');
+        if ($editing) {
+            $gridshadeboxcontentclasses = array();
+        } else {
+            $gridshadeboxcontentclasses = array('hide_content');
+        }
         if (!$editing) {
             if ($this->settings['fitsectioncontainertowindow'] == 2) {
                  $gridshadeboxcontentclasses[] = 'fit_to_window';
@@ -334,7 +441,6 @@ class format_grid_renderer extends format_section_renderer_base {
                  $gridshadeboxcontentclasses[] = 'absolute';
             }
         }
-
         echo html_writer::start_tag('div', array('id' => 'gridshadebox_content', 'class' => implode(' ',
             $gridshadeboxcontentclasses),
             'role' => 'region',
@@ -402,25 +508,27 @@ class format_grid_renderer extends format_section_renderer_base {
             $sectionredirect = $this->courseformat->get_view_url(null)->out(true);
         }
 
-        // Initialise the shade box functionality:...
-        $PAGE->requires->js_init_call('M.format_grid.init', array(
-            $PAGE->user_is_editing(),
-            $sectionredirect,
-            $course->numsections,
-            json_encode($this->shadeboxshownarray),
-            right_to_left()));
-        // Initialise the key control functionality...
-        $PAGE->requires->yui_module('moodle-format_grid-gridkeys', 'M.format_grid.gridkeys.init',
-            array(array('editing' => $PAGE->user_is_editing())), null, true);
+        if ($this->settings['davidsonlayout'] != 1) { // 1= Use special Davidson layout.
+            // Initialise the shade box functionality:...
+            $PAGE->requires->js_init_call('M.format_grid.init', array(
+                $PAGE->user_is_editing(),
+                $sectionredirect,
+                $course->numsections,
+                json_encode($this->shadeboxshownarray),
+                right_to_left()));
+            // Initialise the key control functionality...
+            $PAGE->requires->yui_module('moodle-format_grid-gridkeys', 'M.format_grid.gridkeys.init',
+                array(array('editing' => $PAGE->user_is_editing())), null, true);
+        }
     }
 
     /**
-     * Generate the edit controls of a section
+     * Generate the edit control items of a section
      *
      * @param stdClass $course The course entry from DB
      * @param stdClass $section The course_section entry from DB
      * @param bool $onsectionpage true if being printed on a section page
-     * @return array of links with edit controls
+     * @return array of edit control items
      */
     protected function section_edit_control_items($course, $section, $onsectionpage = false) {
 
@@ -559,8 +667,7 @@ class format_grid_renderer extends format_section_renderer_base {
     /**
      * Makes the grid image containers.
      */
-    private function make_block_icon_topics($contextid, $modinfo, $course, $editing, $hascapvishidsect,
-            $urlpicedit) {
+    private function make_block_icon_topics($contextid, $modinfo, $course, $editing, $hascapvishidsect, $urlpicedit) {
         global $CFG;
 
         if ($this->settings['newactivity'] == 2) {
@@ -605,6 +712,9 @@ class format_grid_renderer extends format_section_renderer_base {
 
                 $sectionname = $this->courseformat->get_section_name($thissection);
 
+                if ($this->settings['davidsonlayout'] == 1 && // 1= Use special Davidson layout.
+                        substr($sectionname, 0, 1) == '^') continue;
+
                 /* Roles info on based on: http://www.w3.org/TR/wai-aria/roles.
                    Looked into the 'grid' role but that requires 'row' before 'gridcell' and there are none as the grid
                    is responsive, so as the container is a 'navigation' then need to look into converting the containing
@@ -636,9 +746,20 @@ class format_grid_renderer extends format_section_renderer_base {
                         $this->settings);
                 }
 
+                ///////////////////////////////
+                // COURSE_DISPLAY_SINGLE-PAGE
+                //
                 if ($course->coursedisplay != COURSE_DISPLAY_MULTIPAGE) {
+                    // Thumbnail should link to...
+                    if ($this->settings['davidsonlayout'] == 1) { // 1= Use special Davidson layout.
+                        $thumburl = $this->get_first_module_in_section($course, $thissection->section);
+                    } else {
+                        // maybe not needed any more (used on M29) (todo: remove me)
+                        //$imgurl = course_get_url($course, $thissection->section);
+                        $thumburl = '#section-' . $thissection->section;
+                    }
                     echo html_writer::start_tag('a', array(
-                        'href' => '#section-' . $thissection->section,
+                        'href' => $thumburl,
                         'id' => 'gridsection-' . $thissection->section,
                         'class' => 'gridicon_link',
                         'role' => 'link',
@@ -665,11 +786,13 @@ class format_grid_renderer extends format_section_renderer_base {
                         $imgurl = moodle_url::make_pluginfile_url(
                             $contextid, 'course', 'section', $thissection->id, $gridimagepath,
                             $sectionimage->displayedimageindex . '_' . $sectionimage->image);
+                        $imglink = $this->get_first_module_in_section($course, $thissection->section);
                         $showimg = true;
                     } else if ($section == 0) {
                         $imgurl = $this->output->pix_url('info', 'format_grid');
                         $showimg = true;
                     }
+
                     if ($showimg) {
                         echo html_writer::empty_tag('img', array(
                             'src' => $imgurl,
@@ -682,10 +805,27 @@ class format_grid_renderer extends format_section_renderer_base {
                     echo html_writer::end_tag('a');
 
                     if ($editing) {
-                        $this->make_block_icon_topics_editing($thissection, $contextid, $urlpicedit, $course, $section);
+                        if ($this->settings['davidsonlayout'] != 1) { // 1= Use special Davidson layout.
+                            $this->make_block_icon_topics_editing($thissection, $contextid, $urlpicedit, $course, $section);
+                        }
                     }
                     echo html_writer::end_tag('li');
+
                 } else {
+
+                    ///////////////////////////////
+                    // COURSE_DISPLAY_MULTIPAGE
+                    //
+
+                    // Thumbnail should link to...
+                    if ($this->settings['davidsonlayout'] == 1) { // 1= Use special Davidson layout.
+                        $singlepageurl = $this->get_first_module_in_section($course, $thissection->section);
+                    } else {
+                        // maybe not needed any more (used on M29) (todo: remove me)
+                        //$imgurl = course_get_url($course, $thissection->section);
+                        //$singlepageurl = '#section-' . $thissection->section;
+                    }
+
                     $content = html_writer::tag('p', $sectionname, array('class' => 'icon_content'));
 
                     if (($this->settings['newactivity'] == 2) && (isset($sectionupdated[$thissection->id]))) {
@@ -712,6 +852,7 @@ class format_grid_renderer extends format_section_renderer_base {
                         $imgurl = $this->output->pix_url('info', 'format_grid');
                         $showimg = true;
                     }
+
                     if ($showimg) {
                         $content .= html_writer::empty_tag('img', array(
                                     'src' => $imgurl,
@@ -734,6 +875,251 @@ class format_grid_renderer extends format_section_renderer_base {
                             echo html_writer::tag('span', $content);
                         }
                         $this->make_block_icon_topics_editing($thissection, $contextid, $urlpicedit, $course, $section);
+                    } else {
+                        if (!$sectiongreyedout) {
+                            echo html_writer::link($singlepageurl.'&section='.$thissection->section, $content, array(
+                                'id' => 'gridsection-' . $thissection->section,
+                                'role' => 'link',
+                                'aria-label' => $sectionname));
+                        } else {
+                            // Need an enclosing 'span' for IE.
+                            echo html_writer::tag('span', $content);
+                        }
+                    }
+                    echo html_writer::end_tag('li');
+                }
+            } else {
+                // We now know the value for the grid shade box shown array.
+                $this->shadeboxshownarray[$section] = 1;
+            }
+        }
+    }
+
+    /**
+     * Makes the grid image containers.
+     */
+    private function make_block_icon_topics_fixed($contextid, $modinfo, $course, $editing, $hascapvishidsect,
+                                            $urlpicedit) {
+        global $CFG;
+
+        if ($this->settings['newactivity'] == 2) {
+            $currentlanguage = current_language();
+            if (!file_exists("$CFG->dirroot/course/format/grid/pix/new_activity_" . $currentlanguage . ".png")) {
+                $currentlanguage = 'en';
+            }
+            $url_pic_new_activity = $this->output->pix_url('new_activity_' . $currentlanguage, 'format_grid');
+
+            // Get all the section information about which items should be marked with the NEW picture.
+            $sectionupdated = $this->new_activity($course);
+        }
+
+        // Get the section images for the course.
+        $sectionimages = $this->courseformat->get_images($course->id);
+
+        // CONTRIB-4099:...
+        $gridimagepath = $this->courseformat->get_image_path();
+
+        if ($course->coursedisplay == COURSE_DISPLAY_MULTIPAGE) {
+            $singlepageurl = $this->courseformat->get_view_url(null)->out(true);
+        }
+
+        // Start at 1 to skip the summary block or include the summary block if it's in the grid display.
+        for ($section = $this->topic0attop ? 1 : 0; $section <= $course->numsections; $section++) {
+            $thissection = $modinfo->get_section_info($section);
+
+            // Check if section is visible to user.
+            $sectionvisible = ($thissection->uservisible ||
+                ($thissection->visible && !$thissection->available &&
+                    !empty($thissection->availableinfo)));
+            $showsection = $hascapvishidsect || $sectionvisible;
+
+            // If we should grey it out, flag that here.  Justin 2016/05/14.
+            $sectionunavailable = !$thissection->available;
+            $greyouthidden = $this->settings['greyouthidden'] == 2;
+            $sectiongreyedout = $sectionunavailable && !$hascapvishidsect && $greyouthidden;
+
+            if ($showsection || $sectiongreyedout) {
+                // We now know the value for the grid shade box shown array.
+                $this->shadeboxshownarray[$section] = 2;
+
+                $sectionname = $this->courseformat->get_section_name($thissection);
+
+                if ($this->settings['davidsonlayout'] == 1 && // 1= Use special Davidson layout.
+                    substr($sectionname, 0, 1) != '^') continue;
+                $sectionname = ltrim($sectionname, '^');
+
+                /* Roles info on based on: http://www.w3.org/TR/wai-aria/roles.
+                   Looked into the 'grid' role but that requires 'row' before 'gridcell' and there are none as the grid
+                   is responsive, so as the container is a 'navigation' then need to look into converting the containing
+                   'div' to a 'nav' tag (www.w3.org/TR/2010/WD-html5-20100624/sections.html#the-nav-element) when I'm
+                   that all browsers support it against the browser requirements of Moodle. */
+                $liattributes = array(
+                    'role' => 'region',
+                    'aria-label' => $sectionname
+                );
+                if ($this->courseformat->is_section_current($section)) {
+                    $liattributes['class'] = 'currenticon';
+                }
+                echo html_writer::start_tag('li', $liattributes);
+
+                // Ensure the record exists.
+                if (($sectionimages === false) || (!array_key_exists($thissection->id, $sectionimages))) {
+                    // Method get_image has 'repair' functionality for when there are issues with the data.
+                    $sectionimage = $this->courseformat->get_image($course->id, $thissection->id);
+                } else {
+                    $sectionimage = $sectionimages[$thissection->id];
+                }
+
+                // If the image is set then check that displayedimageindex is greater than 0 otherwise create the displayed image.
+                // This is a catch-all for existing courses.
+                if (isset($sectionimage->image) && ($sectionimage->displayedimageindex < 1)) {
+                    // Set up the displayed image:...
+                    $sectionimage->newimage = $sectionimage->image;
+                    $sectionimage = $this->courseformat->setup_displayed_image($sectionimage, $contextid,
+                        $this->settings);
+                }
+
+                // COURSE_DISPLAY_MULTIPAGE
+
+                if ($course-> coursedisplay != COURSE_DISPLAY_MULTIPAGE) {
+                    // Thumbnail should link to...
+                    if ($this->settings['davidsonlayout'] == 1) { // 1= Use special Davidson layout.
+                        $thumburl = $this->get_first_module_in_section($course, $thissection->section);
+                    } else {
+                        // maybe not needed any more (used on M29) (todo: remove me)
+                        //$thumburl = course_get_url($course, $thissection->section);
+                        $thumburl = '#section-' . $thissection->section;
+                    }
+                    echo html_writer::start_tag('a', array(
+                        'href' => $thumburl,
+                        'id' => 'gridsection-' . $thissection->section,
+                        'class' => 'gridicon_link',
+                        'role' => 'link',
+                        'aria-label' => $sectionname));
+
+                    echo html_writer::tag('span', $sectionname, array('class' => 'icon_content btnz'));
+
+                    if (($this->settings['newactivity'] == 2) && (isset($sectionupdated[$thissection->id]))) {
+                        // The section has been updated since the user last visited this course, add NEW label.
+                        echo html_writer::empty_tag('img', array(
+                            'class' => 'new_activity',
+                            'src' => $url_pic_new_activity,
+                            'alt' => ''));
+                    }
+
+                    $imageclass = 'image_holder';
+                    if ($sectiongreyedout) {
+                        $imageclass .= ' inaccessible';
+                    }
+                    //echo html_writer::start_tag('div', array('class' => $imageclass));
+
+                    $showimg = false;
+                    if (is_object($sectionimage) && ($sectionimage->displayedimageindex > 0)) {
+                        $imgurl = moodle_url::make_pluginfile_url(
+                            $contextid, 'course', 'section', $thissection->id, $gridimagepath,
+                            $sectionimage->displayedimageindex . '_' . $sectionimage->image);
+                        $showimg = true;
+                    } else if ($section == 0) {
+                        $imgurl = $this->output->pix_url('info', 'format_grid');
+                        $showimg = true;
+                    }
+
+                    if ($showimg) {
+                        echo html_writer::empty_tag('img', array(
+                            'src' => $imgurl,
+                            'alt' => $sectionname,
+                            'role' => 'img',
+                            'aria-label' => $sectionname));
+                    }
+
+                    //echo html_writer::end_tag('div');
+                    echo html_writer::end_tag('a');
+
+                    if ($editing) {
+                        if ($this->settings['davidsonlayout'] != 1) { // 1= Use special Davidson layout.
+                            $this->make_block_icon_topics_editing($thissection, $contextid, $urlpicedit, $course, $section);
+                        }
+                    }
+                    echo html_writer::end_tag('li');
+                } else {
+
+                    // Course Grid display in SINGLE PAGE mode
+
+                    $content = '';//html_writer::tag('p', $sectionname, array('class' => 'icon_content '));
+
+                    if (($this->settings['newactivity'] == 2) && (isset($sectionupdated[$thissection->id]))) {
+                        $content .= html_writer::empty_tag('img', array(
+                            'class' => 'new_activity',
+                            'src' => $url_pic_new_activity,
+                            'alt' => ''));
+                    }
+
+                    // Grey out code: Justin 2016/05/14.
+                    $imageclass = 'span3';//'image_holder'; // no images in fixed icons.
+                    if ($sectiongreyedout) {
+                        $imageclass .= ' inaccessible';
+                    }
+                    $content .= html_writer::start_tag('div');//, array('class' => $imageclass));
+
+                    $showimg = false;
+                    if (is_object($sectionimage) && ($sectionimage->displayedimageindex > 0)) {
+                        $imgurl = moodle_url::make_pluginfile_url(
+                            $contextid, 'course', 'section', $thissection->id, $gridimagepath,
+                            $sectionimage->displayedimageindex . '_' . $sectionimage->image);
+                        $showimg = true;
+                    } else if ($section == 0) {
+                        $imgurl = $this->output->pix_url('info', 'format_grid');
+                        $showimg = true;
+                    }
+
+                    // Thumbnail should link to...
+                    if ($this->settings['davidsonlayout'] == 1) { // 1= Use special Davidson layout.
+                        $singlepageurl = $this->get_first_module_in_section($course, $thissection->section);
+                        $sectionnametag = html_writer::tag('span', $sectionname, array('class'=>'btnz'));
+                        $showimg = false;
+                    } else {
+                        // maybe not needed any more (used on M29) (todo: remove me)
+                        //$imgurl = course_get_url($course, $thissection->section);
+                        $thumburl = '#section-' . $thissection->section;
+                    }
+
+                    if ($showimg) {
+                        $img = html_writer::empty_tag('img', array(
+                            'src' => $imgurl,
+                            'alt' => $sectionname,
+                            'role' => 'img',
+                            'aria-label' => $sectionname));
+
+                        $content .= html_writer::link($imgurl, $img, array(
+                            'id' => 'gridsection-' . $thissection->section,
+                            'role' => 'link',
+                            'aria-label' => $sectionname));
+                    } else {
+                        $content .= $sectionnametag;
+                        /*
+                        html_writer::link($imgurl, $sectionname, array(
+                            'id' => 'gridsection-' . $thissection->section,
+                            'role' => 'link',
+                            'aria-label' => $sectionname));
+                        */
+                    }
+
+                    $content .= html_writer::end_tag('div');
+
+                    if ($editing) {
+                        // Section greyed out by Justin 2016/05/14.
+                        if (!$sectiongreyedout) {
+                            echo html_writer::link($singlepageurl.'#section-'.$thissection->section, $content, array(
+                                'id' => 'gridsection-' . $thissection->section,
+                                'role' => 'link',
+                                'aria-label' => $sectionname));
+                        } else {
+                            // Need an enclosing 'span' for IE.
+                            echo html_writer::tag('span', $content);
+                        }
+                        if ($this->settings['davidsonlayout'] != 1) { // 1= Use special Davidson layout.
+                            $this->make_block_icon_topics_editing($thissection, $contextid, $urlpicedit, $course, $section);
+                        }
                     } else {
                         if (!$sectiongreyedout) {
                             echo html_writer::link($singlepageurl.'&section='.$thissection->section, $content, array(
@@ -798,6 +1184,47 @@ class format_grid_renderer extends format_section_renderer_base {
         }
     }
 
+
+
+    protected function get_first_module_in_section($course, $section) {
+
+        $modinfo = get_fast_modinfo($course);
+        $thissection = $modinfo->get_section_info($section);
+
+        if (is_object($thissection)) {
+            $section = $modinfo->get_section_info($thissection->section);
+        } else {
+            $section = $modinfo->get_section_info($thissection);
+        }
+
+        //if (!empty($modinfo->sections[$section->section])) {
+        //echo "Modules count in section is = ".count($modinfo->sections[$section->section]);
+        //echo "<br>";
+        /*foreach ($modinfo->sections[$section->section] as $modnumber) {
+            $mod = $modinfo->cms[$modnumber];
+        }*/
+        //}
+
+        if (!empty($modinfo->sections[$section->section])) {
+            $firstmodnumber = $modinfo->sections[$section->section];
+            //echo "first activity number=".$firstmodnumber[0];
+            //print_object($firstmodnumber);die;
+            //echo $firstmodnumber[0];die;
+            $firstmod = $modinfo->cms[$firstmodnumber[0]];
+            //echo $firstmod->url;
+        }
+
+        //return $firstmod->url.'&navsection='.$thissection->section.'&navfmodid='.$firstmodnumber[0];
+
+        if (empty($firstmod->url)) {
+            global $CFG;
+            return $CFG->wwwroot.'/course/view.php?id='.$course->id; // no activity to display, so do not display the entire section tumbnail.
+        } else {
+            return $firstmod->url.'&navsection='.$thissection->section.'&navfmodid='.$firstmodnumber[0];
+        }
+
+    }
+
     /**
      * If currently moving a file then show the current clipboard.
      */
@@ -840,7 +1267,14 @@ class format_grid_renderer extends format_section_renderer_base {
             if ($this->courseformat->is_section_current($section)) {
                 $sectionstyle .= ' current';
             }
-            $sectionstyle .= ' grid_section hide_section';
+            if ($editing) {
+                // Display sections for editing (nadavkav)
+                $sectionstyle .= ' grid_section ';
+            } else {
+                // Hide section when not editing - performance (nadavkav)
+                $sectionstyle .= ' grid_section hide_section';
+            }
+
 
             $sectionname = $this->courseformat->get_section_name($thissection);
             if ($editing) {

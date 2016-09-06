@@ -906,6 +906,7 @@ class core_course_renderer extends plugin_renderer_base {
      */
     public function course_section_cm_list_item($course, &$completioninfo, cm_info $mod, $sectionreturn, $displayoptions = array()) {
         $output = '';
+
         if ($modulehtml = $this->course_section_cm($course, $completioninfo, $mod, $sectionreturn, $displayoptions)) {
             $modclasses = 'activity ' . $mod->modname . ' modtype_' . $mod->modname . ' ' . $mod->extraclasses;
             $output .= html_writer::tag('li', $modulehtml, array('class' => $modclasses, 'id' => 'module-' . $mod->id));
@@ -1059,6 +1060,9 @@ class core_course_renderer extends plugin_renderer_base {
             $strmovefull = strip_tags(get_string("movefull", "", "'$USER->activitycopyname'"));
         }
 
+        $cContext = context_course::instance($course->id);
+        $isStudent = !has_capability ('moodle/course:update', $cContext) ? true : false;
+
         // Get the list of modules visible to user (excluding the module being moved if there is one)
         $moduleshtml = array();
         if (!empty($modinfo->sections[$section->section])) {
@@ -1069,6 +1073,9 @@ class core_course_renderer extends plugin_renderer_base {
                     // do not display moving mod
                     continue;
                 }
+
+                // Visually hide (but keep available) an activity that its name starts with "*" from students.
+                if ($isStudent && mb_substr($mod->name, 0, 1) == '*') continue;
 
                 if ($modulehtml = $this->course_section_cm_list_item($course,
                         $completioninfo, $mod, $sectionreturn, $displayoptions)) {

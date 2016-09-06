@@ -1,0 +1,675 @@
+/*  Davidson new theme hacking...
+*/
+
+/*
+#page-header {height: 0;}
+div#page::before,
+#page-header .container-fluid,
+#region-main .coursetitle,
+.page-context-header {display: none;}
+
+.path-mod-forum .forumheaderlist td {border-style: none;}
+*/
+
+/* Fonts properties.
+*/
+/*
+.block a,
+.breadcrumb-nav ul.breadcrumb.style2 li a,
+.block_course_module_nav li,
+.block_course_module_nav .instancename,
+#page-my-index.dir-rtl .block_course_overview .course_title .titlename,
+#page-my-index.dir-rtl .block_course_overview .course_title .title .name,
+.block .header .title h2,
+#page-site-index .block_login .content form input[type="submit"],
+#page-site-index .block_login .content .footer div a,
+#page-site-index .block_login div#passwordinhebrew,
+#page-site-index .block_login .logincheck,
+.navbar .navbar-inner .nav > li.dropdown a,
+.navbar .navbar-inner .nav>li>a,
+#page-site-index .block_login form label,
+.navbar .navbar-inner .brand {
+    font-family: nextexitroundregular, sans-serif;
+}
+.navbar .brand {
+    font-size: 26px;
+    margin-top: 2px;
+}
+.block .header .title h2, .block h3.main {
+    font-size: 26px;
+}
+#page-site-index a.brand:hover {text-decoration: none;}
+*/
+
+/* Frontpage - before login
+*/
+/*
+.block_login {
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+.block_login .block_action {display: none;}
+#page-site-index .block_login .content .footer a:hover {text-decoration: none;}
+
+.categoryicons .course_category_tree .category[data-categoryid] {height:150px;}
+.block_login .content form input[type="submit"], .block_login .content .footer a {margin: 0;}
+#page-site-index #region-main,
+#page-site-index .block_navigation.block {display: block;}
+
+#page-site-index.dir-rtl #page-content #region-main {float:left;}
+#page-site-index.dir-rtl .row-fluid [class*="span"] {float: right;}
+
+#page-site-index #fullscreenpadding {display: none;}
+#page-site-index #region-main {
+    margin-right: 110px;
+    width: 500px;
+}
+#page-site-index.dir-rtl #region-main {
+    margin-left: 110px;
+    margin-right: 0;
+}
+.frontpagecontent {
+    width: 500px;
+    left: 150px;
+    position: absolute;
+    font-size: 8em;
+    height: 400px;
+    line-height: 1em;
+    opacity: 0.7;
+}
+
+#page-site-index #region-main {opacity: 0.7;}
+#page-site-index .modtype_label .no-overflow {overflow: inherit;}
+#page-site-index #page {
+    background-color: transparent;
+}
+#page {
+    min-height: 840px;
+}
+*/
+.role-student div#page-navbar {
+    display: none;
+}
+.role-admin div#page-navbar {
+    display: block;
+}
+/*
+#page-site-index #page-content #region-main div[role=main],
+#page-site-index #page-content #region-main {
+    background-color: transparent;
+    border: none;
+}
+
+#page-site-index {
+    background-image: url([[pix:theme|davidson/frontpage_bg]]);
+}
+*/
+
+/* MyDashboard - hide blocks from user
+*/
+/*
+#page-my-index.role-student #custom_menu_courses,
+#page-my-index.role-student .breadcrumb-button,
+#page-my-index.role-student #block-region-side-post {display: none;}
+#page-my-index.role-student #region-bs-main-and-pre {width:100%;}
+#page-my-index.role-student .block_course_overview.block {margin-bottom: 0;}
+#page-my-index.role-student #page #page-content #region-main {border:none; background-color: transparent;}
+
+.badges li {width: 100px;}
+*/
+
+/*  Davidson block_course_overview hacks
+*/
+/*
+.dir-rtl .block_course_overview .activity_info {margin-right: 0;}
+.block_course_overview .block_action {display: none;}
+
+.block_course_overview .content .notice {float: left;}
+.dir-rtl .block_course_overview .content .notice {float: right;clear: both;}
+
+.block_course_overview .coursebox {
+    padding: 15px;
+    width: 29%;
+    float: right;
+    height: 240px;
+    margin-left: 15px;
+    margin-top: 22px;
+    background-color: white;
+    border: 1px solid #696969;
+    overflow: auto;
+}
+
+.block_course_overview .coursebox .summary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.block_course_overview .course_list {
+    margin: 0 35px;
+    width: 100%;
+}
+.block_course_overview .categorypath {display: none;}
+.block_course_overview .coursebox {
+    padding: 0px;
+}
+.block_course_overview .footer {clear:both;}
+.block_course_overview h2.title .name {font-weight: normal;}
+*/
+
+/* Hack - add quickcourselist block to MY page
+*/
+/*
+.block_quickcourselist.block {width: 250px; float:left;margin-bottom: -33px;}
+.block_course_overview .content {margin-top: 25px;}
+*/
+
+/*  Course "cards" on My page
+*/
+/*
+#page-my-index .block_course_overview .course_title img {
+    width: 100%;
+}
+#page-my-index .block_course_overview .course_title .title {
+    display: block;
+    font-size: 2em;
+}
+#page-my-index.dir-rtl .block_course_overview .course_title .title {
+    direction: rtl;
+    text-align: right;
+
+}
+#page-my-index.dir-rtl .block_course_overview .course_title .titlename,
+#page-my-index.dir-rtl .block_course_overview .course_title .title .name {
+    display: block;
+    padding: 10px;
+    line-height: 90%;
+    font-size: 26px;
+}
+#page-my-index .block_course_overview {background: transparent; border:none;}
+#page-my-index #page #page-content div[role=main],
+#page-my-index #page #page-content #region-main {background-color: transparent; border:none;}
+
+@media (min-width: 768px) {
+    #page-site-index .row-fluid .desktop-first-column {
+        margin-left: 77px;
+    }
+    #page-site-index.dir-rtl .row-fluid .desktop-first-column {
+        margin-right: 77px;
+        margin-left: 0;
+    }
+}
+*/
+
+/* FOOTER
+*/
+
+/*
+#page-my-index #page-footer,
+#page-site-index #page-footer {
+    position: static;
+    bottom: 0;
+}
+html {height: 100%;}
+body {min-height:100%}
+#page-wrapper {min-height: 100%;position: relative;}
+#page-footer {
+    background-color: rgba(76, 76, 76, 0.95);
+    bottom: 0;
+    position: relative; // todo: need to fix sticky footer
+}
+
+.footnote .block-wrapper {margin:0 auto; width:54%;}
+#page-footer ul li {float:right;padding: 5px;margin: 7px;}
+#page-footer .footnote a, #page-footer .footnote a:visited {
+    color: #943b21 !important;
+}
+#page-footer .footerlinks .footnote {text-align: center;}
+#page-footer .copy {
+    display: block;
+    text-align: center;
+    float: none;
+}
+*/
+
+/*
+#moodlelogo img {width:150px;float:left;}
+#davidson-googlemap {
+    margin: 0 auto;
+    padding-top: 50px;
+    width: 50%;
+}
+*/
+
+/*
+.alert-info,
+.alert-success {margin-top: 20px;text-align: center;}
+*/
+
+/* InCourse layout (module view)
+    Content first, then blocks (Hebrew - blocks on left)
+*/
+.row-fluid .pull-right[class*="span"],
+.pull-right[class*="span"] {
+    float: left;
+}
+.dir-rtl .row-fluid .pull-right[class*="span"],
+.dir-rtl .pull-right[class*="span"] {
+    float: right;
+}
+.row-fluid [class*="span"] {float:right;}
+.dir-rtl .row-fluid [class*="span"] {float:left;}
+#page-course-management.dir-rtl .row-fluid [class*="span"] {float:right;}
+
+/* Form(s)
+*/
+/*
+.mform fieldset.collapsible legend a.fheader,
+.dir-rtl .mform fieldset.collapsed legend a.fheader {background-position: 94% 60%;}
+
+div#fgroup_id_buttonar,
+div#fitem_id_submitbutton {
+    Position: fixed;
+    bottom: 20px;
+    width: 100%;
+    left: 0;
+}
+
+#region-main form #fgroup_id_buttonar>.fgroup, #region-main form #fitem_id_submitbutton>.fgroup,
+#region-main form .form-buttons>.fgroup, #region-main form .fp-content-center form+div>.fgroup,
+#region-main form .path-admin .buttons>.fgroup, #region-main form div.backup-section+form>.fgroup,
+#region-main form table#form td.submit>.fgroup {
+    display: inline-block;
+}
+
+#region-main form #fgroup_id_buttonar .felement, #region-main form #fitem_id_submitbutton .felement,
+#region-main form .form-buttons .felement, #region-main form .fp-content-center form+div .felement,
+#region-main form .path-admin .buttons .felement, #region-main form div.backup-section+form .felement,
+#region-main form table#form td.submit .felement {
+    display: inline-block;
+}
+
+#page form fieldset:last-of-type.hidden #fgroup_id_buttonar {
+    background-color: gray;
+}
+*/
+
+/*  Grid course format fixes
+*/
+
+@media (min-width: 1200px) {
+    .dir-rtl .row-fluid [class*="span"]:first-child {
+        margin-left: 0;
+    }
+}
+@media (max-width: 979px) and (min-width: 768px) {
+    .row-fluid [class*="span"]:first-child {
+        margin-left: 0;
+    }
+}
+.row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+}
+
+/* Display blocks under course content in special grid course format */
+/*.format-grid.path-course .row-fluid [class*="span"]:first-child {width: 100%;}
+nadavkav test */
+.format-grid.path-course #block-region-side-pre,
+.format-grid.path-course #block-region-side-post {width:100%;}
+.format-grid.path-course #block-region-side-pre .block,
+.format-grid.path-course #block-region-side-post .block {
+    float: right;
+    margin-right: 15px;
+    width: 45%;
+}
+
+/* Course format GRID
+*/
+
+#gridmiddle-column .gridicons.fixed {}
+#gridmiddle-column ul.gridicons.fixed li {float:right;}
+/*div#fixedicons {
+    height: 100px;
+    margin: 0 auto;
+    !*width:94%;*!
+}*/
+
+.course-content ul.gridicons li p.icon_content {
+    /*width: 247px !important; */    /*185px !important;   hanna 21/10/15 */
+}
+
+/* Course title above activity (page) */
+div#coursename {float:left}
+.dir-rtl div#coursename {float:right}
+
+/*
+.course-content ul.gridicons li .image_holder {
+    width: 175px !important;
+    height: 111px !important;
+}
+*/
+
+#fixedicons > ul,
+#section0 > ul {list-style-type: none;}
+/*#gridmiddle-column ul.gridicons.fixed li {
+    width: 25%;
+    overflow: hidden;
+}*/
+.course-content ul.gridicons.fixed img.new_activity,
+.course-content ul.gridicons img.new_activity  { display: block;}  /* margin-top: 74px !important;   hanna removed 13/10/15*/
+
+ul.gridicons {text-align: center;}
+#gridmiddle-column ul.gridicons.fixed li {
+    float: none;
+    display: inline-block;
+    width: 250px; /* fixed width of 4 top buttons */
+}
+
+/* hide "selected" background color */
+.course-content ul.gridicons li.currentselected {
+    background-color: transparent !important;
+}
+
+/* Quiz - attempt layout page - "quiz-attempt"
+*/
+#page-mod-quiz-attempt #region-bs-main-and-pre {width:100%;}
+#page-mod-quiz-attempt #block-region-side-pre,
+#page-mod-quiz-attempt #block-region-side-post {width: 20%;float:right;}
+#page-mod-quiz-attempt #davidsonnav {width: 25%;float:right;}
+#page-mod-quiz-attempt #region-main {width: 75%;float:left;}
+
+#mod_quiz_navblock .qn_buttons {height: 200px; overflow: auto;}
+
+/* Hide quiz attempt special block navigation arrows
+#page-mod-quiz-attempt .submitbtns, #page-mod-quiz-review .submitbtns {display: none;}
+*/
+#page-mod-quiz-attempt .submitbtns, #page-mod-quiz-review .submitbtns {
+    clear: right;
+    text-align: center;
+    padding-top: 0;
+}
+
+
+
+/* Block - fake course_module_nav
+*/
+.block_course_module_nav li {
+    line-height: 30px;
+    list-style-type: none;
+    font-size: larger;
+}
+
+.block_course_module_nav li:hover {
+    background-color: beige;
+}
+.block_course_module_nav li.currentsection:hover,
+.block_course_module_nav .previoussection,
+.block_course_module_nav .currentsection,
+.block_course_module_nav .nextsection {
+    background-color:#F6F6F6;
+    /*margin-right:-5px;*/
+}
+.block_course_module_nav li.selected,
+.block_course_module_nav .currentsection {
+    font-weight: bold;
+    /*padding: 0 5px;*/
+    font-size: larger;
+  }
+
+.block_course_module_nav .content ul {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.dir-rtl .block_course_module_nav .content ul {
+    margin-right: 0;
+}
+.block_course_module_nav .content {
+    padding: 0;
+}
+
+.block_course_module_nav .previoussection{
+  /*  margin-bottom: 20px; */
+    margin-top: 20px;
+ /*   border-bottom: 1px solid; */
+    border-top: 1px solid;
+    padding: 0 5px;
+}
+.block_course_module_nav .nextsection {
+  /*  margin-top: 20px; */
+    border-top: 1px solid;
+    padding: 0 5px;
+}
+
+.block_course_module_nav li.backtocourse {
+    margin-top: 16px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 3px;
+    display: none; /* TODO: should we remove the navigation to main course page? */
+}
+
+/* hanna added 20/10/15*/
+.block_course_module_nav .currentsection {
+    background-color: #e1e1e1;
+}
+
+/* hide fake block title */
+.block_course_module_nav .header,
+.block_course_module_nav .header .title h2,
+.block_course_module_nav h3.main {
+    display: none;
+}
+
+.block_course_module_nav .content {
+    overflow: visible;
+}
+
+.block_course_module_nav {
+    padding: 0;
+    margin: 0;
+    border-radius: 3px;
+}
+
+/* Blocks - UI beautification hack // nadavkav
+*/
+/*
+.dir-rtl .block_settings .block_tree .tree_item {padding-right: 0px;}
+.dir-rtl .block_settings .block_tree li ul {padding-right: 10px;}
+.block .header .title h2:before {font-size: 0.65em;}
+*/
+
+/* Students can not see administration block. (block settings) */
+.role-student .block_settings  {display: none;}
+
+
+/* Mod - questionnaire
+*/
+/*
+.dir-rtl.path-mod-questionnaire .qn-question,
+.dir-rtl.path-mod-questionnaire .qn-content {margin-right:0;}
+.dir-rtl.path-mod-questionnaire .qn-info,
+.dir-rtl.path-mod-questionnaire .qn-legend {background-color: #ddd;}
+*/
+
+/*  Mod - quiz
+*/
+/*
+#page-mod-quiz-attempt.dir-rtl .row-fluid [class*=span] {float: left;}
+#page-mod-quiz-attempt.dir-rtl .row-fluid [class*=span].pull-right,
+#page-mod-quiz-attempt.dir-rtl [class*=span].pull-right {float: right;}
+#page-mod-quiz-attempt.dir-rtl #region-main {float: right;}
+#page-mod-quiz-attempt.dir-rtl #davidsonnav {float: left;}
+
+#page-mod-quiz-review .qnbutton.qpage, #page-mod-quiz-attempt .qnbutton.qpage, #page-mod-quiz-summary .qnbutton.qpage {width:30%;clear:both;}
+.que .info {width: 98%; float:left;margin-bottom:0}
+.dir-rtl .que .info {float: right;}
+.que .info>div {float: right; margin-left: 10px;}
+.que .content {float:left;margin:0;}
+.dir-rtl .que .content {float:right;}
+*/
+
+/* mod Forum
+*/
+/*
+.forumnodiscuss,
+#newdiscussionform {text-align: center;}
+.path-mod-forum .discussionsubscription > a > img {width: 20px;}
+.forumsearch input[type="text"] {height: 20px;}
+*/
+
+/* Preferences page - fix lists */
+/*
+.preferences-group ul {list-style-type: none;}
+.preferences-group ul .fa {padding: 0 4px;}
+*/
+
+/* Block navigation beautify */
+/*
+.dir-rtl .block_navigation .block_tree .tree_item.branch {padding-right: 0;}
+.block .content {overflow: hidden;}
+*/
+
+/* Activity page's top (4) fixed links/buttons - course format grid
+*/
+.fixedsections .btn {margin: 10px; padding: 10px 30px;}
+.fixedsections a {text-align: center;}
+
+/* Fix course single page navigation arrows DIVs - grid format? */
+.course-content ul.gtopics {clear: both;}
+#next_section .text, #previous_section .text,
+#next_section, #previous_section {width: 100%;}
+
+/* Grid course format - popup topic overlay
+*/
+/*
+#gridshadebox_content.absolute {
+    position: absolute;
+    width: 600px;
+    left: 28%;
+    top: 100px !important;
+}
+
+.dir-rtl .gridshadebox_left_area {
+    left: -605px;
+    position: relative;
+}
+.dir-rtl .gridshadebox_right_area {
+    position: relative;
+}
+*/
+
+/* Fixed sections buttons inside modules under special Davidson grid course format */
+.gridicons.fixed span.btnz,
+.fixedsections span.btnz {
+    padding: 22px 0;
+    border: 2px outset gray;
+    margin: 10px;
+    display: block;
+    font-family: nextexitroundregular,sans-serif;
+    font-size: 26px;
+    background-color: #d9edf2;
+}
+.gridicons.fixed span.btnz:hover,
+.fixedsections span.btnz:hover {
+    background-color: #cffff6;  /* antiquewhite;  */
+}
+
+.dir-rtl .row-fluid.fixedsections a {float:right !important;}
+
+/* Embedded forum filter - newsfilter - beautify. */
+/*
+.newsfilter {
+    text-align: right;
+    border: 2px solid gray;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: darkgrey;
+}
+.newsfilter ul {padding: 0; margin: 0 0 10px 0;}
+.newsfilter ul li {list-style: none !important;background-color: gainsboro;}
+.newsfilter #forumpage, .newsfilter #youropinion {
+    border: 2px outset gray;
+    padding: 0 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: gainsboro;
+}
+*/
+
+/* Font in Forum(s)
+*/
+/*
+#page-mod-forum-view section#region-main p,
+#page-mod-forum-view section#region-main a {
+    font-family: nextexitroundregular,sans-serif;
+    font-size: 20px;
+}
+
+.usermenu em {
+    font-family: nextexitroundregular,sans-serif;
+}
+*/
+
+/* PAGE LAYOUT: column3-davidson
+*/
+#block-region-side-post .block {
+    float: right;
+    margin-right: 10px;
+    width: 250px;
+}
+
+/* Notification icon of new system messages */
+/*
+.messagemenu .fa.fa-info-circle.icon {
+    width: 30px;
+    height: 30px;
+    font-size: 2em !important;
+}
+
+.dir-rtl .navbar .navbar-inner .messagemenu ul.nav ul.dropdown-menu li > a > .notification .notification-text {float: right;}
+*/
+
+/* Left align fullscreen "button" , in RTL mode. */
+/*
+.dir-rtl #fullscreenpadding {
+    padding: 0;
+    float: left;
+}
+*/
+
+/* checklist */
+#page-mod-checklist-view .checklist_progress_heading{
+    float: left;
+}
+#page-mod-checklist-view .dir-rtl .checklist_progress_heading{
+    float: right;
+}
+#page-mod-checklist-view .dir-rtl .checklist_progress_outer{
+    float: right;
+}
+/* mod-choicegroup*/
+#page-mod-choicegroup-view .dir-rtl .path-mod-choicegroup div.tablecontainer{
+    text-align: right;
+}
+
+/* Center top course banner */
+ul.gtopics-0 {
+    margin: 0;
+}
+#gridmiddle-column .gridicons.fixed {
+    margin: 0;
+}
+
+/* Report page layout - footer blocks - show one beside another */
+.dir-rtl aside.footer-blocks div.row-fluid div.block:first-of-type {
+    margin: 0;
+}
+
+/* Hide FA icon my courses */
+/*
+.block_course_overview .header .title .fa {
+    display: none;
+}
+*/

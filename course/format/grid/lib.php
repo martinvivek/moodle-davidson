@@ -352,6 +352,7 @@ class format_grid extends format_base {
                 $defaultcurrentselectedimagecontainercolour = substr($defaultcurrentselectedimagecontainercolour, 1);
             }
             $defaultfitsectioncontainertowindow = get_config('format_grid', 'defaultfitsectioncontainertowindow');
+            $defaultdavidsonlayout = get_config('format_grid', 'defaultdavidsonlayout');
 
             $courseconfig = get_config('moodlecourse');
             $courseformatoptions = array(
@@ -413,6 +414,10 @@ class format_grid extends format_base {
                 ),
                 'greyouthidden' => array(
                     'default' => get_config('format_grid', 'defaultgreyouthidden'),
+                    'type' => PARAM_INT
+                ),
+                'davidsonlayout' => array(
+                    'default' => get_config('format_grid', 'defaultdavidsonlayout'),
                     'type' => PARAM_INT
                 )
             );
@@ -623,6 +628,19 @@ class format_grid extends format_base {
                     array(
                         1 => new lang_string('no'),   // No.
                         2 => new lang_string('yes')   // Yes.
+                    )
+                )
+            );
+
+            $courseformatoptionsedit['davidsonlayout'] = array(
+                'label' => new lang_string('setdavidsonlayout', 'format_grid'),
+                'help' => 'setdavidsonlayout',
+                'help_component' => 'format_grid',
+                'element_type' => 'select',
+                'element_attributes' => array(
+                    array(
+                        0 => new lang_string('no'),   // No.
+                        1 => new lang_string('yes')   // Yes.
                     )
                 )
             );
@@ -1064,6 +1082,7 @@ class format_grid extends format_base {
         }
         if ($fitpopupreset && $resetallifall) {
             $updatedata['fitsectioncontainertowindow'] = get_config('format_grid', 'defaultfitsectioncontainertowindow');
+            $updatedata['davidsonlayout'] = get_config('format_grid', 'defaultdavidsonlayout');
             $updatefitpopup = true;
         }
 

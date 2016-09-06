@@ -156,4 +156,15 @@ if ($ADMIN->fulltree) {
         2 => new lang_string('yes')   // Yes.
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
+
+    /* Special Davidson layout. 0 = no, 1 = yes */
+    $name = 'format_grid/defaultdavidsonlayout';
+    $title = get_string('defaultdavidsonlayout', 'format_grid');
+    $description = get_string('defaultdavidsonlayout_desc', 'format_grid');
+    $default = 0;
+    $choices = array(
+        0 => new lang_string('no'),   // No.
+        1 => new lang_string('yes')   // Yes.
+    );
+    $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
 }

@@ -1,0 +1,98 @@
+.radialprogress .background {
+    fill: #FFFFFF;
+    fill-opacity: 0.01;
+}
+
+.radialprogress .component {
+    fill: #e1e1e1;
+}
+
+.radialprogress .component .label {
+    font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+    fill: #0000FF;
+}
+
+.radialprogress .arc {
+    stroke-weight:0.1;
+    fill: #4e8fff;
+}
+
+
+.radialprogress .arc2 {
+    stroke-weight:0.1;
+    fill: #3660b0;
+}
+
+
+.radialprogress .label {
+    font-family:  Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+}
+
+.radialprogress .radial-svg {
+    display: block;
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+}
+
+.radialprogress {
+    height: 55px;
+    float:left;
+}
+.dir-rtl .radialprogress {
+    float: right;
+}
+
+.section-name {
+    float: left;
+    font-size: 2em;
+    margin-left: 55px;
+    position: absolute;
+    margin-top: 7px;
+    font-family: nextexitroundbold, sans-serif;
+}
+
+.dir-rtl .section-name {
+    float: right;
+    margin-right: 55px;
+}
+.activity-name {
+    float: left;
+    position: absolute;
+    font-size: 1.4em;
+    margin-left: 55px;
+    margin-top: 27px;
+}
+.dir-rtl .activity-name {
+    float: right;
+    margin-right: 55px;
+}
+.section-summary .bor {
+    position: relative;
+}
+/*
+#page #page-content #region-main>div[role=main],
+.pagelayout-redirect #page-content #region-main>div[role=main] {margin-top: 60px;}
+*/
+
+.path-mod section#region-main [role=main] h2 {
+    display: none;
+}
+
+/* Display block's title in mod/poster */
+.path-mod-poster section#region-main [role=main] h2 {
+    display: block;
+}
+
+.course-content .topics .section-summary .summarytext {
+    float: right;
+    width: 60%;
+}
+
+div#coursename {
+    float: right;
+}
+
+#page-content .bor {clear: both;}

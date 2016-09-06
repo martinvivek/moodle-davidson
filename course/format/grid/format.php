@@ -103,6 +103,16 @@ if ($gfsettings['borderradius'] == 2) { // On.
 }
 echo '}';
 
+// Special 4 fixed buttons above content, on each course page and sub page.
+echo ".gridicons.fixed span.btnz,
+    .fixedsections span.btnz {
+        background-color: ";
+        if ($gfsettings['imagecontainerbackgroundcolour'][0] != '#') {
+            echo '#';
+        }
+        echo $gfsettings['imagecontainerbackgroundcolour'];
+echo "}";
+
 $startindex = 0;
 if ($gfsettings['bordercolour'][0] == '#') {
     $startindex++;
