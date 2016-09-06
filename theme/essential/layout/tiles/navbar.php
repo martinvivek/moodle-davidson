@@ -41,7 +41,11 @@
                             <?php echo $OUTPUT->custom_menu_user(); ?>
                         </div>
                         <div class="messagemenu navbarrightitem">
-                            <?php echo $OUTPUT->custom_menu_messages(); ?>
+                            <?php
+                            if ($usermessagesdisabled = get_user_preferences('messagesdisabled',1,$USER) == 1) { // if messaging disabled dont show link
+                                echo $OUTPUT->custom_menu_messages();
+                            }
+                            ?>
                         </div>
                         <div class="navbarrightitem">
                             <?php echo $OUTPUT->custom_menu_goto_bottom(); ?>
@@ -72,6 +76,9 @@
                             </div>
                             <div id="custom_menu_activitystream">
                                 <?php echo $OUTPUT->custom_menu_activitystream(); ?>
+                            </div>
+                            <div id="custom_menu_course_poster">
+                                <?php echo $OUTPUT->custom_course_poster(); ?>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,30 @@
+@font-face {
+    font-family:'nextexitroundregular';
+    src:url([[font:theme|nextexitround-regular-webfont.eot]]);
+    src:url([[font:theme|nextexitround-regular-webfont.eot?#iefix]]) format('embedded-opentype'),
+    url([[font:theme|nextexitround-regular-webfont.woff]]) format('woff'),
+    url([[font:theme|nextexitround-regular-webfont.ttf]]) format('truetype'),
+    url([[font:theme|nextexitround-regular-webfont.svg#nextexitroundregular]]) format('svg');
+    font-weight:400;
+    font-style:normal;
+}
+@font-face {
+    font-family:'nextexitroundlight';
+    src:url([[font:theme|nextexitround-light-webfont.eot]]);
+    src:url([[font:theme|nextexitround-light-webfont.eot?#iefix]]) format('embedded-opentype'),
+    url([[font:theme|nextexitround-light-webfont.woff]]) format('woff'),
+    url([[font:theme|nextexitround-light-webfont.ttf]]) format('truetype'),
+    url([[font:theme|nextexitround-light-webfont.svg#nextexitroundlight]]) format('svg');
+    font-weight:300;
+    font-style: normal;
+}
+@font-face {
+    font-family:'nextexitroundbold';
+    src:url([[font:theme|nextexitround-bold-webfont.eot]]);
+    src:url([[font:theme|nextexitround-bold-webfont.eot?#iefix]]) format('embedded-opentype'),
+    url([[font:theme|nextexitround-bold-webfont.woff]]) format('woff'),
+    url([[font:theme|nextexitround-bold-webfont.ttf]]) format('truetype'),
+    url([[font:theme|nextexitround-bold-webfont.svg#nextexitroundbold]]) format('svg');
+    font-weight:700;
+    font-style:normal;
+}

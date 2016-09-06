@@ -734,15 +734,18 @@ class core_renderer extends \core_renderer {
                 }
                 foreach ($courses as $course) {
                     if ($course->visible) {
-                        $branchtitle = format_string($course->shortname);
-                        $branchurl = new moodle_url('/course/view.php', array('id' => $course->id));
-                        $enrolledclass = '';
-                        if (!empty($course->timestart)) {
-                            $enrolledclass .= ' class="onlyenrolled"';
+                        // hide courses beginning with * form students  hanna 29/7/15
+                        if (has_capability('moodle/course:update', \context_system::instance()) or (!(mb_substr($course->fullname,0,1) == "*") ) ) {
+                            $branchtitle = format_string($course->shortname);
+                            $branchurl = new moodle_url('/course/view.php', array('id' => $course->id));
+                            $enrolledclass = '';
+                            if (!empty($course->timestart)) {
+                                $enrolledclass .= ' class="onlyenrolled"';
+                            }
+                            $branchlabel = '<span' . $enrolledclass . '>' . $this->getfontawesomemarkup('graduation-cap') . format_string($course->fullname) . '</span>';
+                            $branch->add($branchlabel, $branchurl, $branchtitle);
+                            $numcourses += 1;
                         }
-                        $branchlabel = '<span'.$enrolledclass.'>'.$this->getfontawesomemarkup('graduation-cap').format_string($course->fullname).'</span>';
-                        $branch->add($branchlabel, $branchurl, $branchtitle);
-                        $numcourses += 1;
                     } else if (has_capability('moodle/course:viewhiddencourses', context_course::instance($course->id)) && $hasdisplayhiddenmycourses) {
                         $branchtitle = format_string($course->shortname);
                         $enrolledclass = '';
@@ -815,45 +818,83 @@ class core_renderer extends \core_renderer {
      */
     public function custom_menu_activitystream() {
         if (!isguestuser()) {
-            if ((($this->page->pagelayout == 'course') || ($this->page->pagelayout == 'incourse') ||
-                ($this->page->pagelayout == 'report') || ($this->page->pagelayout == 'admin') ||
-                ($this->page->pagelayout == 'standard')) &&
-                ((!empty($this->page->course->id) && $this->page->course->id > 1))) {
-                $activitystreammenu = new custom_menu();
-                $branchtitle = get_string('thiscourse', 'theme_essential');
-                $branchlabel = $this->getfontawesomemarkup('book').$branchtitle;
-                $branchurl = new moodle_url('#');
-                $branch = $activitystreammenu->add($branchlabel, $branchurl, $branchtitle, 10002);
-                $branchtitle = get_string('people', 'theme_essential');
-                $branchlabel = $this->getfontawesomemarkup('users').$branchtitle;
-                $branchurl = new moodle_url('/user/index.php', array('id' => $this->page->course->id));
-                $branch->add($branchlabel, $branchurl, $branchtitle, 100003);
-                $context = context_course::instance($this->page->course->id);
-                if (((has_capability('gradereport/overview:view', $context) || has_capability('gradereport/user:view', $context)) &&
-                        $this->page->course->showgrades) || has_capability('gradereport/grader:view', $context)) {
-                    $branchtitle = get_string('grades');
-                    $branchlabel = $this->getfontawesomemarkup('list-alt', array('icon')).$branchtitle;
-                    $branchurl = new moodle_url('/grade/report/index.php', array('id' => $this->page->course->id));
-                    $branch->add($branchlabel, $branchurl, $branchtitle, 100004);
-                }
+            $course = $this->page->course;
+            $context = context_course::instance($course->id);
+            //if (has_capability('moodle/course:manageactivities', context_system::instance()) ) {
+            if (has_capability('moodle/course:manageactivities', $context)) {  //  hanna 16/8/15
 
-                $data = $this->get_course_activities();
-                foreach ($data as $modname => $modfullname) {
-                    if ($modname === 'resources') {
-                        $icon = $this->pix_icon('icon', '', 'mod_page', array('class' => 'icon'));
-                        $branch->add($icon.$modfullname, new moodle_url('/course/resources.php',
-                            array('id' => $this->page->course->id)));
-                    } else {
-                        $icon = '<img src="'.$this->pix_url('icon', $modname) . '" class="icon" alt="" />';
-                        $branch->add($icon.$modfullname, new moodle_url('/mod/'.$modname.'/index.php',
-                            array('id' => $this->page->course->id)));
+                if ((($this->page->pagelayout == 'course') || ($this->page->pagelayout == 'incourse') ||
+                        ($this->page->pagelayout == 'report') || ($this->page->pagelayout == 'admin') ||
+                        ($this->page->pagelayout == 'standard')) &&
+                    ((!empty($this->page->course->id) && $this->page->course->id > 1))
+                ) {
+                    $activitystreammenu = new custom_menu();
+                    $branchtitle = get_string('thiscourse', 'theme_essential');
+                    $branchlabel = $this->getfontawesomemarkup('book') . $branchtitle;
+                    $branchurl = new moodle_url('#');
+                    $branch = $activitystreammenu->add($branchlabel, $branchurl, $branchtitle, 10002);
+                    $branchtitle = get_string('people', 'theme_essential');
+                    $branchlabel = $this->getfontawesomemarkup('users') . $branchtitle;
+                    $branchurl = new moodle_url('/user/index.php', array('id' => $this->page->course->id));
+                    $branch->add($branchlabel, $branchurl, $branchtitle, 100003);
+                    $context = context_course::instance($this->page->course->id);
+                    if (((has_capability('gradereport/overview:view', $context) || has_capability('gradereport/user:view', $context)) &&
+                            $this->page->course->showgrades) || has_capability('gradereport/grader:view', $context)
+                    ) {
+                        $branchtitle = get_string('grades');
+                        $branchlabel = $this->getfontawesomemarkup('list-alt', array('icon')) . $branchtitle;
+                        $branchurl = new moodle_url('/grade/report/index.php', array('id' => $this->page->course->id));
+                        $branch->add($branchlabel, $branchurl, $branchtitle, 100004);
                     }
+
+                    $branchtitle = get_string('usersdetails', 'core_davidson');  // hanna 7/3/16
+                    $branchlabel = '<i class="fa fa-list-alt icon"></i>' . $branchtitle;
+                    $branchurl = new moodle_url('/blocks/configurable_reports/viewreport.php', array('id' => '62', 'courseid' => $this->page->course->id));
+                    $branch->add($branchlabel, $branchurl, $branchtitle, 100004);
+
+                    $data = $this->get_course_activities();
+                    foreach ($data as $modname => $modfullname) {
+                        if ($modname === 'resources') {
+                            $icon = $this->pix_icon('icon', '', 'mod_page', array('class' => 'icon'));
+                            $branch->add($icon . $modfullname, new moodle_url('/course/resources.php',
+                                array('id' => $this->page->course->id)));
+                        } else {
+                            $icon = '<img src="' . $this->pix_url('icon', $modname) . '" class="icon" alt="" />';
+                            $branch->add($icon . $modfullname, new moodle_url('/mod/' . $modname . '/index.php',
+                                array('id' => $this->page->course->id)));
+                        }
+                    }
+                    return $this->render_custom_menu($activitystreammenu);
                 }
-                return $this->render_custom_menu($activitystreammenu);
-            }
+            } // end if has cabality
+
+
+            if (!has_capability('moodle/course:manageactivities', $context) and
+                has_capability('moodle/grade:viewall', $context)
+            ) {  // for groupteacherviewer hanna 20/1/16
+                if ((($this->page->pagelayout == 'course') || ($this->page->pagelayout == 'incourse') ||
+                        ($this->page->pagelayout == 'report') || ($this->page->pagelayout == 'admin') ||
+                        ($this->page->pagelayout == 'standard')) &&
+                    ((!empty($this->page->course->id) && $this->page->course->id > 1))
+                ) {
+
+                //    if (isset($this->page->course->id) && $this->page->course->id > 1) {
+                    $activitystreammenu = new custom_menu();
+                    $branchtitle = get_string('thiscourse', 'theme_essential');
+                    $branchlabel = '<i class="fa fa-book"></i>' . $branchtitle;
+                    $branchurl = new moodle_url('#');
+                    $branch = $activitystreammenu->add($branchlabel, $branchurl, $branchtitle, 10002);
+
+                    $branchtitle = get_string('users');
+                    $branchlabel = '<i class="fa fa-list-alt icon"></i>' . $branchtitle;
+                    $branchurl = new moodle_url('/blocks/configurable_reports/viewreport.php', array('id' => '63', 'courseid' => $this->page->course->id));
+                    $branch->add($branchlabel, $branchurl, $branchtitle, 100004);
+                    return $this->render_custom_menu($activitystreammenu);
+            }  //  end if ((($this->page->pagelayout
+            }  //   end has capability groupteacherviewer
         }
         return '';
-    }
+    }  // end function
 
     private function get_course_activities() {
         // A copy of block_activity_modules.
@@ -951,8 +992,9 @@ class core_renderer extends \core_renderer {
                     $messagecontent .= $this->getfontawesomemarkup('comment'.$iconadd);
                     $messagecontent .= $this->get_time_difference($message->date);
                     $messagecontent .= html_writer::end_span();
-                    $messagecontent .= html_writer::span(htmlspecialchars($message->text, ENT_COMPAT | ENT_HTML401, 'UTF-8'),
-                        'notification-text');
+                    // Remove tags in messages.
+                    $messagecontent .= html_writer::span(htmlspecialchars(strip_tags($message->text),
+                        ENT_COMPAT | ENT_HTML401, 'UTF-8'), 'notification-text');
                     $messagecontent .= html_writer::end_div();
                 } else {
                     if (!is_object($message->from) || !empty($message->from->deleted)) {
@@ -976,7 +1018,8 @@ class core_renderer extends \core_renderer {
                     $messagecontent .= html_writer::end_div();
                 }
 
-                $messagesubmenu->add($messagecontent, $message->url, $message->text);
+                // Remove message title.
+                $messagesubmenu->add($messagecontent, $message->url, '' /* strip_tags($message->text) */);
             }
         }
         return $this->render_custom_menu($messagemenu);
@@ -1247,12 +1290,15 @@ class core_renderer extends \core_renderer {
      * @param user_picture $userpicture
      * @return string
      */
+
+    /*
     protected function render_user_picture(\user_picture $userpicture) {
         if ($this->page->pagetype == 'mod-forum-discuss') {
             $userpicture->size = 1;
         }
         return parent::render_user_picture($userpicture);
     }
+    */
 
     /**
      * Outputs the user menu.
@@ -1277,7 +1323,7 @@ class core_renderer extends \core_renderer {
             }
         } else if (isguestuser()) {
             $userurl = new moodle_url('#');
-            $userpic = parent::user_picture($USER, array('link' => false));
+            $userpic = parent::user_picture($USER, array('link' => false, 'popup' => false));
             $caret = $this->getfontawesomemarkup('caret-right');
             $userclass = array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown');
             $usermenu .= html_writer::link($userurl, $userpic.get_string('guest').$caret, $userclass);
@@ -1303,7 +1349,7 @@ class core_renderer extends \core_renderer {
 
             // Output Profile link.
             $userurl = new moodle_url('#');
-            $userpic = parent::user_picture($USER, array('link' => false));
+            $userpic = parent::user_picture($USER, array('link' => false, 'popup' => false));
             $caret = $this->getfontawesomemarkup('caret-right');
             $userclass = array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown');
 
@@ -1359,9 +1405,12 @@ class core_renderer extends \core_renderer {
 
             // Check if messaging is enabled.
             if (!empty($CFG->messaging)) {
-                $branchlabel = '<em>'.$this->getfontawesomemarkup('envelope').get_string('pluginname', 'block_messages').'</em>';
-                $branchurl = new moodle_url('/message/index.php');
-                $usermenu .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+                // If messaging disabled for that user, don't show link.
+                if ($usermessagesdisabled = get_user_preferences('messagesdisabled', 1, $USER) == 1) {
+                    $branchlabel = '<em>' . $this->getfontawesomemarkup('envelope') . get_string('pluginname', 'block_messages') . '</em>';
+                    $branchurl = new moodle_url('/message/index.php');
+                    $usermenu .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+                }
             }
 
             // Check if user is allowed to manage files.
@@ -1497,15 +1546,18 @@ class core_renderer extends \core_renderer {
      */
     protected function theme_essential_render_preferences($context) {
         global $USER, $CFG;
-        $label = '<em>'.$this->getfontawesomemarkup('cog').get_string('preferences').'</em>';
+        //$label = '<em>'.$this->getfontawesomemarkup('cog').get_string('preferences').'</em>'; // hanna 23/11/15
+        $label = '<em><i class="fa fa-cog"></i>' . get_string('personaldetails','core_davidson') . '</em>'; // hanna 23/11/15
         $preferences = html_writer::start_tag('li', array('class' => 'dropdown-submenu preferences'));
         $preferences .= html_writer::link(new moodle_url('#'), $label,
             array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
         $preferences .= html_writer::start_tag('ul', array('class' => 'dropdown-menu'));
 
-        $branchlabel = '<em>'.$this->getfontawesomemarkup('user').get_string('user', 'moodle').'</em>';
-        $branchurl = new moodle_url('/user/preferences.php', array('userid' => $USER->id));
-        $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+        if (is_siteadmin()) { // hanna 7/10/15
+            $branchlabel = '<em>' . $this->getfontawesomemarkup('user') . get_string('user', 'moodle') . '</em>';
+            $branchurl = new moodle_url('/user/preferences.php', array('userid' => $USER->id));
+            $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+        }
         // Check if user is allowed to edit profile.
         if (has_capability('moodle/user:editownprofile', $context)) {
             $branchlabel = '<em>'.$this->getfontawesomemarkup('info-circle').get_string('editmyprofile').'</em>';
@@ -1517,7 +1569,8 @@ class core_renderer extends \core_renderer {
             $branchurl = new moodle_url('/login/change_password.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
-        if (has_capability('moodle/user:editownmessageprofile', $context)) {
+        //if (has_capability('moodle/user:editownmessageprofile', $context)) {
+        if (is_siteadmin()) { // hanna 21/9/15
             $branchlabel = '<em>'.$this->getfontawesomemarkup('comments').get_string('message', 'message').'</em>';
             $branchurl = new moodle_url('/message/edit.php', array('id' => $USER->id));
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
@@ -1995,8 +2048,11 @@ class core_renderer extends \core_renderer {
                                     array('context' => context_course::instance(SITEID))).'</a>';
                     break;
                 case 2:
-                    $title = '<a class="brand" href="'.$url.'">'.format_string($SITE->shortname, true,
-                                    array('context' => context_course::instance(SITEID))).'</a>';
+                    //$title = '<a class="brand" href="' . $url . '">' . format_string($SITE->shortname, true,
+                    //          array('context' => context_course::instance(SITEID))) . '</a>';
+                    // Display site name in current language.
+                    $title = '<a class="brand" href="' . $url . '">' . format_string(get_string('oursitename', 'core_davidson'), true,
+                            array('context' => context_course::instance(SITEID))) . '</a>';
                     break;
                 default:
                     $title = '<a class="brand" href="'.$url.'">' . format_string($SITE->shortname, true,
@@ -2203,5 +2259,239 @@ class core_renderer extends \core_renderer {
         } else {
             return $favicon;
         }
+    }
+
+    /* Quick action menu for each user, when user image is clicked.
+   * integrated by : nadavkav@gmail.com
+   */
+    protected function render_user_picture(\user_picture $userpicture) {
+        global $CFG, $DB, $PAGE, $USER;
+
+        $user = $userpicture->user;
+
+        if ($userpicture->alttext) {
+            if (!empty($user->imagealt)) {
+                $alt = $user->imagealt;
+            } else {
+                $alt = get_string('pictureof', '', fullname($user));
+            }
+        } else {
+            $alt = '';
+        }
+
+        if (empty($userpicture->size)) {
+            $size = 35;
+        } else if ($userpicture->size === true or $userpicture->size == 1) {
+            $size = 100;
+        } else {
+            $size = $userpicture->size;
+        }
+
+        $class = $userpicture->class;
+
+        if ($user->picture == 0) {
+            $class .= ' defaultuserpic';
+        }
+
+        if (user_has_role_assignment($user->id, 3 /* editingteacher */, $PAGE->context->id)) {
+            $class .= ' teacher';
+        }
+
+        $src = $userpicture->get_url($this->page, $this);
+
+        $attributes = array('src'=>$src, 'alt'=>$alt, 'title'=>$alt, 'class'=>$class, 'width'=>$size, 'height'=>$size);
+        if (!$userpicture->visibletoscreenreaders) {
+            $attributes['role'] = 'presentation';
+        }
+
+        if (empty($userpicture->courseid)) {
+            $courseid = $this->page->course->id;
+        } else {
+            $courseid = $userpicture->courseid;
+        }
+
+        // get the image html output fisrt
+        $output = html_writer::start_tag('div', array('class'=>'profilepicture'));
+        if ((user_has_role_assignment($USER->id, 3 /* editingteacher */, $PAGE->context->id)
+                OR user_has_role_assignment($USER->id, 1 /* manager */, $PAGE->context->id)
+                OR array_key_exists($USER->id, get_admins()) )
+            AND ($userpicture->link and $size >= 35) ) {
+            //if ($userpicture->link and $size >= 35) {
+            $output .= $this->user_action_menu($user->id, $courseid, $attributes);
+            //}
+        } else {
+            $output .= html_writer::empty_tag('img', $attributes);
+        }
+
+        $output .= html_writer::end_tag('div');
+
+        /*
+        if (user_has_role_assignment($user->id,3,$PAGE->context->id)) {
+            $output .= html_writer::start_tag('div',array('style'=>'position: relative;top: -20px;right: 20px;'));
+            $output .= html_writer::empty_tag('img', array('id'=>'roleimg',
+                'src'=>new moodle_url('/theme/essential/pix_core/i/grademark.png')) );
+            $output .= html_writer::end_tag('div');
+        }
+        */
+
+        // then wrap it in link if needed
+        if (!$userpicture->link) {
+            return $output;
+        }
+
+        if ($courseid == SITEID) {
+            $url = new moodle_url('/user/profile.php', array('id' => $user->id));
+        } else {
+            $url = new moodle_url('/user/view.php', array('id' => $user->id, 'course' => $courseid));
+        }
+
+        $attributes = array('href' => $url);
+        if (!$userpicture->visibletoscreenreaders) {
+            $attributes['tabindex'] = '-1';
+            $attributes['aria-hidden'] = 'true';
+        }
+
+        /* Disabled. Now it is used for User's Action menu.
+        if ($userpicture->popup) {
+
+            $id = html_writer::random_id('userpicture');
+            $attributes['id'] = $id;
+            $this->add_action_handler(new popup_action('click', $url), $id);
+
+        }
+        */
+        return html_writer::tag('a', $output, $attributes);
+
+        //return $output;
+        //return html_writer::tag('div', $output, array('onclick'=>'alert("hello")'));
+    }
+
+    private function user_action_menu($userid, $courseid = SITEID, $attributes ) {
+
+        global $USER, $CFG, $DB;
+
+        $edit = '';
+        $actions = array();
+
+        // Action URLs
+
+        // View user's profile
+        if ($courseid == SITEID) {
+            $url = new moodle_url('/user/profile.php', array('id' => $userid));
+        } else {
+            $url = new moodle_url('/user/view.php', array('id' => $userid, 'course' => $courseid));
+        }
+        $actions[$url->out(false)] = get_string('user_viewprofile','theme_essential');
+
+        // View user's complete report
+        $url = new moodle_url('/report/outline/user.php',
+            array('id' => $userid, 'course'=>$courseid, 'mode'=>'complete'));
+        $actions[$url->out(false)] = get_string('user_completereport','theme_essential');
+
+        // View user's outline report
+        $url = new moodle_url('/report/outline/user.php',
+            array('id' => $userid, 'course'=>$courseid, 'mode'=>'outline'));
+        $actions[$url->out(false)] = get_string('user_outlinereport','theme_essential');
+
+        // Edit user's profile
+        $url = new moodle_url('/user/editadvanced.php', array('id' => $userid, 'course'=>$courseid));
+        $actions[$url->out(false)] = get_string('user_editprofile','theme_essential');
+
+        // Send private message
+        if ($USER->id != $userid) {
+            $url = new moodle_url('/message/index.php', array('id'=>$userid));
+            $actions[$url->out(false)] = get_string('user_sendmessage','theme_essential');
+        }
+
+        // Completion enabled in course? Display user's link to completion report.
+        $coursecompletion = $DB->get_field('course', 'enablecompletion', array('id' => $courseid));
+        if (!empty($CFG->enablecompletion) AND $coursecompletion) {
+            $url = new moodle_url('/blocks/completionstatus/details.php', array('user' => $userid, 'course'=>$courseid));
+            $actions[$url->out(false)] = get_string('user_coursecompletion','theme_essential');
+        }
+
+        // All user's mdl_log HITS
+        $url = new moodle_url('/report/log/user.php', array('id' => $userid, 'course'=>$courseid, 'mode'=>'all'));
+        $actions[$url->out(false)] = get_string('user_courselogs','theme_essential');
+
+        // User's grades in course ID
+        $url = new moodle_url('/grade/report/user/index.php', array('userid' => $userid, 'id'=>$courseid));
+        $actions[$url->out(false)] = get_string('user_coursegrades','theme_essential');
+
+        // Login as ...
+        $coursecontext = context_course::instance($courseid);
+        if ($USER->id != $userid && !\core\session\manager::is_loggedinas() && has_capability('moodle/user:loginas', $coursecontext) && !is_siteadmin($userid)) {
+            $url = new moodle_url('/course/loginas.php', array('id'=>$courseid, 'user'=>$userid, 'sesskey'=>sesskey()));
+            $actions[$url->out(false)] = get_string('user_loginas','theme_essential');
+        }
+
+        // Reset user's password to original password (stored in user.url profile field)
+        $coursecontext = context_course::instance($courseid);
+
+        if ($USER->id != $userid && !\core\session\manager::is_loggedinas() || in_array($USER->id, get_admins()) ) {
+            $resetpasswordurl = new moodle_url('/report/roster/resetpassword.php', array('userid' => $userid, 'sesskey' => sesskey()));
+            $actions[$resetpasswordurl->out(false)] = get_string('resetpassword','report_roster');
+        }
+
+        // Setup the menu
+        $edit .= $this->container_start(array('yui3-menu', 'yui3-menubuttonnav', 'useractionmenu'), 'useractionselect' . $userid);
+        $edit .= $this->container_start(array('yui3-menu-content'));
+        $edit .= html_writer::start_tag('ul');
+        $edit .= html_writer::start_tag('li', array('class'=>'menuicon'));
+        //$menuicon = $this->pix_icon('t/contextmenu', get_string('actions'));
+        //$menuicon = $this->pix_icon('t/switch_minus', get_string('actions'));
+        $menuicon = html_writer::empty_tag('img', $attributes); //$attributes['src'];
+        $edit .= $this->action_link('#menu' . $userid, $menuicon, null, array('class'=>'yui3-menu-label'));
+        $edit .= $this->container_start(array('yui3-menu', 'yui3-loading'), 'menu' . $userid);
+        $edit .= $this->container_start(array('yui3-menu-content'));
+        $edit .= html_writer::start_tag('ul');
+        foreach ($actions as $url => $description) {
+            $edit .= html_writer::start_tag('li', array('class'=>'yui3-menuitem'));
+            $edit .= $this->action_link($url, $description, null, array('class'=>'yui3-menuitem-content', 'target'=>'_new'));
+            //$edit .= $this->add_action_handler(new popup_action('click', $url), array('id'=>html_writer::random_id('userpicture')));
+            $edit .= html_writer::end_tag('li');
+        }
+        $edit .= html_writer::end_tag('ul');
+        $edit .= $this->container_end();
+        $edit .= $this->container_end();
+        $edit .= html_writer::end_tag('li');
+        $edit .= html_writer::end_tag('ul');
+        $edit .= $this->container_end();
+        $edit .= $this->container_end();
+
+        return $edit;
+    }
+
+     /**
+     * Outputs a link to Poster module, if it is available in the first section.
+     * @return custom_menu object
+     */
+    public function custom_course_poster() {
+        if (($this->page->pagelayout != 'course') && ($this->page->pagelayout != 'incourse') && ($this->page->pagelayout != 'report')) {
+            return '';
+        }
+
+        if (!isguestuser()) {
+            $course = $this->page->course;
+            //    $context = context_course::instance($course->id);
+            //    if (has_capability('moodle/course:manageactivities', $context)  ) {  //  hanna 16/8/15
+            if (isset($course->id) && $course->id > 1) {
+                $course_poster_menu = new custom_menu();
+                $modinfo = get_fast_modinfo($course);
+                foreach ($modinfo->cms as $cm) {
+                    if ($cm->modname === 'poster' && $cm->sectionnum == '0') {
+                        //$course_poster_menu = new custom_menu();
+                        $branchtitle = get_string('linktoposter', 'theme_essential');
+                        $branchlabel = '<i class="fa fa-book"></i>' . $branchtitle;
+                        $branchurl = new moodle_url('/mod/poster/view.php', array('id' => $cm->id));
+                        //$icon = $this->pix_icon('icon', '', 'mod_poster', array('class' => 'icon'));
+                        $branch = $course_poster_menu ->add($branchlabel, $branchurl, $branchtitle, 10002);
+                    }
+                }
+                return $this->render_custom_menu($course_poster_menu);
+            }
+            //    } // end if has cabality
+        }
+        return '';
     }
 }

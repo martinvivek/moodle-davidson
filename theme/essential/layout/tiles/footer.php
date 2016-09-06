@@ -58,5 +58,16 @@ if (empty($PAGE->layout_options['nofooter'])) { ?>
         </div>
     </footer>
     <a href="#top" class="back-to-top" ><span aria-hidden="true" class="fa fa-angle-up "></span></a>
+
+    <!-- mod/tab - add iframe class to iframes,
+        so tabs including activities links in iframe are seen without blocks (nadavkav)
+        TODO: migrate to AMD -->
+    <script>
+        if (window!=window.top) {
+            Y.one('body').addClass('iframe');
+        }
+    </script>
+
 <?php }
 echo $OUTPUT->standard_end_of_body_html();
+

@@ -1,0 +1,1150 @@
+/*  Davidson new theme hacking...
+*/
+#page-header.logo,
+#page-header {
+    height: 0;
+}
+#page-header.logo {
+    height: auto;
+    max-height: 100%;
+}
+
+div#page::before,
+#page-header .container-fluid,
+#region-main .coursetitle,
+.page-context-header {display: none;}
+
+/* hide BOR dotted line on top of region-main */
+/*#region-main .bor {display: none;}*/
+
+.path-mod-forum .forumheaderlist td {border-style: none;}
+
+/* Fonts properties.
+*/
+.block a,
+p.tree_item.branch span,
+.breadcrumb-nav ul.breadcrumb.style2 li a,
+.block_course_module_nav li,
+.block_course_module_nav .instancename,
+#page-my-index.dir-rtl .block_course_overview .course_title .titlename,
+#page-my-index.dir-rtl .block_course_overview .course_title .title .name,
+.block .header .title h2,
+#page-site-index .block_login .content form input[type="submit"],
+#page-site-index .block_login .content .footer div a,
+#page-site-index .block_login div#passwordinhebrew,
+#page-site-index .block_login .logincheck,
+.navbar .navbar-inner .nav > li.dropdown a,
+.navbar .navbar-inner .nav>li>a,
+#page-site-index .block_login form label,
+.navbar .navbar-inner .brand {
+    font-family: nextexitroundregular, sans-serif;
+}
+body {
+    font-size: 16px;
+    font-family: Alef Hebrew,sans-serif;
+}
+
+*, p {
+    font-family: Alef Hebrew,sans-serif;
+}
+
+.navbar .brand {
+    font-size: 26px;
+    margin-top: 2px;
+}
+.block .header .title h2, .block h3.main {
+    font-size: 22px;
+}
+.block .header .title .fa {
+    font-size: 1.25em;
+}
+
+.gridicons .icon_content {
+    font-size: 18px;
+}
+
+#page-site-index a.brand:hover {
+    text-decoration: none;
+}
+
+/* Frontpage - before login
+*/
+.block_login {
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+.block_login .block_action {display: none;}
+#page-site-index .block_login .content .footer a:hover {text-decoration: none;}
+
+.categoryicons .course_category_tree .category[data-categoryid] {height:150px;}
+.block_login .content form input[type="submit"], .block_login .content .footer a {margin: 0;}
+#page-site-index #region-main,
+#page-site-index .block_navigation.block {display: block;}
+
+#page-site-index.dir-rtl #page-content #region-main {float:left;}
+#page-site-index.dir-rtl .row-fluid [class*="span"] {float: right;}
+
+#page-site-index #fullscreenpadding {display: none;}
+#page-site-index #region-main {
+    margin-right: 110px;
+    width: 500px;
+}
+#page-site-index.dir-rtl #region-main {
+    margin-left: 110px;
+    margin-right: 0;
+}
+.frontpagecontent {
+    width: 500px;
+    left: 150px;
+    position: absolute;
+    font-size: 8em;
+    height: 400px;
+    line-height: 1em;
+    opacity: 0.7;
+}
+
+#page-site-index #region-main {opacity: 0.7;}
+#page-site-index .modtype_label .no-overflow {overflow: inherit;}
+#page-site-index #page {
+    background-color: transparent;
+}
+#page {
+    min-height: 840px;
+}
+/*
+.role-student div#page-navbar {
+    display: none;
+}
+*/
+.role-admin div#page-navbar {
+    display: block;
+}
+
+#page-site-index #page-content #region-main div[role=main],
+#page-site-index #page-content #region-main {
+    background-color: transparent;
+    border: none;
+}
+
+@media (min-width: 768px) {
+    #page-site-index .row-fluid .desktop-first-column {
+        margin-left: 77px;
+    }
+    #page-site-index.dir-rtl .row-fluid .desktop-first-column {
+        margin-right: 77px;
+        margin-left: 0;
+    }
+}
+
+#page-site-index,
+#page-my-index:after,
+#page-site-index:after {
+    background-image: url([[pix:theme|davidson/frontpage_bg]]);
+}
+/*#page-my-index,
+#page-site-index {
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+}*/
+/* You could use :after - it doesn't really matter */
+#page-my-index:after
+    /*#page-site-index:after*/ {
+    content: ' ';
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.2;
+    /* disabled, as we might have a new bg image for M31 */
+    /*background-image: url([[pix:theme|davidson/frontpage_bg]]);*/
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+
+#page-my-index #page , #page-my-index .pagelayout-redirect {
+    background: none;
+}
+
+/* MyDashboard - hide blocks from user
+*/
+#page-my-index.role-student #custom_menu_courses,
+#page-my-index.role-student .breadcrumb-button,
+#page-my-index.role-student #block-region-side-post {display: none;}
+#page-my-index.role-student #region-bs-main-and-pre {width:100%;}
+#page-my-index.role-student .block_course_overview.block {margin-bottom: 0;}
+#page-my-index.role-student #page #page-content #region-main {border:none; background-color: transparent;}
+
+.badges li {width: 100px;}
+
+/*  Davidson block_course_overview hacks
+*/
+
+.dir-rtl .block_course_overview .activity_info {margin-right: 0;}
+.block_course_overview .block_action {display: none;}
+
+.block_course_overview .content .notice {
+    float: right;
+}
+.dir-rtl .block_course_overview .content .notice {
+    float: left;
+    clear: both;
+}
+/*
+.editing .block_course_overview .content .notice {
+    position: absolute;
+    top: 85px;
+}
+.dir-rtl.editing .block_course_overview .content .notice {
+    left: 110px;
+}
+*/
+.block_course_overview .sortbyabc.buttonz,
+.block_course_overview .sortbylastaccess.buttonz {
+    float: left;
+    width: 160px;
+}
+
+.dir-rtl .block_course_overview .sortbyabc.buttonz,
+.dir-rtl .block_course_overview .sortbylastaccess.buttonz {
+    float: right;
+    width: 220px;
+}
+
+.block_course_overview .buttonz a {
+    font-size: 18px;
+}
+
+
+.block_course_overview .sortbyabc .selected,
+.block_course_overview .sortbylastaccess .selected {font-weight: bolder;}
+
+.block_course_overview .content hr {clear:both;}
+
+.block_course_overview .coursebox {
+    padding: 15px;
+    width: 29%;
+    float: left;
+    height: 240px;
+    margin-left: 15px;
+    margin-top: 22px;
+    background-color: white;
+    border: 1px solid #696969;
+    overflow: auto;
+}
+.dir-rtl .block_course_overview .coursebox {
+    float: right;
+    margin-left: 0;
+    margin-right: 15px;
+}
+.block_course_overview .coursebox .summary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.block_course_overview .course_list {
+    margin: 0 35px;
+    width: 100%;
+}
+.block_course_overview .categorypath {display: none;}
+.block_course_overview .coursebox {
+    padding: 0px;
+}
+.block_course_overview .footer {clear:both;}
+.block_course_overview h2.title .name {font-weight: normal;}
+
+/* Hack - add quickcourselist block to MY page
+*/
+/*
+.block_quickcourselist.block {width: 250px; float:left;margin-bottom: -33px;}
+.block_course_overview .content {margin-top: 25px;}
+*/
+
+/*  Course "cards" on My page
+*/
+#page-my-index .block_course_overview .course_title img {
+    width: 100%;
+}
+#page-my-index .block_course_overview .course_title .title {
+    display: block;
+    font-size: 2em;
+}
+#page-my-index.dir-rtl .block_course_overview .course_title .title {
+    direction: rtl;
+    text-align: right;
+
+}
+#page-my-index .block_course_overview .course_title .titlename,
+#page-my-index .block_course_overview .course_title .title .name {
+    display: block;
+    padding: 10px;
+    line-height: 90%;
+    font-size: 26px;
+}
+
+/*#page-my-index.dir-rtl .block_course_overview .course_title .titlename,*/
+/*#page-my-index.dir-rtl .block_course_overview .course_title .title .name {*/
+    /*display: block;*/
+    /*padding: 10px;*/
+    /*line-height: 90%;*/
+    /*font-size: 26px;*/
+/*}*/
+#page-my-index .block_course_overview {background: transparent; border:none;}
+#page-my-index #page #page-content div[role=main],
+#page-my-index #page #page-content #region-main {background-color: transparent; border:none;}
+
+
+
+/* Hide FA icon my courses */
+.block_course_overview .header .title .fa {
+    display: none;
+}
+
+/* FOOTER
+*/
+
+#page-my-index #page-footer,
+#page-site-index #page-footer {
+    position: static;
+    bottom: 0;
+}
+html {height: 100%;}
+body {min-height:100%}
+#page-wrapper {min-height: 100%;position: relative;}
+#page-footer {
+    background-color: rgba(76, 76, 76, 0.95);
+    /*
+    bottom: 0;
+    position: relative; !* todo: need to fix sticky footer *!
+    */
+}
+
+.footnote .block-wrapper {margin:0 auto; width:54%;}
+#page-footer ul li {float:right;padding: 5px;margin: 7px;}
+#page-footer .footnote a, #page-footer .footnote a:visited {
+    color: #943b21 !important;
+}
+#page-footer .footerlinks .footnote {text-align: center;}
+#page-footer .copy {
+    display: block;
+    text-align: center;
+    float: none;
+}
+/*
+#moodlelogo img {width:150px;float:left;}
+#davidson-googlemap {
+    margin: 0 auto;
+    padding-top: 50px;
+    width: 50%;
+}
+*/
+
+.alert-info,
+.alert-success {margin-top: 20px;text-align: center;}
+
+/* InCourse layout (module view)
+    Content first, then blocks (Hebrew - blocks on left)
+*/
+/*
+.row-fluid .pull-right[class*="span"],
+.pull-right[class*="span"] {
+    float: left;
+}
+.dir-rtl .row-fluid .pull-right[class*="span"],
+.dir-rtl .pull-right[class*="span"] {
+    float: right;
+}
+.row-fluid [class*="span"] {float:right;}
+.dir-rtl .row-fluid [class*="span"] {float:left;}
+#page-course-management.dir-rtl .row-fluid [class*="span"] {float:right;}
+*/
+
+/* Form(s)
+*/
+
+.mform fieldset.collapsible legend a.fheader{
+    background-position: 0 60%;
+}
+.dir-rtl .mform fieldset.collapsed legend a.fheader {
+    background-position: 100% 60%;
+}
+div#fgroup_id_buttonar,
+div#fitem_id_submitbutton {
+    Position: fixed;
+    bottom: 20px;
+    width: 100%;
+    left: 0;
+}
+
+#region-main form #fgroup_id_buttonar>.fgroup, #region-main form #fitem_id_submitbutton>.fgroup,
+#region-main form .form-buttons>.fgroup, #region-main form .fp-content-center form+div>.fgroup,
+#region-main form .path-admin .buttons>.fgroup, #region-main form div.backup-section+form>.fgroup,
+#region-main form table#form td.submit>.fgroup {
+    display: inline-block;
+}
+
+#region-main form #fgroup_id_buttonar .felement, #region-main form #fitem_id_submitbutton .felement,
+#region-main form .form-buttons .felement, #region-main form .fp-content-center form+div .felement,
+#region-main form .path-admin .buttons .felement, #region-main form div.backup-section+form .felement,
+#region-main form table#form td.submit .felement {
+    display: inline-block;
+}
+
+#page form fieldset:last-of-type.hidden #fgroup_id_buttonar {
+    background-color: gray;
+}
+
+/*  Grid course format fixes
+*/
+/*
+@media (min-width: 1200px) {
+    .dir-rtl .row-fluid [class*="span"]:first-child {
+        margin-left: 0;
+    }
+}
+@media (max-width: 979px) and (min-width: 768px) {
+    .row-fluid [class*="span"]:first-child {
+        margin-left: 0;
+    }
+}
+.row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+}
+*/
+
+/* Display blocks under course content in special grid course format */
+/*
+.format-grid.path-course .row-fluid [class*="span"]:first-child {width: 100%;}
+.format-grid.path-course #block-region-side-pre,
+.format-grid.path-course #block-region-side-post {width:100%;}
+.format-grid.path-course #block-region-side-pre .block,
+.format-grid.path-course #block-region-side-post .block {
+    float: right;
+    margin-right: 15px;
+    width: 45%;
+}
+*/
+
+/* Course format GRID
+*/
+
+/*
+#gridmiddle-column .gridicons.fixed {}
+#gridmiddle-column ul.gridicons.fixed li {float:right;}
+div#fixedicons {
+    height: 100px;
+    margin: 0 auto; width:94%;
+}
+
+.course-content ul.gridicons li p.icon_content {
+    width: 185px !important;
+}
+.course-content ul.gridicons li .image_holder {
+    width: 175px !important;
+    height: 111px !important;
+}
+
+#fixedicons > ul,
+#section0 > ul {list-style-type: none;}
+#gridmiddle-column ul.gridicons.fixed li {width: 25%;overflow: hidden;}
+.course-content ul.gridicons.fixed img.new_activity,
+.course-content ul.gridicons img.new_activity  {margin-top: 74px !important; display: block;}
+
+ul.gridicons {text-align: center;}
+#gridmiddle-column ul.gridicons.fixed li {
+    float: none;
+    display: inline-block;
+}
+*/
+#page-course-view-grid .single-section .section-navigation.navigationtitle .mdl-right,
+#page-course-view-grid .single-section .section-navigation.navigationtitle .mdl-left {display: none;}
+.course-content .single-section .section-navigation .mdl-left,
+.course-content .single-section .section-navigation .mdl-right {width: 250px;}
+#next_section, #previous_section {
+    width: 70%;
+    display: block;
+}
+
+
+
+/* hide "selected" background color */
+/*
+.course-content ul.gridicons li.currentselected {
+    background-color: transparent !important;
+}
+*/
+
+/* Quiz - attempt layout page - "quiz-attempt"
+*/
+/*
+#page-mod-quiz-attempt #region-bs-main-and-pre {width:100%;}
+#page-mod-quiz-attempt #block-region-side-pre,
+#page-mod-quiz-attempt #block-region-side-post {width: 20%;float:right;}
+#page-mod-quiz-attempt #davidsonnav {width: 25%;float:right;}
+#page-mod-quiz-attempt #region-main {width: 75%;float:left;}
+
+#mod_quiz_navblock .qn_buttons {height: 200px; overflow: auto;}
+*/
+/* Hide quiz attempt special block navigation arrows
+#page-mod-quiz-attempt .submitbtns, #page-mod-quiz-review .submitbtns {display: none;}
+*/
+/*
+#page-mod-quiz-attempt .submitbtns, #page-mod-quiz-review .submitbtns {
+    clear: right;
+    text-align: center;
+    padding-top: 0;
+}
+*/
+
+/* Quiz Navigation block - Display page dividers between questions. hanna 6/7/15
+#page-mod-quiz-review .qnbutton.qpage,
+#page-mod-quiz-attempt .qnbutton.qpage {
+    width: 177px;
+}
+.path-mod-quiz .qnbutton.thispage { background-color: beige !important;  }
+.path-mod-quiz .qnbutton { margin: 0.1em 0.3em 0.1em 0;  }
+*/
+
+/* Quiz Navigation block - Display page dividers between questions. hanna 6/7/15 */
+
+/*
+#page-mod-quiz-review .qnbutton.qpage,
+#page-mod-quiz-summary .qnbutton.qpage,
+#page-mod-quiz-attempt .qnbutton.qpage {
+    width: 100%!important;
+}
+.path-mod-quiz .qnbutton.thispage { background-color: beige !important;  }
+.path-mod-quiz .qnbutton { margin: 0.1em 0.3em 0.1em 0;  }
+.path-mod-quiz .qnbutton {background-color: green;}
+.path-mod-quiz #mod_quiz_navblock h3.mod_quiz-section-heading {color: red;}
+.block .content h3 {color: yellow;}
+*/
+
+/* Block - fake course_module_nav
+*/
+/*
+.block_course_module_nav li {
+    line-height: 30px;
+    list-style-type: none;
+    font-size: larger;
+}
+.block_course_module_nav li:hover {
+    background-color: beige;
+}
+
+.block_course_module_nav .previoussection,
+.block_course_module_nav .currentsection,
+.block_course_module_nav .nextsection {
+    background-color:#F6F6F6;
+    margin-right:-5px;
+}
+.block_course_module_nav li.selected,
+.block_course_module_nav .currentsection {
+    font-weight: bold;
+    padding: 0 5px;
+    font-size: larger;
+}
+.block_course_module_nav .content ul {margin-left:0;}
+.dir-rtl .block_course_module_nav .content ul {margin-right:0;}
+
+.block_course_module_nav .previoussection{
+    margin-bottom: 20px;
+    border-bottom: 1px solid;
+    padding: 0 5px;
+}
+.block_course_module_nav .nextsection {
+    margin-top: 20px;
+    border-top: 1px solid;
+    padding: 0 5px;
+}
+.block_course_module_nav li.backtocourse {
+    margin-top: 16px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 3px;
+    display: none; // TODO: should we remove the navigation to main course page?
+}
+*/
+
+/* Blocks - UI beautification hack // nadavkav
+*/
+.dir-rtl .block_settings .block_tree .tree_item {padding-right: 0;}
+.dir-rtl .block_settings .block_tree li ul {padding-right: 10px;}
+.block .header .title h2:before {font-size: 0.65em;}
+
+/* Students can not see administration block. (block settings) */
+.role-student .block_settings  {display: none;}
+
+/* Mod - questionnaire
+*/
+.dir-rtl.path-mod-questionnaire .qn-question,
+.dir-rtl.path-mod-questionnaire .qn-content {margin-right:0;}
+.dir-rtl.path-mod-questionnaire .qn-info,
+.dir-rtl.path-mod-questionnaire .qn-legend {background-color: #ddd;}
+
+.dir-rtl#page-mod-questionnaire-questions .qcontainer .qnums {float: right;}
+
+/* Mod - quiz
+*/
+
+#page-mod-quiz-attempt.dir-rtl .row-fluid [class*=span] {float: left;}
+#page-mod-quiz-attempt.dir-rtl .row-fluid [class*=span].pull-right,
+#page-mod-quiz-attempt.dir-rtl [class*=span].pull-right {float: right;}
+#page-mod-quiz-attempt.dir-rtl #region-main {float: right;}
+#page-mod-quiz-attempt.dir-rtl #davidsonnav {float: left;}
+
+#page-mod-quiz-review .qnbutton.qpage,
+#page-mod-quiz-attempt .qnbutton.qpage,
+#page-mod-quiz-summary .qnbutton.qpage {width:30%;clear:both;}
+#page-mod-quiz-review .qnbutton .fa,
+#page-mod-quiz-attempt .qnbutton .fa,
+#page-mod-quiz-summary .qnbutton .fa {padding-top: 3px;}
+.que .info {width: 98%; float:left;margin-bottom:14px}
+.dir-rtl .que .info {float: right;}
+.que .info>div {float: right; margin-left: 10px;}
+.que .content {float:left;margin:0;}
+.dir-rtl .que .content {float:right;}
+.dir-rtl .que .content, .que .content {width:100%}
+.que .info > div {font-size: 0.9em;}
+
+#page-mod-quiz-report a.reviewlink {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 3px;
+    width: 122px;
+    display: block;
+}
+
+#page-mod-quiz-review .multianswer .yui3-widget.yui3-overlay {
+    position: fixed !important;
+    top: 50% !important;
+    left: 40% !important;
+}
+#page-mod-quiz-review .multianswer .subquestion img {padding: 10px;}
+
+/* mod Forum
+*/
+.forumnodiscuss,
+#newdiscussionform {text-align: center;}
+.path-mod-forum .discussionsubscription > a > img {width: 20px;}
+.forumsearch input[type="text"] {height: 20px;}
+
+/* Preferences page - fix lists */
+.preferences-group ul {list-style-type: none;}
+.preferences-group ul .fa {padding: 0 4px;}
+
+/* Block navigation beautify */
+.dir-rtl .block_navigation .block_tree .tree_item.branch {padding-right: 0;}
+.block .content {overflow: hidden;}
+
+/* Each activity page's top links/buttons to fixed (4) course format grid sections
+*/
+/*
+.fixedsections .btn {margin: 10px; padding: 10px 30px;}
+.fixedsections a {text-align: center;}
+*/
+
+/* Fix course single page navigation arrows DIVs */
+/*
+.course-content ul.gtopics {clear: both;}
+#next_section .text, #previous_section .text,
+#next_section, #previous_section {width: 100%;}
+*/
+
+/* Grid course format - popup topic overlay
+*/
+
+#gridshadebox_content.absolute {
+    position: absolute;
+    width: 750px;
+    left: 28%;
+    top: 100px !important;
+    z-index: 11;
+}
+
+.dir-rtl .gridshadebox_left_area {
+    left: -750px;
+    position: relative;
+}
+.dir-rtl .gridshadebox_right_area {
+    position: relative;
+}
+
+
+/* Fixed sections buttons inside modules under special Davidson grid course format
+*/
+/*
+.gridicons.fixed span.btnz,
+.fixedsections span.btnz {
+    padding: 22px;
+    border: 1px solid gray;
+    margin: 10px;
+    display: block;
+    font-family: nextexitroundregular,sans-serif;
+    font-size: 26px;
+}
+.dir-rtl .row-fluid.fixedsections a {float:right !important;}
+*/
+
+/* Embedded forum filter - newsfilter - beautify.
+*/
+.newsfilter {
+    text-align: right;
+    border: 2px solid gray;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: darkgrey;
+}
+.newsfilter ul {padding: 0; margin: 0 0 10px 0;}
+.newsfilter ul li {
+    list-style: none !important;
+    background-color: gainsboro;
+    text-align: left;
+}
+.dir-rtl .newsfilter ul li {
+    text-align: right;
+}
+.newsfilter #forumpage, .newsfilter #youropinion {
+    border: 2px outset gray;
+    padding: 4px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: gainsboro;
+}
+
+/* Font in Forum(s)
+*/
+#page-mod-forum-view section#region-main p,
+#page-mod-forum-view section#region-main a {
+    font-family: nextexitroundregular,sans-serif;
+    font-size: 20px;
+}
+
+.usermenu em {
+    font-family: nextexitroundregular,sans-serif;
+}
+
+/* open top main user menu to the left */
+.dir-rtl .usermenu .dropdown-menu {
+    right: auto;
+    left: 0;
+}
+.dir-rtl .navbar .usermenu .nav>li>.dropdown-menu:before {
+    left: 9px;
+    right: auto;
+}
+.dir-rtl .navbar .usermenu .nav>li>.dropdown-menu:after {
+    left: 10px;
+    right: auto;
+}
+
+/* PAGE LAYOUT: column3-davidson
+*/
+/*
+#block-region-side-post .block {
+    float: right;
+    margin-right: 10px;
+    width: 250px;
+}
+*/
+
+/* Notification icon of new system messages
+*/
+.messagemenu .fa.fa-info-circle.icon {
+    width: 30px;
+    height: 30px;
+    font-size: 2em !important;
+}
+
+.dir-rtl .navbar .navbar-inner .messagemenu ul.nav ul.dropdown-menu li > a > .notification .notification-text {
+    float: right;
+}
+
+.dir-rtl .navbar .navbar-inner .messagemenu ul.nav ul.dropdown-menu li > a > .message .msg-body {
+    padding-right: 0px;
+}
+
+/* User messages page */
+.messagecontent {
+    background-color: floralwhite;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid;
+}
+
+/* Left align fullscreen "button" , in RTL mode.
+*/
+.dir-rtl #fullscreenpadding {
+    padding: 0;
+    float: left;
+}
+
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
+
+/*  Davidson new theme hacking...
+*/
+
+#page-site-index .block_login .content form input[type="submit"] {
+    background-color: #a8c159;
+    font-size: 1.8em;
+}
+.block_login .content .footer a, .block_login .content form input[type="submit"] {
+    border-color: #eeeeee;
+}
+#page-site-index .block_login .content form input[type="submit"]:hover {
+    background: #02716a;
+}
+#page-site-index .block_login .content .footer div a {
+    background: #003632 ;
+    font-size: 1.8em;
+}
+#page-site-index .block_login .content .footer a:hover {
+    background-color: #02716a;
+    color: #ffffff;
+}
+#page-site-index #page-footer .block .header .title h2, .block h3.main {
+    color: #e2f1ea;
+}
+#page-site-index .block .header .title h2, .block h3.main {
+    color: #02716a;
+}
+
+#page-site-index .button, input, label, select, textarea {
+    color: #02612b;
+}
+.button, input, label, select, textarea {
+    color: #02716b;
+}
+#page-site-index select input[type="text"], input[type="password"]{
+    color: #02716c;
+}
+textarea , input[type="text"] {
+    color: #02412c;
+}
+#page-site-index #page-content #region-main{
+    color: #027169;
+}
+#page-site-index .section .label a {
+    color: #027168;
+}
+#page-site-index a:hover {
+    color: #027172;
+    text-decoration: underline;
+}
+#page-site-index .block_login form label{
+    font-size:1.4em;
+}
+#page-site-index .block_login .header .title{
+    font-size:1.4em!important;
+    border-bottom: 1px solid #02616b;
+}
+/* Hide FA icon */
+#page-site-index .block_login .header .title .fa {
+    display: none;
+}
+
+#page-site-index .block_login .header .title h2:before, .block.block_iconic_html .header .title h2 span.fa:before {
+    /* color: #027169;
+    font-size:0em; */
+    display: none;
+}
+.block_login input#login_password, .block_login input#login_username {
+    width: 93%;
+}
+.navbar, .navbar-inner {
+    font-size:19px;
+}
+img.profilepicture, img.userpicture{
+    width:30px;
+    height:30px;
+}
+.profilepicture {
+    display: inline-flex;
+}
+#page-site-index .navbar-inner .usermenu {
+    display: none;
+}
+/* Hide goto bottom of page icon on top navbar
+*/
+.navbar .navbar-inner .gotobottommenu {display: none;}
+
+/*#page-mod-quiz-review .qnbutton.qpage, #page-mod-quiz-attempt .qnbutton.qpage , #page-mod-quiz-summary .qnbutton.qpage {
+    width: 100%;
+} */
+.que.oumultiresponse .answer div.r0 input,
+.que.oumultiresponse .answer div.r1 input {
+    margin: 0 14px;
+}
+.breadcrumb-nav ul.breadcrumb.style2 {
+    font-size:17px;
+}
+.dir-rtl .breadcrumb-nav ul.breadcrumb.style2 li:after {
+    content: "\f137";
+    unicode-bidi: plaintext;
+}
+.section li.activity{
+    font-size:17px;
+}
+.block .list, .block .list li, .inline-list, .inline-list li, .section li.activity,
+.section li.movehere, .tabtree li, .unlist, .unlist li {
+    font-size:16px;
+}
+#page-mod-quiz-attempt .que .formulation {
+    border-color: #ffffff ; /*#d9effa; */
+    background-color: #ffffff ; /*#f7FeFd; */
+
+}
+#page-mod-quiz-view table.quizattemptsummary tr.bestrow td {
+    border-color: #ffffff ; /*#d9eff9; */
+    background-color: #ffffff ; /*#f8FeFd; */
+}
+body.path-mod-quiz .gradedattempt,
+body.path-mod-quiz table tbody tr.gradedattempt > td {
+    border-color:  #ffffff ; /*  #d9effa;  */
+    background-color: #ffffff; /* #f9FeFd; */
+}
+
+#region-main form #fgroup_id_buttonar,
+#region-main form #fitem_id_submitbutton,
+#region-main form .form-buttons, #region-main form .fp-content-center form + div,
+#region-main form .path-admin .buttons,
+#region-main form div.backup-section + form,
+#region-main form table#form td.submit {
+    width: 31%;
+    padding: 11px;
+    opacity: 0.9;
+}
+#dock .dockedtitle {
+    background-color: orange!important;
+    background-image: none;
+}
+#dock .dockedtitle h2 {
+    font-size: 1.0em!important;
+    font-weight: bold;
+}
+#page-footer {
+    background-color: rgba(01, 03, 01, 0.95);
+}
+
+/* Left/right justify langmenu on frontpage, only.
+*/
+#page-site-index .nav-collapse.collapse.pull-left {
+    float: right;
+}
+#page-site-index.dir-rtl .nav-collapse.collapse.pull-right {
+    float: left;
+}
+
+.block_login .content .footer {height: auto;}
+
+.navbar .navbar-inner .usermenu .dropdown ul.dropdown-menu i {
+    width: 20px;
+    font-style: normal;
+}
+
+.back-to-top {
+    top: 80%;
+    padding: 11px 14px;
+    font-size: 50px;
+    border: 1px solid white;
+    width: 40px;
+    height: 55px;
+}
+
+/* fix grader report grades table */
+#page-grade-report-grader-index #page #page-content #region-main {width: 100%;}
+
+/*grade export */
+#page-grade-export-xls-index #fitem_id_nosubmit_checkbox_controller1 a {
+    border: 1px dotted grey ;
+    background: lightgrey;
+    border-radius: 4px;
+    margin:2px 0;
+}
+#page-grade-export-xls-index #fitem_id_nosubmit_checkbox_controller1 a:hover {
+    background: lightcyan;
+}
+
+/* hanna added */
+.course-content ul.gridicons li.currentselected {
+    filter: alpha(opacity=1); /* IE */
+    -moz-opacity: 1; /* Mozilla */
+    opacity: 1; /* CSS3 */
+}
+.qtext a, .qtext a:visited {
+    color: #192bfa;
+}
+.qtext a:hover {
+    color: #197b8a;
+}
+.block_course_module_nav .instancename {
+    color: #666666;
+}
+
+/* Quiz - edit quiz page - add new question to page menu
+*/
+#page-mod-quiz-edit .add-menu-outer {
+    left: 25px;
+    right: auto;
+    top: 10px;
+}
+
+#page-mod-quiz-edit.dir-rtl .add-menu-outer {
+    right: 25px;
+    left: auto;
+}
+
+/* Quiz - edit questions */
+input#inputmaxgrade {
+    width: 50px;
+    direction: ltr;
+}
+.dir-rtl#page-mod-quiz-edit .section-heading .instanceshufflequestions {
+    float: left;
+    margin: 0.3em 0 0 20px;
+}
+.dir-rtl#page-mod-quiz-edit .instancename i {
+    margin: 0 3px;
+}
+#page-mod-quiz-edit #categoryquestions .questionname,
+#page-mod-quiz-edit ul.slots li.activity div.activityinstance .questionname {
+    margin: 0 3px;
+}
+
+/* Left align English only textarea input form fields */
+.dir-rtl #id_s__profilingincluded,
+.dir-rtl #id_s__profilingexcluded {
+    direction: ltr;
+    text-align: left;
+}
+
+/* QType - DDWTOS */
+
+#page-mod-quiz-attempt .tweakcss,
+#page-question-type-ddwtos .tweakcss {width:50%;}
+#page-mod-quiz-attempt .que .content,
+#page-question-type-ddwtos .que .content,
+#page-question-preview .que .content {float:none;}
+#page-mod-quiz-attempt .que,
+#page-question-type-ddwtos .que,
+#page-question-preview .que { margin: 1.8em auto;}
+
+.navbar .navbar-inner #custom_menu_course_poster {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* QType - DDIMAGEORTEXT */
+#page-question-type-ddimageortext #id_dropzoneheader label{
+    display:block;
+}
+
+/*mod tab colors*/
+#page-mod-tab-view .TabbedPanelsTab {
+    background-color: #9999aa;
+    color: #fff;
+}
+#page-mod-tab-view .TabbedPanelsTabHover {
+    background-color: #7399bb;
+    color: #fff;
+}
+#page-mod-tab-view .TabbedPanelsTabSelected {
+    background-color: #6088b6;
+    color: #fff;
+}
+/* links in content  p? question?  */
+#page-admin-tool-monitor-index #region-main a::before,
+#page-admin-tool-monitor-managerules #region-main a::before,
+#page-mod-quiz-attempt #region-main a::before,
+#page-mod-page-view #region-main a::before {
+    color: #0115d1;
+}
+#page-admin-tool-monitor-index #region-main a,
+#page-admin-tool-monitor-managerules #region-main a,
+#page-mod-quiz-attempt #region-main a,
+#page-mod-page-view #region-main a {
+    color: #010bff;
+    text-decoration: underline;
+}
+#page-admin-tool-monitor-index #region-main a:hover,
+#page-admin-tool-monitor-managerules #region-main a:hover,
+#page-mod-quiz-attempt #region-main a:hover,
+#page-mod-quiz-attempt #region-main a:visited,
+#page-mod-page-view #region-main a:hover,
+#page-mod-page-view #region-main a:visited {
+    color: #0155f1;
+}
+
+/* shuly database form special hacks , mod/data/view.php?id=19170 */
+/* .cmid-19170 aside#block-region-side-pre {display: none;} */
+.cmid-19170 section#region-main {width: 100%;}
+.course-719 .container-fluid {max-width: 100%;}
+
+/* Fix labels in Restrict availability dialog */
+.availability-dialogue label {display: block;}
+
+/* checklist */
+#page-mod-checklist-view .checklist_progress_heading{
+    float: left;
+}
+#page-mod-checklist-view.dir-rtl .checklist_progress_heading{
+    float: right;
+}
+#page-mod-checklist-view.dir-rtl .checklist_progress_outer{
+    float: right;
+}
+
+/* mod-choicegroup
+#page-mod-choicegroup-view.dir-rtl .path-mod-choicegroup div.tablecontainer{
+    text-align: right;
+}
+*/
+#page-mod-choicegroup-view.dir-rtl .tablecontainer{
+    text-align: right;
+}
+#page-mod-choicegroup-view.dir-rtl input[type="radio"] {
+    margin-right: 12px;
+}
+.path-mod-choicegroup #yourselection {
+    font-size: 20px;
+    color: red;
+}
+
+/* Make tables in Report layout display on the entire page width */
+.pagelayout-incourse_reports .container-fluid,
+.pagelayout-report .container-fluid {max-width: 100%;}
+
+/* slide show block on front page */
+#page-site-index #page-slideshow{
+    background: #48a8a6 !important;
+}
+
+/* Tables ODD lines light gray background color - TODO: fix in theme settings page? */
+table#explaincaps tbody > tr:nth-child(odd) > td, table#defineroletable tbody > tr:nth-child(odd) > td,
+table.grading-report tbody > tr:nth-child(odd) > td, table#listdirectories tbody > tr:nth-child(odd) > td,
+table.rolecaps tbody > tr:nth-child(odd) > td, table.userenrolment tbody > tr:nth-child(odd) > td,
+table#form tbody > tr:nth-child(odd) > td, form#movecourses table tbody > tr:nth-child(odd) > td,
+#page-admin-course-index .editcourse tbody > tr:nth-child(odd) > td, .forumheaderlist tbody > tr:nth-child(odd) > td,
+table.flexible tbody > tr:nth-child(odd) > td, .generaltable tbody > tr:nth-child(odd) > td,
+table#explaincaps tbody > tr:nth-child(odd) > th, table#defineroletable tbody > tr:nth-child(odd) > th,
+table.grading-report tbody > tr:nth-child(odd) > th, table#listdirectories tbody > tr:nth-child(odd) > th,
+table.rolecaps tbody > tr:nth-child(odd) > th, table.userenrolment tbody > tr:nth-child(odd) > th,
+table#form tbody > tr:nth-child(odd) > th, form#movecourses table tbody > tr:nth-child(odd) > th,
+#page-admin-course-index .editcourse tbody > tr:nth-child(odd) > th, .forumheaderlist tbody > tr:nth-child(odd) > th,
+table.flexible tbody > tr:nth-child(odd) > th, .generaltable tbody>tr:nth-child(odd)>th {
+    color: #000;
+    background-color: #fbfbfb;
+}

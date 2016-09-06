@@ -1,0 +1,62 @@
+/* Renderer - user menu
+*/
+.yui3-menu.useractionmenu {
+    /*width: 40px;*/
+    width: 0;
+    position: relative;
+}
+.yui3-menu.useractionmenu .yui3-menu-content {border: none;padding: 0;}
+.yui3-skin-sam .yui3-menu .yui3-menu.yui3-loading .yui3-menu-content {
+    display: none;
+}
+.dir-rtl.yui3-skin-sam .yui3-menu.yui3-menu.useractionmenu .yui3-menu .yui3-menu-content {
+    font-size: 100%;
+    right: 110px;
+    position: relative;
+}
+.dir-rtl.yui3-skin-sam .yui3-menu-label,
+.dir-rtl.yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-label,
+.dir-rtl.yui3-skin-sam .yui3-menuitem-content,
+.dir-rtl.yui3-skin-sam .yui3-menu .yui3-menu .yui3-menuitem-content {text-align: right;}
+
+/* Renderer - Special mark / Highlight the teacher's picture
+*/
+.userpicture.defaultuserpic.teacher {
+    border: 2px outset mediumvioletred;
+}
+
+/* Cosmetics - fix user picture block width.
+*/
+#page-user-profile .yui3-menu.useractionmenu {width: 1px;}
+#page-user-profile .profilepicture {width:100px;}
+
+/* fix main toolbar usermenu icon */
+.navbar .navbar-inner .usermenu .dropdown a.dropdown-toggle {display: inline-flex;}
+
+.yui3-skin-sam .yui3-menu ul, .yui3-skin-sam .yui3-menu ul ul {
+    margin-right: 0;
+}
+
+/* fix UI in course > enrol users page */
+.userenrolment .col_userdetails .subfield_picture {width: 35px;}
+
+/* Fix edit all user's grades in one page - userimage */
+.path-grade-report-singleview div.reporttable form div {
+    margin-right: 25px;
+}
+.path-grade-report-singleview.dir-rtl div.reporttable form div {
+    margin-left: 25px;
+    margin-right: auto;
+}
+
+/* Fix user's picture display in quiz grade report */
+#page-mod-quiz-report table#attempts .picture {display: block;}
+
+/* Fix table display of laegrader report */
+#page-grade-report-laegrader-index .profilepicture {display: none;}
+
+/* Fix table display of laegrader report */
+#page-mod-attendance-report .profilepicture {display: none;}
+
+/* Fix user pictures in report/Roster */
+.report-roster .yui3-menu.useractionmenu .yui3-menu-content {width: 45px;}

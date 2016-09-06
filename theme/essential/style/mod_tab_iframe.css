@@ -1,0 +1,22 @@
+/* avalon */
+.iframe #page-content #region-post,
+.iframe #page-middle .breadcrumb,
+.iframe #page-middle #backtocourse_bot,
+/* clean */
+.iframe header.navbar,
+.iframe #page-header,
+.iframe #page-footer,
+.iframe aside.block-region,
+.iframe #page-navbar {display: none;}
+
+.iframe #page-content #region-post-box {left:60%;}
+
+.iframe.empty-region-side-post.used-region-side-pre #region-main.span8,
+.iframe.jsenabled.docked-region-side-post.used-region-side-pre #region-main.span8 {width: 100%;}
+.iframe #page-top, .iframe #page {background-image:none;}
+
+/* Davidson essential */
+.iframe nav,
+.iframe .breadcrumb-nav {
+    display: none;
+}

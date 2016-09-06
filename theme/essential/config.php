@@ -58,6 +58,15 @@ $THEME->javascripts_footer = array('essential');
 $THEME->enable_dock = true;
 $THEME->javascripts_footer[] = 'dock';
 
+// Click user picture to get a quick action user's menu (teachers and admins only)
+$THEME->sheets[] = 'renderer_usermenu';
+$THEME->javascripts_footer[] = 'usermenu'; // We use AMD now.
+
+$THEME->sheets[] = 'font-nextexitround';
+$THEME->sheets[] = 'font-alef-google';
+$THEME->sheets[] = 'davidson-basic';
+$THEME->sheets[] = 'mod_tab_iframe';
+
 $THEME->editor_sheets = array('editor', 'custom');
 
 $addregions = array();
@@ -86,10 +95,18 @@ $THEME->layouts = array(
         'regions' => array('side-pre', 'footer-left', 'footer-middle', 'footer-right'),
         'defaultregion' => 'side-pre',
     ),
+    /*
     // Main course page.
     'course' => array(
         'file' => 'columns3.php',
         'regions' => array('side-pre', 'side-post', 'footer-left', 'footer-middle', 'footer-right'),
+        'defaultregion' => 'side-post',
+    ),
+    */
+    // Main course page. (davidson)
+    'course' => array(
+        'file' => 'columns3-extra-blocks.php',
+        'regions' => array('above-page', 'side-pre', 'side-post', 'footer-left', 'footer-middle', 'footer-right'),
         'defaultregion' => 'side-post',
     ),
     'coursecategory' => array(
@@ -113,6 +130,7 @@ $THEME->layouts = array(
     'mydashboard' => array(
         'file' => 'mydashboard.php',
         'regions' => array('side-pre', 'side-post', 'footer-left', 'footer-middle', 'footer-right'),
+        'options' => array('nonavbar' => true),
         'defaultregion' => 'side-post',
     ),
     // My public page.
@@ -168,6 +186,12 @@ $THEME->layouts = array(
     ),
     // The pagelayout used for reports.
     'report' => array(
+        'file' => 'report.php',
+        'regions' => array('side-pre', 'footer-left', 'footer-middle', 'footer-right'),
+        'defaultregion' => 'side-pre',
+    ),
+    // The pagelayout used for reports. (davidson)
+    'incourse_reports' => array(
         'file' => 'report.php',
         'regions' => array('side-pre', 'footer-left', 'footer-middle', 'footer-right'),
         'defaultregion' => 'side-pre',

@@ -868,3 +868,25 @@ $string['findcoursecontent'] = 'Course content: ';
 $string['asconfigintlower'] = '{$a->value} is less than the lower range limit of {$a->lower}';
 $string['asconfigintupper'] = '{$a->value} is greater than the upper range limit of {$a->upper}';
 $string['asconfigintnan'] = '{$a->value} is not a number';
+
+// Davidson - addons
+$string['backtocoursepage'] = 'Back to course page';
+$string['currentsection'] = 'Current section';
+$string['toc'] = 'Contents';
+
+// User actions
+$string['user_completereport'] = 'Full course report';
+$string['user_outlinereport'] = 'Basic course report';
+$string['user_viewprofile'] = 'View profile';
+$string['user_editprofile'] = 'Edit profile';
+$string['user_sendmessage'] = 'Send a message';
+$string['user_coursecompletion'] = 'Course completion';
+$string['user_courselogs'] = 'Activity log';
+$string['user_coursegrades'] = 'Course grades';
+$string['user_loginas'] = 'Login as...';
+
+$string['sortbylastaccess'] = 'Sort by lastaccess';
+$string['sortbyabc'] = 'Sort by ABC';
+
+$string['linktoposter'] = 'About';
+$string['region-above-page'] = 'Region above-page';
