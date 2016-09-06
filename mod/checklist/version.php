@@ -37,6 +37,7 @@ $plugin->release = '2.x (Build: 2016052000)';
 $plugin->requires = 2010112400;
 $plugin->component = 'mod_checklist';
 
+/*
 if ($CFG->branch < 26) {
     // Used by M2.5 and below.
     $module->version = $plugin->version;
@@ -46,3 +47,4 @@ if ($CFG->branch < 26) {
     $module->requires = $plugin->requires;
     $module->component = $plugin->component;
 }
+*/
