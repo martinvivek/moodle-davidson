@@ -36,11 +36,21 @@
 
 	$enrol_action = optional_param('enrollmenttype', null, PARAM_RAW);
 	$roleid = optional_param('roleid', 0, PARAM_INT);
+
+
+	// Search by username. (nadavkav)
+$whichuser = optional_param('filteruser', '', PARAM_RAW);
+
+//echo "user=".$whichuser;die;
+if (!empty($whichuser)) {
+    $whichuser = ' AND (u.firstname LIKE "%'.$whichuser.'%" OR u.lastname LIKE "%'.$whichuser.'%") ';
+}
+//echo "user=".$whichuser;die;
+
 	$recovergrades = optional_param('recovergrades', 0, PARAM_INT);
  	$PAGE->set_url(new moodle_url('/local/multiple_enrollments/assign_multiple_course.php'));
 
-	if($enrol_action == "newenrollment")
-	{
+	if($enrol_action == "newenrollment") {
 		$availableusers = $DB->get_records_sql("SELECT distinct u.id, u.firstname, u.lastname, u.email
 		FROM mdl_user u
 		LEFT JOIN mdl_role_assignments ra ON ra.userid = u.id
@@ -49,6 +59,7 @@
 		AND u.confirmed =1
 		AND u.suspended =0
 		AND ra.userid IS NULL
+		{$whichuser}
 		ORDER BY u.firstname
 		");
 
@@ -69,8 +80,7 @@
 		<div class="coursesection">
 			<select name="selectedcourse[]" size="20" id="selectedcourse" multiple="multiple">';
 
-				foreach($courses as $course)
-				{
+				foreach($courses as $course) {
 					echo '<option value="'.$course->id.'">'.$course->fullname.' ('.$course->shortname.')</option>';
 				}
 
@@ -79,8 +89,7 @@
 		<div class="usersection">
 			<select name="selecteduser[]" size="20" id="selecteduser" multiple="multiple">';
 
-				foreach($availableusers as $auser)
-				{
+				foreach($availableusers as $auser) {
 					echo '<option value="'.$auser->id.'">'.$auser->firstname." ".$auser->lastname."(". $auser->email.')</option>';
 
 				}
@@ -128,7 +137,7 @@
 				if($course = $DB->get_record('course', array('id' => $action_course_id)))
 				{
 					//$course_context=get_record('context','instanceid',$selected_course_array[$i]);
-					$context = get_context_instance(CONTEXT_COURSE, $action_course_id);
+					$context = context_course::instance($action_course_id);
 					if($context)
 					{
 						//$role_assignment_ajax->contextid = $course_context->id;

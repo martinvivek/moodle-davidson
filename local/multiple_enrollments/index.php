@@ -90,15 +90,12 @@
 		}
 
 		$debug_code = false;
-		foreach($selectedcourse as $selectedcoursekey=>$courseid)
-		{
-			foreach($selecteduser as $selecteduserkey=>$enroluserid)
-			{
+		foreach($selectedcourse as $selectedcoursekey=>$courseid) {
+			foreach($selecteduser as $selecteduserkey=>$enroluserid) {
 				$course = $DB->get_record('course', array('id'=>$courseid), '*', MUST_EXIST);
-				if($course->visible)
-				{
+				if($course->visible) {
 					$instances = array();
-					$context = get_context_instance(CONTEXT_COURSE, $courseid);
+					$context = context_course::instance($courseid);
 					$manager = new course_enrolment_manager($PAGE, $course);
 
 					$course_enrol_instance = $DB->get_record('enrol', array('enrol'=>'manual','courseid'=>$courseid), '*', MUST_EXIST);
@@ -108,7 +105,6 @@
 						echo "<br>enrolid1 = $enrolid";
 					}
 					//$userid = required_param('userid', PARAM_INT);
-
 
 					$user = $DB->get_record('user', array('id'=>$enroluserid), '*', MUST_EXIST);
 					$instances = $manager->get_enrolment_instances();
@@ -164,4 +160,3 @@
 	echo $OUTPUT->box_end();
 
     echo $OUTPUT->footer();
-?>
