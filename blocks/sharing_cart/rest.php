@@ -41,6 +41,10 @@ try {
 		$id = required_param('id', PARAM_INT);
 		$controller->delete($id);
 		exit;
+	case 'unnew':
+		$id = required_param('id', PARAM_INT);
+		$controller->unnew($id);
+		exit;
 	}
 	throw new sharing_cart\exception('invalidoperation');
 	

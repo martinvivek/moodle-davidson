@@ -55,6 +55,13 @@ function xmldb_block_sharing_cart_upgrade($oldversion = 0)
 		$dbman->rename_table($table, 'block_sharing_cart_plugins');
 	}
 
+  if ($oldversion < 2015061601) {
+      $table = new xmldb_table('block_sharing_cart');
+      // New feature - enable users to see what new items are added by other cohort members to the available item list.
+      $field = new xmldb_field('new', XMLDB_TYPE_NUMBER, 10, XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 1);
+      $dbman->add_field($table, $field);
+  }
+
 	if ($oldversion < 2016032900) {
 
 		// Define key userid (foreign) to be added to block_sharing_cart.

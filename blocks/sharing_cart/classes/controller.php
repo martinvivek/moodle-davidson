@@ -38,16 +38,30 @@ class controller
 	 *  @param int $userid = $USER->id
 	 *  @return string HTML
 	 */
-	public function render_tree($userid = null)
+	public function render_tree($userid = null, $memberofcohort = null)
 	{
 		global $DB, $USER;
 
 		require_once __DIR__.'/renderer.php';
-		
-		// build an item tree from flat records
-		$records = $DB->get_records(record::TABLE,
-			array('userid' => $userid ?: $USER->id)
-			);
+
+        if (isset($memberofcohort) && $memberofcohort > 0) {
+            $fellowcolluges = $DB->get_records('cohort_members', array('cohortid'=>$memberofcohort));
+            foreach ($fellowcolluges as $colluge) {
+                $colluges[] = $colluge->userid;
+            }
+			if (count($colluges)) {
+				$sql = 'SELECT * FROM {block_sharing_cart} WHERE userid IN ('.implode(",", $colluges).')';
+				$records = $DB->get_records_sql($sql);
+			}
+
+        } else {
+            // build an item tree from flat records
+            $records = $DB->get_records(record::TABLE,
+                array('userid' => $userid ?: $USER->id)
+            );
+
+        }
+
 		$tree = array();
 		foreach ($records as $record) {
 			$components = explode('/', trim($record->tree, '/'));
@@ -233,8 +247,8 @@ class controller
 		
 		// validate parameters and capabilities
 		$record = record::from_id($id);
-		if ($record->userid != $USER->id)
-			throw new exception('forbidden');
+		//if ($record->userid != $USER->id)
+		//	throw new exception('forbidden'); // todo: make sure we are in the same cohort, to enable restore.
 		$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 		$section = $DB->get_record('course_sections',
 			array('course' => $course->id, 'section' => $sectionnumber), '*', MUST_EXIST);
@@ -252,7 +266,7 @@ class controller
 		$tempname = \restore_controller::get_tempdir_name($course->id, $USER->id);
 		
 		// copy the backup archive into the temporary directory
-		$storage = new storage();
+		$storage = new storage($record->userid); // userid is important when getting backups from other users.
 		$file = $storage->get($record->filename);
 		$file->copy_content_to("$tempdir/$tempname.mbz");
 		$tempfiles[] = "$tempdir/$tempname.mbz";
@@ -367,7 +381,27 @@ class controller
 		
 		$record->delete();
 	}
-	
+
+    /**
+     *  Un-new item flag by record ID
+     *  (User marks item as seen)
+     *
+     *  @global object $USER
+     *  @param int $id
+     *  @throws \moodle_exception
+     */
+    public function unnew($id)
+    {
+        global $DB, $USER;
+
+        $record = record::from_id($id);
+        //if ($record->userid != $USER->id)
+        //    throw new exception('forbidden');
+        self::validate_sesskey();
+
+        $ok = $DB->set_field('block_sharing_cart', 'new', '0', array('id' => $record->id));
+    }
+
 	/**
 	 *  Get the path to the temporary directory for backup
 	 *  

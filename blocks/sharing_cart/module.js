@@ -29,6 +29,7 @@ YUI.add('block_sharing_cart', function (Y)
             'edit'    : { css: 'editing_update' , pix: 't/edit'    },
             'cancel'  : { css: 'editing_cancel' , pix: 't/delete'  },
             'delete'  : { css: 'editing_update' , pix: 't/delete'  },
+            'unnew'   : { css: 'editing_unnew'  , pix: 't/approve'    },
             'restore' : { css: 'editing_restore', pix: 'i/restore' },
             // directories
             'dir-open'   : { pix: 'f/folder-open'   },
@@ -601,6 +602,34 @@ YUI.add('block_sharing_cart', function (Y)
         }
 
         /**
+         *  On clear new flag command clicked
+         *
+         *  @param {DOMEventFacade} e
+         */
+        this.on_unnew = function (e)
+        {
+            if (!confirm(str['confirm_unnew']))
+                return;
+
+            var $item = e.target.ancestor('li.activity');
+            var id = $item.get('id').match(/(\d+)$/)[1];
+
+            var $spinner = M.util.add_spinner(Y, e.target.ancestor('.commands'));
+
+            Y.io(get_action_url('rest'), {
+                method: 'POST',
+                data: { 'action': 'unnew', 'id': id, 'sesskey': M.cfg.sesskey },
+                on: {
+                    start: function (tid) { $spinner.show(); },
+                    end: function (tid) { $spinner.remove(); },
+                    success: function (tid, response) { $item.removeClass('new'); },
+                    failure: function (tid, response) { show_error(response); }
+                }
+            });
+            e.stopPropagation();
+        }
+
+        /**
          *  On restore command clicked
          *  
          *  @param {DOMEventFacade} e
@@ -618,7 +647,7 @@ YUI.add('block_sharing_cart', function (Y)
          */
         this.init_item_tree = function ()
         {
-            var actions = [ 'movedir', 'move', 'delete' ];
+            var actions = [ 'movedir', 'move', 'delete', 'unnew' ];
             if (course)
                 actions.push('restore');
             

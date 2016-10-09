@@ -13,7 +13,7 @@ class block_sharing_cart extends block_base
 	public function init()
 	{
 		$this->title   = get_string('pluginname', __CLASS__);
-		$this->version = 2015012700;
+		$this->version = 2015012701;
 	}
 
 	public function applicable_formats()
@@ -39,6 +39,10 @@ class block_sharing_cart extends block_base
 		return true;
 	}
 
+    public function instance_allow_config() {
+        return true;
+    }
+
 	/**
 	 *  Get the block content
 	 *  
@@ -48,7 +52,7 @@ class block_sharing_cart extends block_base
 	 */
 	public function get_content()
 	{
-		global $CFG, $USER;
+		global $CFG, $USER, $OUTPUT;
 		
 		if ($this->content !== null)
 			return $this->content;
@@ -59,9 +63,30 @@ class block_sharing_cart extends block_base
 		$context = context_course::instance($this->page->course->id);
 		if (!has_capability('moodle/backup:backupactivity', $context))
 			return $this->content = '';
-		
+
+        // Display selected cohort name,
+        //   and the list of all items belonging to its members.
+        require_once($CFG->dirroot . '/cohort/lib.php');
+        $cohorts = cohort_get_available_cohorts($context, COHORT_ALL);
+        $cohortlist[-1] = get_string('myitems', 'block_sharing_cart');
+        foreach ($cohorts as $cohort) {
+            $cohortlist[$cohort->id] = $cohort->name;
+        }
+        if (isset($this->config->memberofcohort)) {
+            $memberofcohort = $this->config->memberofcohort;
+        } else {
+            $memberofcohort = -1; // My items
+        }
+
+        $actionurl = $this->page->url->out(false, array('sesskey'=> sesskey()));
+        $switchcohorturl = new moodle_url($actionurl, array('bui_editid' => $this->instance->id));
+        $switchcohorticon = $OUTPUT->pix_icon('t/edit', get_string('edit'), 'moodle', array('class' => 'iconsmall', 'title' => ''));
+        $html = html_writer::link($switchcohorturl, $switchcohorticon);
+        $html .= get_string('selectedcohort', 'block_sharing_cart', $cohortlist[$memberofcohort]);
+		$html .= html_writer::tag('hr','');
+
 		$controller = new sharing_cart\controller();
-		$html = $controller->render_tree($USER->id);
+		$html .= $controller->render_tree($USER->id, $memberofcohort);
 		
 		if (moodle_major_version() >= 2.7) {
 			// Moodle 2.7 or later runs always with Ajax
@@ -82,8 +107,8 @@ class block_sharing_cart extends block_base
 			'moodle'
 			);
 		$this->page->requires->strings_for_js(
-			array('copyhere', 'notarget', 'backup', 'restore', 'movedir', 'clipboard',
-			      'confirm_backup', 'confirm_userdata', 'confirm_delete'),
+			array('copyhere', 'notarget', 'backup', 'restore', 'movedir', 'clipboard', 'unnew',
+			      'confirm_backup', 'confirm_userdata', 'confirm_delete', 'confirm_unnew'),
 			__CLASS__
 			);
 		

@@ -78,9 +78,12 @@ class renderer
 	 */
 	private static function render_item($path, $item)
 	{
+        global $DB;
 		$components = array_filter(explode('/', trim($path, '/')), 'strlen');
 		$depth = count($components);
-		$class = $item->modname . ' ' . "modtype_{$item->modname}";
+      $isnew = ($item->new == '1' ? 'new':'');
+      $class = $item->modname . ' ' . "modtype_{$item->modname}" . ' ' . $isnew;
+      $userinfo = \core_user::get_user($item->userid, '*', MUST_EXIST);
 
 		if ($item->modname == 'label') {
 			$item->modtext = self::render_label($item->modtext);
@@ -90,7 +93,7 @@ class renderer
 				<li class="activity ' . $class . '" id="block_sharing_cart-item-' . $item->id . '">
 					<div class="sc-indent-' . $depth . '">
 						' . self::render_modicon($item) . '
-						<span class="instancename">' . format_string($item->modtext) . '</span>
+						<span  title="'.$userinfo->firstname.' '.$userinfo->lastname.'" class="instancename">' . format_string($item->modtext) . '</span>
 						<span class="commands"></span>
 					</div>
 				</li>';

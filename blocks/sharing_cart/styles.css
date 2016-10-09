@@ -14,3 +14,14 @@
 .block_sharing_cart .sc-indent-13 { margin-left:13em; }
 .block_sharing_cart .sc-indent-14 { margin-left:14em; }
 .block_sharing_cart .sc-indent-15 { margin-left:15em; }
+
+.dir-rtl .block_sharing_cart .activity img.activityicon {
+    margin-left: 0;
+    margin-right: 6px;
+}
+
+.block_sharing_cart .new img.activityicon.iconsmall {
+    background-color: #f3ee0b;
+    border: 1px solid;
+    margin-top: 2px;
+}

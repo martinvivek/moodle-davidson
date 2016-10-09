@@ -27,10 +27,12 @@ $string['copyhere'] = 'Copy here';
 $string['notarget'] = 'Target not found';
 $string['clipboard'] = 'Copying this shared item';
 $string['bulkdelete'] = 'Bulk delete';
+$string['unnew'] = 'Mark as seen';
 $string['confirm_backup'] = 'Do you want to copy this activity into Sharing Cart?';
 $string['confirm_userdata'] = 'Do you want to include user data in a copy of this activity?';
 $string['confirm_restore'] = 'Do you want to copy this item to course?';
 $string['confirm_delete'] = 'Are you sure you want to delete?';
+$string['confirm_unnew'] = 'Are you sure you want to mark this new item as seen?';
 $string['confirm_delete_selected'] = 'Are you sure you want to delete all selected items?';
 
 $string['settings:userdata_copyable_modtypes'] = 'User data copyable module types';
@@ -51,3 +53,7 @@ $string['recordnotfound'] = 'Shared item not found';
 $string['forbidden'] = 'You don\'t have any permissions to access this shared item';
 $string['requirejs'] = 'Sharing Cart requires JavaScript enabled in your browser';
 $string['requireajax'] = 'Sharing Cart requires AJAX';
+
+$string['memberofcohort'] = 'Member of cohort';
+$string['myitems'] = 'My items';
+$string['selectedcohort'] = 'Selected cohort: {$a}';

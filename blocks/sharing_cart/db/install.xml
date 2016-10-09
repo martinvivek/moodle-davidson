@@ -14,7 +14,8 @@
         <FIELD NAME="ctime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="modtext" NEXT="filename"/>
         <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="ctime" NEXT="tree"/>
         <FIELD NAME="tree" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="filename" NEXT="weight"/>
-        <FIELD NAME="weight" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="tree"/>
+        <FIELD NAME="weight" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="tree" NEXT="new"/>
+        <FIELD NAME="new" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="1" SEQUENCE="false" PREVIOUS="weight"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="userid"/>

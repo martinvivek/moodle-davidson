@@ -27,7 +27,8 @@ class record
 	public $filename = null;
 	public $tree     = '';
 	public $weight   = 0;
-	
+	public $new      = 1;
+
 	/**
 	 *  Constructor
 	 *  
