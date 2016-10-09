@@ -1,0 +1,35 @@
+/* filter_forum */
+.filter_forum {
+	text-align:left;
+}
+
+.dir-rtl .filter_forum {
+	text-align:right;
+}
+
+.filter_forum a:link {
+
+}
+
+.filter_forum a:hover {
+
+}
+
+.filter_forum a:visited {
+
+}
+
+.filter_forum ul {
+	margin-left: 0px;
+	padding-left: 10px;
+}
+
+.filter_forum li {
+	list-style:none;
+}
+
+.filter_forum img {
+	  width:16px;
+	  height:16px;
+	  margin-right:4px;
+}
