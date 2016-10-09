@@ -2,11 +2,11 @@
 
 function local_event_automation_database_observer ($event) {
     //error_log('locallib::local_event_automation_database_observer');
-    global $DB;
+    global $DB, $CFG;
     $admin_user = get_admin();
     $to_testuser = \core_user::get_user(7, '*', MUST_EXIST); // nadavkav local userid = 2 pegasus1 userid = 7
     $to_user_noga = \core_user::get_user(8004, '*', MUST_EXIST); // noga shabtai - stage 1
-    $to_user_liron = \core_user::get_user(17924, '*', MUST_EXIST); // noga shabtai - stage 2
+    $to_user_liron = \core_user::get_user(25376, '*', MUST_EXIST); // noga shabtai - stage 2
     $to_user_orel = \core_user::get_user(18369, '*', MUST_EXIST); // noga shabtai - stage 3
     $to_user_shuli = \core_user::get_user(4, '*', MUST_EXIST); // noga shabtai - stage 3
     $to_user_hanna = \core_user::get_user(3, '*', MUST_EXIST); // noga shabtai - stage 3
@@ -54,7 +54,7 @@ function local_event_automation_database_observer ($event) {
                 $message .= "סטטוס הטופס הנוכחי הוא:  \"" . $workflow_status->content . "\"<br>";
                 $message .= "יש לרשום את ההשתלמות באתר משרד החינוך ולעדכן בטופס בקשת ההשתלמות את קוד ההשתלמות ולשנות את הסטטוס ל\"עודכן קוד ההשתלמות\" <br>";
                 $message .= "יש להקליק על הקישור הבא, לצפיה בטופס הרישום";
-                $message .= " <a href='http://pegasus1.weizmann.ac.il/moodle2/mod/data/view.php?d=" .
+                $message .= " <a href='$CFG->wwwroot/mod/data/view.php?d=" .
                     $event->other['dataid'] . "&rid=" . $event->objectid . "&mode=single'>טופס הרישום</a><br>";
                 $message .= "</div>";
                 break;
@@ -66,7 +66,7 @@ function local_event_automation_database_observer ($event) {
                 $message .= "סטטוס הטופס הנוכחי הוא: " . $workflow_status->content . "<br>";
                 $message .= "יש לעדכן את קוד הקורס ולשנות את הסטטוס ל\"עודכן קוד הקורס\"<br>";
                 $message .= "יש להקליק על הקישור הבא, לצפיה בטופס הרישום";
-                $message .= " <a href='http://pegasus1.weizmann.ac.il/moodle2/mod/data/view.php?d=" .
+                $message .= " <a href='$CFG->wwwroot/mod/data/view.php?d=" .
                     $event->other['dataid'] . "&rid=" . $event->objectid . "&mode=single'>טופס הרישום</a><br>";
                 $message .= "</div>";
                 break;
@@ -78,7 +78,7 @@ function local_event_automation_database_observer ($event) {
                 $message .= "סטטוס הטופס הנוכחי הוא: " . $workflow_status->content . "<br>";
                 $message .= "יש לפתוח קורס במוודל ולעדכן סטוס ל \"נפתח קורס במוודל\"<br>";
                 $message .= "יש להקליק על הקישור הבא, לצפיה בטופס הרישום";
-                $message .= " <a href='http://pegasus1.weizmann.ac.il/moodle2/mod/data/view.php?d=" .
+                $message .= " <a href='$CFG->wwwroot/mod/data/view.php?d=" .
                     $event->other['dataid'] . "&rid=" . $event->objectid . "&mode=single'>טופס הרישום</a><br>";
                 $message .= "</div>";
                 break;
@@ -90,7 +90,7 @@ function local_event_automation_database_observer ($event) {
                 $message .= "סטטוס הטופס הנוכחי הוא: " . $workflow_status->content . "<br>";
                 $message .= "יש לפתוח טופס הרשמה ולעדכן את הקישור בבקשה ולשנות סטטוס ל\"עודכן קישור לטופס\"<br>";
                 $message .= "יש להקליק על הקישור הבא, לצפיה בטופס הרישום";
-                $message .= " <a href='http://pegasus1.weizmann.ac.il/moodle2/mod/data/view.php?d=" .
+                $message .= " <a href='$CFG->wwwroot/mod/data/view.php?d=" .
                     $event->other['dataid'] . "&rid=" . $event->objectid . "&mode=single'>טופס הרישום</a><br>";
                 $message .= "</div>";
                 break;
@@ -102,7 +102,7 @@ function local_event_automation_database_observer ($event) {
                 $message .= "סטטוס הטופס הנוכחי הוא: " . $workflow_status->content . "<br>";
                 $message .= "הסתיים תהליך פתיחת הקורס נא לשלוח דואל לרכז ההשתלמות ועדכני סטטוס ל\"הושלם\" " . "<br>";
                 $message .= "יש להקליק על הקישור הבא, לצפיה בטופס הרישום";
-                $message .= " <a href='http://pegasus1.weizmann.ac.il/moodle2/mod/data/view.php?d=" .
+                $message .= " <a href='$CFG->wwwroot/mod/data/view.php?d=" .
                     $event->other['dataid'] . "&rid=" . $event->objectid . "&mode=single'>טופס הרישום</a><br>";
                 $message .= "</div>";
                 break;
