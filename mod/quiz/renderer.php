@@ -521,6 +521,25 @@ class mod_quiz_renderer extends plugin_renderer_base {
                 'id' => 'responseform'));
         $output .= html_writer::start_tag('div');
 
+        // special quiz page layout settings (show/hide html elements). // nadavkav 26/8/2015
+        $davidsonlayoutsettings = explode(',', $attemptobj->get_quiz()->davidson);
+        foreach ($davidsonlayoutsettings as $setting) {
+            list($key, $value) = explode('=', $setting);
+            $layoutsetting[$key] = $value;
+        }
+
+        if ($layoutsetting['info'] == '0')
+            $output .= html_writer::tag('style', '.info {display:none;}.dir-rtl .que .content, .que .content{margin:0;}');
+        if ($layoutsetting['info_flag'] == '0')
+            $output .= html_writer::tag('style', '.questionflag {display:none;}');
+        if ($layoutsetting['info_question_number'] == '0')
+            $output .= html_writer::tag('style', '.info .no {display:none;}');
+        if ($layoutsetting['info_grade'] == '0')
+            $output .= html_writer::tag('style', '.grade {display:none;}');
+        if ($layoutsetting['quizsummary'] == '0')
+            $output .= html_writer::tag('style', '.quizreviewsummary {display:none;}');
+        // Davidson - end
+
         // Print all the questions.
         foreach ($slots as $slot) {
             $output .= $attemptobj->render_question($slot, false, $this,
