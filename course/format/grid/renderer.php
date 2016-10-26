@@ -998,7 +998,7 @@ class format_grid_renderer extends format_section_renderer_base {
                         'aria-label' => $sectionname));
 
                     echo html_writer::tag('span', $sectionname, array('class' => 'icon_content btnz'));
-
+/*
                     if (($this->settings['newactivity'] == 2) && (isset($sectionupdated[$thissection->id]))) {
                         // The section has been updated since the user last visited this course, add NEW label.
                         echo html_writer::empty_tag('img', array(
@@ -1006,7 +1006,7 @@ class format_grid_renderer extends format_section_renderer_base {
                             'src' => $url_pic_new_activity,
                             'alt' => ''));
                     }
-
+*/
                     $imageclass = 'image_holder';
                     if ($sectiongreyedout) {
                         $imageclass .= ' inaccessible';
@@ -1046,14 +1046,14 @@ class format_grid_renderer extends format_section_renderer_base {
                     // Course Grid display in SINGLE PAGE mode
 
                     $content = '';//html_writer::tag('p', $sectionname, array('class' => 'icon_content '));
-
+/*
                     if (($this->settings['newactivity'] == 2) && (isset($sectionupdated[$thissection->id]))) {
                         $content .= html_writer::empty_tag('img', array(
                             'class' => 'new_activity',
                             'src' => $url_pic_new_activity,
                             'alt' => ''));
                     }
-
+*/
                     // Grey out code: Justin 2016/05/14.
                     $imageclass = 'span3';//'image_holder'; // no images in fixed icons.
                     if ($sectiongreyedout) {
