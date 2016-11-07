@@ -34,7 +34,7 @@ if (isset($plugin)) {
 } else {
     $v = $module;
 }
-$v->version   = 2015061102;
+$v->version   = 2016090101;
 $v->requires  = 2012120300;
 $v->cron      = 0;
 $v->component = 'mod_videofile';

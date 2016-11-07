@@ -472,9 +472,9 @@ var transcript = function (options) {
   my.validTracks = trackList.get();
   my.currentTrack = trackList.active(my.validTracks);
   // VideoJS 4.x
-  my.settings = videojs.util.mergeOptions(defaults, options);
+  //my.settings = videojs.util.mergeOptions(defaults, options);
   // VideoJS 5.x
-  //my.settings = videojs.mergeOptions(defaults, options);
+  my.settings = videojs.mergeOptions(defaults, options);
   my.widget = widget.create();
   var timeUpdate = function () {
     my.widget.setCue(my.player.currentTime());

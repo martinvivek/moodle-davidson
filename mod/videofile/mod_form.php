@@ -104,6 +104,24 @@ class mod_videofile_mod_form extends moodleform_mod {
         $mform->addHelpButton('responsive', 'responsive', 'videofile');
         $mform->setDefault('responsive', $config->responsive);
 
+        // Responsive.
+        $mform->addElement('advcheckbox',
+            'mpegdash',
+            get_string('mpegdash', 'videofile'),
+            get_string('mpegdash_label', 'videofile'));
+        $mform->setType('mpegdash', PARAM_INT);
+        $mform->addHelpButton('mpegdash', 'mpegdash', 'videofile');
+        $mform->setDefault('mpegdash', $config->mpegdash);
+
+        // Responsive.
+        $mform->addElement('advcheckbox',
+            'transcript',
+            get_string('transcript', 'videofile'),
+            get_string('transcript_label', 'videofile'));
+        $mform->setType('transcript', PARAM_INT);
+        $mform->addHelpButton('transcript', 'transcript', 'videofile');
+        $mform->setDefault('transcript', $config->transcript);
+
         // Video file url
         $mform->addElement('url', 'externalurl', get_string('externalurl_label', 'videofile'), array('size'=>'60'), array('usefilepicker'=>true));
         $mform->setType('externalurl', PARAM_URL);

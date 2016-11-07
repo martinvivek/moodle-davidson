@@ -106,6 +106,8 @@ class videofile {
         $add->responsive = $formdata->responsive;
         $add->externalurl = $formdata->externalurl;
         $add->display = $formdata->display;
+        $add->mpegdash = $formdata->mpegdash;
+        $add->transcript = $formdata->transcript;
 
         $returnid = $DB->insert_record('videofile', $add);
         $this->instance = $DB->get_record('videofile',
@@ -166,6 +168,8 @@ class videofile {
         $update->responsive = $formdata->responsive;
         $update->externalurl = $formdata->externalurl;
         $update->display = $formdata->display;
+        $update->mpegdash = $formdata->mpegdash;
+        $update->transcript = $formdata->transcript;
 
         $result = $DB->update_record('videofile', $update);
         $this->instance = $DB->get_record('videofile',

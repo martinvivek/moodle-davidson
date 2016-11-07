@@ -147,6 +147,43 @@ function xmldb_videofile_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2014032100, 'videofile');
     }
 
+    // Added responsive flag field.
+    if ($oldversion < 2016090101) {
+        $table = new xmldb_table('videofile');
+        $mpegdashfield = new xmldb_field('mpegdash',
+            XMLDB_TYPE_INTEGER,
+            '4',
+            XMLDB_UNSIGNED,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'height');
+
+        // Add field if it doesn't already exist.
+        if (!$dbman->field_exists($table, $mpegdashfield)) {
+            $dbman->add_field($table, $mpegdashfield);
+        }
+
+        $transcriptfield = new xmldb_field('transcript',
+            XMLDB_TYPE_INTEGER,
+            '4',
+            XMLDB_UNSIGNED,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'height');
+
+        // Add field if it doesn't already exist.
+        if (!$dbman->field_exists($table, $transcriptfield)) {
+            $dbman->add_field($table, $transcriptfield);
+        }
+
+        /* Once we reach this point, we can store the new version and
+           consider the module upgraded to the version 2013092200 so the
+           next time this block is skipped. */
+        upgrade_mod_savepoint(true, 2016090101, 'videofile');
+    }
+
     // Final return of upgrade result (true, all went good) to Moodle.
     return true;
 }

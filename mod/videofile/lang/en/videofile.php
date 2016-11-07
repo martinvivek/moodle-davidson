@@ -67,3 +67,13 @@ $string['captions_help'] = "Add transcriptions of the dialogue in WebVTT format 
 $string['err_positive'] = 'You must enter a positive number here.';
 
 $string['video_not_playing'] = 'Video not playing? Try {$a}.';
+
+$string['mpegdash'] = 'MPEG-DASH?';
+$string['mpegdash_help'] = "Use an MPEG-DASH stream.";
+$string['mpegdash_label'] = '';
+$string['mpegdash_explain'] = 'Specifies if MPEG-DASH video playing mode should be set as default or not.';
+
+$string['transcript'] = 'Transcript?';
+$string['transcript_help'] = "Use a running (clickable) transcript under the video.";
+$string['transcript_label'] = '';
+$string['transcript_explain'] = 'Specifies if transcript is displayed under the playing video as default or not.';
